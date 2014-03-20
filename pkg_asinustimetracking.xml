@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<extension type="package" version="2.5" method="upgrade">
+    <name>Asinus Time-Tracking for Joomla Intranets</name>
+    <packagename>asinustimetracking</packagename>
+    <version>1.0.0</version>
+    <url>http://www.vdespa.de</url>
+    <creationDate>20.03.2014</creationDate>
+    <copyright>Copyright (c) 2014 Valentin Despa. All rights reserved.</copyright>
+    <license>GNU General Public License version 3; see LICENSE.txt</license>
+    <authorEmail>info@vdespa.de</authorEmail>
+    <authorUrl>www.vdespa.de</authorUrl>
+    <author>Valentin Despa</author>
+    <packager>Valentin Despa</packager>
+    <packagerurl>http://www.vdespa.de</packagerurl>
+    <description>Installation package for Asinus Time-Tracking for Joomla Intranets</description>
+    <scriptfile>pkg_asinustimetracking.script.php</scriptfile>
+    <files>
+        <!-- Install components -->
+        <file type="component" id="com_asinustimetracking">components/com_asinustimetracking</file>
+    </files>
+    <updateservers>
+        <server type="extension" priority="1" name="Asinus Time-Tracking Update"><![CDATA[https://raw.github.com/vdespa/asinus-time-tracking/master/update.xml]]></server>
+        <server type="extension" priority="2" name="Asinus Time-Tracking Update"><![CDATA[http://raw.github.com/vdespa/asinus-time-tracking/master/update.xml]]></server>
+    </updateservers>
+</extension>

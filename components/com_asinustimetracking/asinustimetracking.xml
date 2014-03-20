@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="component" version="2.5" method="upgrade">
+    <name>com_asinustimetracking</name>
+    <!--Original extension name: com_timetrack -->
+    <creationDate>20.03.2014</creationDate>
+    <author>Valentin Despa</author>
+    <authorEmail>info@vdespa.de</authorEmail>
+    <authorUrl>www.vdespa.de</authorUrl>
+    <copyright>
+        Copyright (c) 2014, Valentin Despa;
+        Copyright (c) 2010, Informationstechnik Ralf Nickel
+    </copyright>
+    <license>GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html</license>
+    <version>1.0.0</version>
+    <description>COM_ASINUSTIMETRACKING_XML_DESCRIPTION</description>
+
+    <!-- Script -->
+    <scriptfile>script.php</scriptfile>
+
+    <!-- Runs on install -->
+    <install>
+        <sql>
+            <file driver="mysql" charset="utf8">sql/install.mysql.utf8.sql</file>
+        </sql>
+    </install>
+
+    <!-- Runs on update -->
+    <update>
+        <schemas>
+            <schemapath type="mysql">sql/updates/mysql</schemapath>
+        </schemas>
+    </update>
+
+    <!-- Runs on uninstall -->
+    <uninstall>
+        <sql>
+            <file driver="mysql" charset="utf8">sql/uninstall.mysql.utf8.sql</file>
+        </sql>
+    </uninstall>
+
+    <!-- Site -->
+    <files folder="site">
+        <filename>asinustimetracking.php</filename>
+        <filename>controller.php</filename>
+        <filename>index.html</filename>
+        <!--<filename>metadata.xml</filename>-->
+        <folder>assets</folder>
+        <folder>helpers</folder>
+        <folder>language</folder>
+        <folder>models</folder>
+        <folder>views</folder>
+    </files>
+    <languages folder="site">
+        <language tag="en-GB">language/en-GB.com_asinustimetracking.ini</language>
+        <language tag="de-DE">language/de-DE.com_asinustimetracking.ini</language>
+    </languages>
+
+    <!-- Administration -->
+    <administration>
+        <!-- Administration Menu Section -->
+        <menu img="">com_asinustimetracking</menu>
+
+        <!-- Administration Main File Copy Section -->
+        <files folder="admin">
+            <folder>_install</folder>
+            <folder>_uninstall</folder>
+            <folder>_update</folder>
+            <folder>assets</folder>
+            <folder>controllers</folder>
+            <folder>language</folder>
+            <folder>models</folder>
+            <folder>sql</folder>
+            <folder>views</folder>
+            <filename>access.xml</filename>
+            <filename>config.xml</filename>
+            <filename>asinustimetracking.php</filename>
+            <filename>controller.php</filename>
+            <filename>index.html</filename>
+        </files>
+
+        <languages folder="admin">
+            <language tag="en-GB">language/en-GB.com_asinustimetracking.ini</language>
+            <language tag="en-GB">language/en-GB.com_asinustimetracking.sys.ini</language>
+            <language tag="de-DE">language/de-DE.com_asinustimetracking.ini</language>
+            <language tag="de-DE">language/de-DE.com_asinustimetracking.sys.ini</language>
+        </languages>
+    </administration>
+</extension>
