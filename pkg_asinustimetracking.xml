@@ -20,6 +20,6 @@
     </files>
     <updateservers>
         <server type="extension" priority="1" name="Asinus Time-Tracking Update"><![CDATA[https://raw.github.com/vdespa/asinus-time-tracking/master/update.xml]]></server>
-        <server type="extension" priority="2" name="Asinus Time-Tracking Update"><![CDATA[http://raw.github.com/vdespa/asinus-time-tracking/master/update.xml]]></server>
+        <server type="extension" priority="2" name="Asinus Time-Tracking Update"><![CDATA[https://bitbucket.org/vdespa/asinus-time-tracking/raw/master/update.xml]]></server>
     </updateservers>
 </extension>

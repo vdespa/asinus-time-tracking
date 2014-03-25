@@ -14,7 +14,7 @@ jimport( 'joomla.application.component.view' );
 
 class AsinusTimeTrackingViewUsers extends JView{
 	function display($tpl = null) {
-		JToolBarHelper::title( JText::_('TimeTrack Benutzer'), 'generic.png');
+		JToolBarHelper::title(JText::_('COM_ASINUSTIMETRACKING_TOOLBAR_USER'), 'generic.png');
 		JToolBarHelper :: custom('overview','ctoverview.png','ctoverview.png', JText::_('COM_ASINUSTIMETRACKING_OVERVIEW'),false);
 		JToolBarHelper :: spacer();
 		JToolBarHelper :: custom('users','ctuser.png','ctuser.png', JText::_('COM_ASINUSTIMETRACKING_USER'),false);
