@@ -55,6 +55,7 @@ class pkg_asinustimetrackingInstallerScript
 			return false;
 		}
 
+		/* FIXME
 		// Abort if the component being installed is not newer than the currently installed version
 		if ($route == 'update')
 		{
@@ -66,6 +67,7 @@ class pkg_asinustimetrackingInstallerScript
 				return false;
 			}
 		}
+		*/
 
 		if (JDEBUG) {
 			JProfiler::getInstance('Application')->mark('before' . ucfirst($route) . 'Asinus Time-Tracking');
