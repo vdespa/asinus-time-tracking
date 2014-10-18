@@ -43,6 +43,9 @@ class pkg_asinustimetrackingInstallerScript
 	 */
 	public function preflight($route, JAdapterInstance $adapter)
 	{
+		// Installing component manifest file version
+		$this->release = $adapter->get( "manifest" )->version;
+
 		// Joomla version check
 		if (!version_compare(JVERSION, $this->minSupportedVersion, 'ge'))
 		{
@@ -55,7 +58,6 @@ class pkg_asinustimetrackingInstallerScript
 			return false;
 		}
 
-		/* FIXME
 		// Abort if the component being installed is not newer than the currently installed version
 		if ($route == 'update')
 		{
@@ -67,13 +69,22 @@ class pkg_asinustimetrackingInstallerScript
 				return false;
 			}
 		}
-		*/
 
 		if (JDEBUG) {
 			JProfiler::getInstance('Application')->mark('before' . ucfirst($route) . 'Asinus Time-Tracking');
 		}
 
 		return true;
+	}
+
+	/*
+	 * Get a variable from the manifest from the manifest cache.
+	 */
+	function getParam( $name ) {
+		$db = JFactory::getDbo();
+		$db->setQuery('SELECT manifest_cache FROM #__extensions WHERE name = "asinustimetracking"');
+		$manifest = json_decode( $db->loadResult(), true );
+		return $manifest[$name];
 	}
 
 

@@ -2,7 +2,7 @@
 <extension type="component" version="2.5" method="upgrade">
     <name>com_asinustimetracking</name>
     <!--Original extension name: com_timetrack -->
-    <creationDate>20.03.2014</creationDate>
+    <creationDate>18.10.2014</creationDate>
     <author>Valentin Despa</author>
     <authorEmail>info@vdespa.de</authorEmail>
     <authorUrl>www.vdespa.de</authorUrl>
@@ -12,7 +12,7 @@
         Copyright (c) 2010, Informationstechnik Ralf Nickel
     </copyright>
     <license>GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html</license>
-    <version>1.0.0</version>
+    <version>1.1.8</version>
     <description>COM_ASINUSTIMETRACKING_XML_DESCRIPTION</description>
 
     <!-- Script -->
@@ -46,6 +46,7 @@
         <filename>index.html</filename>
         <!--<filename>metadata.xml</filename>-->
         <folder>assets</folder>
+        <folder>controllers</folder>
         <folder>helpers</folder>
         <folder>language</folder>
         <folder>models</folder>
@@ -86,4 +87,9 @@
             <language tag="de-DE">language/de-DE.com_asinustimetracking.sys.ini</language>
         </languages>
     </administration>
+
+    <!-- Media files -->
+    <media destination="com_asinustimetracking" folder="media">
+        <folder>report-templates</folder>
+    </media>
 </extension>

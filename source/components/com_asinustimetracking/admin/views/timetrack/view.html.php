@@ -70,15 +70,14 @@ class AsinusTimeTrackingViewTimeTrack extends JView
 		$bar = JToolBar::getInstance('toolbar');
 
 		// XXX: date selection
+		/*
 		$bar
 			->appendButton('link', 'archive', JText::_('COM_ASINUSTIMETRACKING_CSV'),
 				"index.php?option=com_asinustimetracking&format=csv&ct_ulist=$ctUlist&ct_sllist=$ctSllist&ct_svlist=$ctSvlist&ct_startdate=$ct_startdate&ct_enddate=$ct_enddate&ct_rlist=$ctRlist&ct_cc=$ct_cc");
-		/*
-		$bar
-			->appendButton('link', 'archive', JText::_('COM_ASINUSTIMETRACKING_PDF'),
-				"index.php?option=com_asinustimetracking&format=rep&ct_ulist=$ctUlist&ct_sllist=$ctSllist&ct_svlist=$ctSvlist&ct_startdate=$ct_startdate&ct_enddate=$ct_enddate&ct_rlist=$ctRlist&ct_cc=$ct_cc",
-				false, false);
 		*/
+
+		$bar->appendButton('link', 'archive', JText::_('COM_ASINUSTIMETRACKING_MONTHLYREPORT'),
+			"index.php?option=com_asinustimetracking&view=monthlyreport");
 
 		JToolBarHelper::spacer();
 		JToolBarHelper::custom('overview', 'ctoverview.png', 'ctoverview.png',

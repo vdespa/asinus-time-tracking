@@ -101,7 +101,15 @@ class AsinusTimeTrackingModelTimeTrack extends JModel
 
 		$_result = $this->_getList($query);
 
-		return $_result[0];
+		if (array_key_exists(0, $_result))
+		{
+			return $_result[0];
+		}
+		else
+		{
+			return null;
+		}
+
 	}
 
 	function getUserList()

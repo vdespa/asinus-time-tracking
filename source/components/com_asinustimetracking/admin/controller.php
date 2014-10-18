@@ -283,10 +283,11 @@ class AsinusTimeTrackingController extends JControllerLegacy
 		$is_admin = JRequest::getVar('is_admin');
 		$preise = JRequest::getVar('cpreis');
 		$role = JRequest::getInt('crid');
+		$employee_id = JRequest::getInt('employee_id');
 
 		if ($cuid) {
 			$model = $this->getmodel('usersedit');
-			$model->merge($cuid, $role, $is_admin, $preise);
+			$model->merge($cuid, $role, $is_admin, $employee_id, $preise);
 		}
 
 		JRequest::setVar('view', 'users');

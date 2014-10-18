@@ -18,6 +18,7 @@ class AsinusTimeTrackingViewTimeTrackList extends JView
 
 	function display($tpl = null)
 	{
+		die('x');
 		// Config
 		require_once(JPATH_COMPONENT.DS.'models'.DS.'preferences.php');
 

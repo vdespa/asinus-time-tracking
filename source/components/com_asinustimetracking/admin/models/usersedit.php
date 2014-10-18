@@ -22,10 +22,10 @@ class AsinusTimeTrackingModelUsersedit extends JModel{
 		return $_result[0];
 	}
 
-	function merge($cuid = null, $crid = null, $is_admin = 0, $preise = array(0)){
+	function merge($cuid = null, $crid = null, $is_admin = 0, $employee_id, $preise = array(0)){
 		$db = JFactory::getDBO();
 			
-		$query = "UPDATE $this->_tablename SET crid=$crid, is_admin='$is_admin' WHERE cuid=$cuid";
+		$query = "UPDATE $this->_tablename SET crid=$crid, is_admin='$is_admin', employee_id=$employee_id WHERE cuid=$cuid";
 
 		$db->setQuery($query);
 

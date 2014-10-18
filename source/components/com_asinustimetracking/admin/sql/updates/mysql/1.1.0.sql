@@ -1,0 +1,1 @@
+ALTER TABLE  `#__asinustimetracking_user` ADD  `employee_id` INT( 11 ) NOT NULL

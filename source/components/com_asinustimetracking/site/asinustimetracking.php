@@ -1,33 +1,34 @@
 <?php
 /**
- * @package		TimeTrack for Joomla! 1.5
- * @version 	$Id: timetrack.php 1 2010-09-22 14:50:00Z ralf $
+ * @package		Joomla.Site
+ * @subpackage	com_asinustimetracking
+ * @copyright	Copyright (c) 2014, Valentin Despa. All rights reserved.
  * @copyright	Copyright (C) 2010, Informationstechnik Ralf Nickel
- * @author		Ralf Nickel - info@itrn.de
- * @link		http://www.itrn.de
- * @license 	GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
+ * @author		Valentin Despa - info@vdespa.de
+ * @link		http://www.vdespa.de
+ * @license 	GNU General Public License version 3. See LICENSE.txt or http://www.gnu.org/licenses/gpl-3.0.html
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
-require_once(JPATH_COMPONENT.DS.'controller.php');
-
-JHTML::_('stylesheet', 'timetrack.css', 'components/com_asinustimetracking/css/');
-
-if($controller = JRequest::getWord('controller')){
-	$path = JPATH_COMPONENT.DS.'controllers'.DS.$controller.'.php';
-	if(file_exist($path)) {
-		require_once $path;
-	} else {
-		$controller = '';
-	}
+// Access check.
+if (!JFactory::getUser()->authorise('asinustt.frontend.user', 'com_asinustimetracking'))
+{
+	return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
 }
 
-$classname 	= 'AsinusTimeTrackingController'.$controller;
-$controller	= new $classname();
+//JHTML::_('stylesheet', 'timetrack.css', 'components/com_asinustimetracking/css/');
 
-$controller->execute(JRequest::getVar('task'));
+//JHtml::stylesheet('com_asinustimetracking/assets/css/bootstrap.css', array(), true);
 
+//$document->addStyleSheet($url);
+
+
+$document = JFactory::getDocument();
+$document->addStyleSheet(Juri::base() . '/components/com_asinustimetracking/assets/css/bootstrap.css');
+
+
+// Execute the task.
+$controller	= JControllerLegacy::getInstance('AsinusTimeTracking');
+$controller->execute(JRequest::getCmd('task', 'display'));
 $controller->redirect();
-
-?>

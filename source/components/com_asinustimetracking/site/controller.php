@@ -1,11 +1,12 @@
 <?php
 /**
- * @package		TimeTrack for Joomla! 1.7
- * @version 	$Id: controller.php 1 2010-09-22 14:50:00Z ralf $
- * @copyright	Copyright (C) 2010, Informationstechnik Ralf Nickel
- * @author		Ralf Nickel - info@itrn.de
- * @link		http://www.itrn.de
- * @license 	GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
+ * @package        Joomla.Site
+ * @subpackage     com_asinustimetracking
+ * @copyright      Copyright (c) 2014, Valentin Despa. All rights reserved.
+ * @copyright      Copyright (C) 2011, Informationstechnik Ralf Nickel
+ * @author         Valentin Despa - info@vdespa.de
+ * @link           http://www.vdespa.de
+ * @license        GNU General Public License version 3. See LICENSE.txt or http://www.gnu.org/licenses/gpl-3.0.html
  */
 
 defined('_JEXEC') or die ('Restricted access');
@@ -15,18 +16,55 @@ jimport('joomla.application.component.controller');
 class AsinusTimeTrackingController extends JController
 {
 
-	public function display($cachable = false, $urlparams = false)
+	public function display($cachable = false, $safeurlparams = false)
 	{
+		// Check if user is guest
+		if ($this->checkIfUserIsGuest() === true) {
+			return false;
+		}
+
+		/*
 		JRequest::setVar(JRequest::setVar('view', 'timetrack'));
 		parent::display(true);
+		*/
+
+		// Set the default view name and format from the Request.
+		$vName		= JRequest::getCmd('view', 'timetrack');
+		JRequest::setVar('view', $vName);
+
+		parent::display($cachable, $safeurlparams);
+
+		return $this;
 	}
 
-	function _checkAdminUser() {
+	/**
+	 * Check if user is guest and redirect to login.
+	 *
+	 * This is a fallback for the case of allowing public access to the frontend via ACL.
+	 */
+	protected function checkIfUserIsGuest()
+	{
+		// Notify user that he needs to be logged in
+		$user = JFactory::getUser();
+		if ($user->guest === 1) {
+			// Redirect to login page.
+			$app = JFactory::getApplication();
+			$app->enqueueMessage(JText::_('COM_ASINUSTIMETRACKING_ERROR_NO_GUEST_ALLOWED'), 'error');
+			$this->setRedirect(JRoute::_('index.php?option=com_users&view=login', false));
+			return true;
+		}
+		return false;
+	}
+
+
+
+	function _checkAdminUser()
+	{
 		$db = JFactory::getDBO();
 		$juser = JFactory::getUser();
 
 		$query = "SELECT * FROM #__asinustimetracking_user WHERE uid ="
-			. (int) $juser->id;
+			. (int)$juser->id;
 
 		$db->setQuery($query);
 
@@ -43,7 +81,8 @@ class AsinusTimeTrackingController extends JController
 		}
 	}
 
-	function _isMyEntry() {
+	function _isMyEntry()
+	{
 		$ctid = JRequest::getInt('ct_id', -1);
 		$model = $this->getModel('timetrack');
 		$entry = $model->getEntryById($ctid);
@@ -56,7 +95,8 @@ class AsinusTimeTrackingController extends JController
 		return false;
 	}
 
-	function edit() {
+	function edit()
+	{
 		if ($this->_checkAdminUser() or $this->_isMyEntry()) {
 			JRequest::setVar('view', 'timetrack');
 			$this->display();
@@ -65,12 +105,13 @@ class AsinusTimeTrackingController extends JController
 		}
 	}
 
-	function delete() {
+	function delete()
+	{
 		$db = JFactory::getDBO();
 
 		$ctid = JRequest::getInt('ct_id', -1);
 
-		$query = "DELETE FROM #__asinustimetracking_entries WHERE ct_id=" . (int) $ctid;
+		$query = "DELETE FROM #__asinustimetracking_entries WHERE ct_id=" . (int)$ctid;
 
 		$db->setQuery($query);
 
@@ -87,7 +128,8 @@ class AsinusTimeTrackingController extends JController
 
 	}
 
-	function submit() {
+	function submit()
+	{
 		jimport('joomla.utilities.date');
 		$usermodel = $this->getModel('timetrack');
 
@@ -118,13 +160,13 @@ class AsinusTimeTrackingController extends JController
 			$query = "INSERT INTO #__asinustimetracking_entries
 		(entry_date, cu_id, cs_id, cg_id, start_time, end_time, start_pause, end_pause, qty, remark, cc_id)"
 				. " VALUES('" . $fentrydate->toMySQL() . "',"
-				. (int) $user->cuid . "," . $db->quote($service) . ","
-				. (int) $cg . ", '1970-1-1 " . (int) $sh . ":" . (int) $sm
-				. ":00'" . ", '1970-1-1 " . (int) $eh . ":" . (int) $em
-				. ":00'" . ", '1970-1-1 " . (int) $psh . ":" . (int) $psm
-				. ":00'" . ", '1970-1-1 " . (int) $peh . ":" . (int) $pem
-				. ":00'" . "," . (float) $qty . "," . $db->quote($remark)
-				. "," . (int) $costunit . " )";
+				. (int)$user->cuid . "," . $db->quote($service) . ","
+				. (int)$cg . ", '1970-1-1 " . (int)$sh . ":" . (int)$sm
+				. ":00'" . ", '1970-1-1 " . (int)$eh . ":" . (int)$em
+				. ":00'" . ", '1970-1-1 " . (int)$psh . ":" . (int)$psm
+				. ":00'" . ", '1970-1-1 " . (int)$peh . ":" . (int)$pem
+				. ":00'" . "," . (float)$qty . "," . $db->quote($remark)
+				. "," . (int)$costunit . " )";
 		} else {
 			if ($this->_isMyEntry()) {
 				$query = "UPDATE #__asinustimetracking_entries SET
@@ -139,7 +181,7 @@ class AsinusTimeTrackingController extends JController
 				qty=$qty,
 				remark='$remark',
 				cc_id=$costunit
-				WHERE ct_id=" . (int) $ctid;
+				WHERE ct_id=" . (int)$ctid;
 
 				JRequest::setVar('ct_id');
 			} else {

@@ -1,5 +1,9 @@
 # Asinus Time-Tracking Changelog
 
+### 1.1.0 to 1.1.6
+- Montlyreport in Excel
+- Various bug fixes related to the report
+
 ### 1.0.0
 - Forked project com_timetrack v. 1.5.4 for Joomla 1.7
 - Created package for installation

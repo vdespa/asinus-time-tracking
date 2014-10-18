@@ -38,7 +38,11 @@ $document->addScriptDeclaration($js_code);
 					<td><?php echo $this->item->name; ?></td>
 				</tr>
 				<tr>
-					<td width="100" align="right" class="key"><?php echo JText::_('COM_ASINUSTIMETRACKING_ADMIN'); ?></td>
+					<td width="100" align="right" class="key"><?php echo JText::_('COM_ASINUSTIMETRACKING_EMPLOYEE_ID'); ?></td>
+					<td><input type="text" value="<?php echo $this->item->employee_id; ?>" name="employee_id" id="employee_id"></td>
+				</tr>
+				<tr>
+					<td width="100" align="right" class="key"><?php echo JText::_('COM_ASINUSTIMETRACKING_ADMIN'); ?><br><i>(deprecated, use ACL.)</i></td>
 					<td><input type="checkbox" id="is_admin" name="is_admin" value="1"
 							<?php if($this->item->is_admin == 1){ echo "checked=checked"; }?>></input></td>
 				</tr>

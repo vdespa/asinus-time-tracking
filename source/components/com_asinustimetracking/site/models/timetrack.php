@@ -15,7 +15,7 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.model');
+jimport('joomla.application.component.modellist');
 
 /**
  * Model of timetrack view
@@ -26,8 +26,9 @@ jimport('joomla.application.component.model');
  * @license  GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
  * @link     http://www.itrn.de
  */
-class AsinusTimeTrackingModelTimeTrack extends JModel
+class AsinusTimeTrackingModelTimeTrack extends JModelList
 {
+
     /**
      * Gets list of user's entries
      * 
@@ -70,11 +71,15 @@ class AsinusTimeTrackingModelTimeTrack extends JModel
      *  
      * @return object
      */
-    function getCtUser()
+    function getCtUser($userId = null)
     {
-        $user = JFactory::getUser();
+		if ((int) $userId === 0)
+		{
+			$user = JFactory::getUser();
+			$userId = $user->id;
+		}
 
-        $query = "SELECT * FROM #__asinustimetracking_user WHERE uid= " . (int) $user->id;
+        $query = "SELECT * FROM #__asinustimetracking_user WHERE uid= " . (int) $userId;
 
         $_result = $this->_getlist($query);
 
@@ -82,6 +87,43 @@ class AsinusTimeTrackingModelTimeTrack extends JModel
         	return $_result[0];
 
     }
+
+	public function getUser($userId = null)
+	{
+		if ((int) $userId === 0)
+		{
+			$user = JFactory::getUser();
+			$userId = $user->id;
+		}
+
+		// Query
+		// Get a db connection.
+		$db = JFactory::getDbo();
+
+		// Create a new query object.
+		$query = $db->getQuery(true);
+
+		// Select all articles for users who have a username which starts with 'a'.
+		// Order it by the created date.
+		// Note by putting 'a' as a second parameter will generate `#__content` AS `a`
+		$query
+			->select($db->quoteName(array('u.name', 'u.username', 'u.email')))
+			->select($db->quoteName(array('au.employee_id')))
+			->from($db->quoteName('#__users', 'u'))
+			->join('INNER', $db->quoteName('#__asinustimetracking_user', 'au') . ' ON (' . $db->quoteName('au.uid') . ' = ' . $db->quoteName('u.id') . ')')
+			->where($db->quoteName('u.id') . '=' . (int) $userId)
+			->order($db->quoteName('u.id') . ' DESC');
+
+		// Reset the query using our newly populated query object.
+		$db->setQuery($query);
+
+		// echo $query->dump();
+
+		// Load the results as a list of stdClass objects (see later for more options on retrieving data).
+		$result = $db->loadObject();
+
+		return $result;
+	}
 
     /**
      * Get entry by entryId
@@ -254,6 +296,186 @@ class AsinusTimeTrackingModelTimeTrack extends JModel
         return $_result[0];
     }
 
-}
+	/**
+	 * Build an SQL query to load the list data.
+	 *
+	 * @return	JDatabaseQuery
+	 */
+	protected function getListQuery()
+	{
+		$this->populateState();
 
-?>
+		// Create a new query object.
+		$db = $this->getDbo();
+		$query = $db->getQuery(true);
+
+		// Select the required fields from the table.
+		$query->select('e.ct_id, e.entry_date, e.start_time, e.end_time, e.start_pause, e.end_pause, e.timestamp, e.qty, e.remark');
+		$query->from($db->quoteName('#__asinustimetracking_entries').' AS e');
+
+		// Join over the services.
+		$query->select('cs.description AS service_name');
+		$query->join('LEFT', '#__asinustimetracking_services AS cs ON cs.csid = e.cs_id');
+
+		// Join over projects
+		$query->select('cp.description AS project_name');
+		$query->join('LEFT', '#__asinustimetracking_selection AS cp ON cp.cg_id = e.cg_id');
+
+		// Join over customers
+		$query->select('cu.description AS customer_name');
+		$query->join('LEFT', '#__asinustimetracking_costunit AS cu ON cu.cc_id = e.cc_id');
+
+		// Filter by year and month.cg_id
+		$firstDayInMonth = new DateTime($this->getState('filter.year') . '-' . $this->getState('filter.month') . '-15');
+		$firstDayInMonth->modify('first day of this month');
+		if ($firstDayInMonth instanceof DateTime)
+		{
+			$query->where('e.entry_date BETWEEN "' . $firstDayInMonth->format('Y-m-d') . '" AND LAST_DAY("' . $firstDayInMonth->format('Y-m-d') . '")');
+		}
+
+		// Filter by user
+		$userId = $this->getState('filter.user');
+		$query->where('cu_id = ' . (int) $this->getCtUser($userId)->cuid);
+
+
+		$query->order($this->getState('filter.order'));
+
+		// echo $query->dump();
+
+ 		return $query;
+	}
+
+	public function getItems()
+	{
+		$items = parent::getItems();
+
+		$items = self::postProcessItems($items);
+
+		$items = self::computeWorkTime($items);
+
+		return $items;
+	}
+
+	public function getItemsGroupedByDate()
+	{
+		$groups = array();
+
+		$items = $this->getItems();
+
+		foreach ($items as $item)
+		{
+			$groupKey = $item->entry_date->format('d.m.Y');
+
+			if (! array_key_exists($groupKey, $groups))
+			{
+				$groups[$groupKey] = new stdClass();
+				$groups[$groupKey]->entry_date = clone $item->entry_date;
+				$groups[$groupKey]->periods = array();
+				$groups[$groupKey]->work_time = clone $item->entry_date;
+				$groups[$groupKey]->pause_time = clone $item->entry_date;
+			}
+
+			array_push($groups[$groupKey]->periods, $item);
+
+			$groups[$groupKey]->work_time->add($item->work_time_interval);
+			$groups[$groupKey]->work_time_interval = $item->entry_date->diff($groups[$groupKey]->work_time);
+
+			$groups[$groupKey]->pause_time->add($item->pause_time_interval);
+
+			$groups[$groupKey]->remark .= $item->remark;
+		}
+
+		return $groups;
+	}
+
+	protected static function postProcessItems($items)
+	{
+		// Create a DateTime Objects
+		$dateFields = array(
+			'entry_date',
+			'start_time',
+			'end_time',
+			'start_pause',
+			'end_pause',
+			'timestamp'
+		);
+
+		foreach ($items as $item)
+		{
+			foreach ($dateFields as $dateField)
+			{
+				$item->{$dateField} = self::createDateFromString($item->{$dateField});
+			}
+		}
+
+		return $items;
+	}
+
+	protected static function computeWorkTime($items)
+	{
+		foreach ($items as $item)
+		{
+			$startWork = clone ($item->start_time);
+			$endWork = clone ($item->end_time);
+			$workInterval = $startWork->diff($endWork);
+
+			$startPause = clone ($item->start_pause);
+			$endPause = clone $item->end_pause;
+			$pauseInterval = $startPause->diff($endPause);
+
+			$item->work_time = clone $item->entry_date;
+			/* @var $item->work_time DateTime */
+			$item->work_time->add($workInterval);
+			$item->work_time->sub($pauseInterval);
+			$item->work_time_interval = $item->entry_date->diff($item->work_time);
+
+			$item->pause_time = clone $item->entry_date;
+			$item->pause_time->add($pauseInterval);
+			$item->pause_time_interval = $pauseInterval;
+
+
+		}
+
+		return $items;
+	}
+
+	protected static function createDateFromString($string)
+	{
+		$date = new DateTime($string);
+
+		return $date;
+	}
+
+	/**
+	 * Method to auto-populate the model state.
+	 *
+	 * Note. Calling getState in this method will result in recursion.
+	 *
+	 * @since	1.6
+	 */
+	protected function populateState($ordering = null, $direction = null)
+	{
+		// Initialise variables.
+		$app = JFactory::getApplication('site');
+
+		// Load the filter state.
+		$month = $this->getUserStateFromRequest($this->context.'.filter.month', 'filter_month', date('m'));
+		$this->setState('filter.month', $month);
+
+		$year = $this->getUserStateFromRequest($this->context.'.filter.year', 'filter_year', date('Y'));
+		$this->setState('filter.year', $year);
+
+		$orderBy = $this->getUserStateFromRequest($this->context.'.filter.order', 'filter_order', 'e.entry_date DESC, e.start_time ASC');
+		$this->setState('filter.order', $orderBy);
+
+		$user = $this->getUserStateFromRequest($this->context.'.filter.user', 'filter_user', JFactory::getUser()->id);
+		$this->setState('filter.user', $user);
+
+		// Load the parameters.
+		$params = JComponentHelper::getParams('com_asinustimetracking');
+		$this->setState('params', $params);
+
+		// List state information.
+		parent::populateState();
+	}
+}
