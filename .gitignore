@@ -1,6 +1,7 @@
 .idea/
 .gitignore
 .htaccess
+releases/
 administrator/cache/*
 administrator/components/com_admin/*
 administrator/components/com_banners/*
