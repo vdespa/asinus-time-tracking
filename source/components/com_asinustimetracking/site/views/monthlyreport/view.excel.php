@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 jimport('joomla.filesystem.file');
+jimport('joomla.environment.browser');
 
 // Load helper.
 require_once JPATH_SITE . '/components/com_asinustimetracking/helpers/AsinustimetrackingHelper.php';
@@ -109,14 +110,14 @@ class AsinustimetrackingViewMonthlyreport extends JViewLegacy
 		{
 			// Works in FF32
 			case 'mozilla':
-				$content = 'filename="' . $filename . '.xls"';
+				$content = 'filename="' . $filename . '.xlsx"';
 				break;
 			// Works in IE11
 			case 'msie':
 			// Works in Chrome 37
 			case 'chrome':
 			default:
-				$content = 'filename="' . rawurlencode($filename) . '.xls"';
+				$content = 'filename="' . rawurlencode($filename) . '.xlsx"';
 		}
 
 		return $content;
