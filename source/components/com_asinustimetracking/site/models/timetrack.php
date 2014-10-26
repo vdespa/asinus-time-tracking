@@ -136,7 +136,7 @@ class AsinusTimeTrackingModelTimeTrack extends JModelList
     {
         $database = JFactory::getDBO();
 
-        $query = "SELECT ct_id, cu_id, cs_id, cg_id,"
+        $query = "SELECT ct_id, cu_id, cs_id, cg_id, cc_id,"
             . " UNIX_TIMESTAMP(entry_date) as entry_date,"
             . " UNIX_TIMESTAMP(start_time) as start_time,"
             . " UNIX_TIMESTAMP(end_time) as end_time,"
@@ -335,12 +335,18 @@ class AsinusTimeTrackingModelTimeTrack extends JModelList
 
 		// Filter by user
 		$userId = $this->getState('filter.user');
-		$query->where('cu_id = ' . (int) $this->getCtUser($userId)->cuid);
+		$query->where('e.cu_id = ' . (int) $this->getCtUser($userId)->cuid);
 
+		// Filter by customer
+		$customerId = $this->getState('filter.customer');
+		if ($customerId > 0)
+		{
+			$query->where('e.cc_id = ' . (int) $customerId);
+		}
 
 		$query->order($this->getState('filter.order'));
 
-		// echo $query->dump();
+		//echo $query->dump(); die;
 
  		return $query;
 	}
@@ -373,6 +379,7 @@ class AsinusTimeTrackingModelTimeTrack extends JModelList
 				$groups[$groupKey]->periods = array();
 				$groups[$groupKey]->work_time = clone $item->entry_date;
 				$groups[$groupKey]->pause_time = clone $item->entry_date;
+				$groups[$groupKey]->work_time_with_pause = clone $item->entry_date;
 			}
 
 			array_push($groups[$groupKey]->periods, $item);
@@ -382,7 +389,17 @@ class AsinusTimeTrackingModelTimeTrack extends JModelList
 
 			$groups[$groupKey]->pause_time->add($item->pause_time_interval);
 
+			$groups[$groupKey]->work_time_with_pause->add($item->work_time_interval)->add($item->pause_time_interval);
+
 			$groups[$groupKey]->remark .= $item->remark;
+
+			// Make sure you are not adding the same string over again.
+			if (property_exists($groups[$groupKey], 'project_name') === false || strpos($groups[$groupKey]->project_name, $item->project_name) === false)
+			{
+				$groups[$groupKey]->project_name .= $item->project_name;
+			}
+
+			$groups[$groupKey]->customer_name = $item->customer_name;
 		}
 
 		return $groups;
@@ -433,7 +450,9 @@ class AsinusTimeTrackingModelTimeTrack extends JModelList
 			$item->pause_time->add($pauseInterval);
 			$item->pause_time_interval = $pauseInterval;
 
-
+			$item->work_time_with_pause = clone $item->entry_date;
+			$item->work_time_with_pause->add($workInterval);
+			$item->work_time_with_pause->add($pauseInterval);
 		}
 
 		return $items;
@@ -448,10 +467,6 @@ class AsinusTimeTrackingModelTimeTrack extends JModelList
 
 	/**
 	 * Method to auto-populate the model state.
-	 *
-	 * Note. Calling getState in this method will result in recursion.
-	 *
-	 * @since	1.6
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
@@ -470,6 +485,9 @@ class AsinusTimeTrackingModelTimeTrack extends JModelList
 
 		$user = $this->getUserStateFromRequest($this->context.'.filter.user', 'filter_user', JFactory::getUser()->id);
 		$this->setState('filter.user', $user);
+
+		$customer = $this->getUserStateFromRequest($this->context.'.filter.customer', 'filter_customer', 0);
+		$this->setState('filter.customer', $customer);
 
 		// Load the parameters.
 		$params = JComponentHelper::getParams('com_asinustimetracking');

@@ -2,7 +2,7 @@
 // Try to increase memory limit
 ini_set('memory_limit', '128M');
 
-$f = JPATH_ROOT . '/media/com_asinustimetracking/report-templates/montly-report-template.xlsx';
+$f = JPATH_ROOT . '/media/com_asinustimetracking/report-templates/monthly-report-template-1.xlsx';
 
 /** Load template to a PHPExcel Object  **/
 $objPHPExcel = PHPExcel_IOFactory::load($f);

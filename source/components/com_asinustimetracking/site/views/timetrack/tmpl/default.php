@@ -74,8 +74,7 @@ if (! $tmp)
 			<tr>
 				<td><?php echo JText::_("COM_ASINUSTIMETRACKING_CUSTOMER")?>:</td>
 				<td width="235px" class="paramlist_value" style='border: 1px solid #F0F0F0; height: 30px; background-color: #F0F0F0;'>
-				    <?php echo JHtml::_('select.genericlist', $this->costList, 'ct_costunit', null, 'cc_id', 'description', $this->editEntry->cg_id); ?>
-				
+				    <?php echo JHtml::_('select.genericlist', $this->costList, 'ct_costunit', null, 'cc_id', 'description', $this->editEntry->cc_id); ?>
 				</td>
 			</tr>
 
@@ -174,7 +173,7 @@ if (! $tmp)
 	</tr>
 	<tr>
 		<td></td>
-		<td align="right"><input type="reset" value="Abbruch" class="ttbutton" onclick="javascript:doReset()" style="cursor: pointer; <?php if($this->editEntry){echo 'display:inline';} else { echo 'display:none';}?>" />
+		<td align="right"><input type="reset" value="<?php echo JText::_('COM_ASINUSTIMETRACKING_CANCEL'); ?>" class="ttbutton" onclick="javascript:doReset()" style="cursor: pointer; <?php if($this->editEntry){echo 'display:inline';} else { echo 'display:none';}?>" />
 		<input value="<?php echo JText::_('COM_ASINUSTIMETRACKING_SAVE'); ?>"
 			type="button" class="ttbutton" style="cursor: pointer;"
 			onclick="javascript:sendEntryValues(<?php echo $this->editEntry->ct_id; ?>)" />

@@ -12,6 +12,13 @@
 				</li>
 
 				<li>
+					<label for="filter_customer"><?php echo JText::_('COM_ASINUSTIMETRACKING_COSTUNITS'); ?></label>
+					<select name="filter_customer" class="inputbox">
+						<?php echo JHtml::_('select.options', AsinustimetrackingHelper::getCustomerOptions(), 'value', 'text', $this->state->filter_customer);?>
+					</select>
+				</li>
+
+				<li>
 					<label for="filter_month"><?php echo JText::_('COM_ASINUSTIMETRACKING_MONTH'); ?></label>
 					<select name="filter_month" class="inputbox">
 						<?php echo JHtml::_('select.options', AsinustimetrackingHelper::getMonthOptions(), 'value', 'text', $this->state->filter_month);?>

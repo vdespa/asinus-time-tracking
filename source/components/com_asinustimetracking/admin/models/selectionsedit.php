@@ -19,7 +19,19 @@ class AsinusTimeTrackingModelSelectionsedit extends JModel{
 		$query = "SELECT * FROM $this->_tablename WHERE cg_id=" . $id;
 		$_result = $this->_getList( $query );
 
-		return $_result[0];
+		if ($_result)
+		{
+			return $_result[0];
+		}
+		else
+		{
+			$empty = new stdClass();
+			$empty->description = '';
+			$empty->cg_id = 0;
+			return $empty;
+		}
+
+
 	}
 
 	function merge($id = null, $description = ''){

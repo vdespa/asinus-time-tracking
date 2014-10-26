@@ -57,7 +57,9 @@ class AsinustimetrackingViewMonthlyreport extends JViewLegacy
 		$this->settings = new stdClass();
 		$this->settings->save_to_temp = AsinustimetrackingHelper::getParameter('report_save_to_temp') == 1 ? true : false;
 
-		parent::display('excel');
+		//echo '<pre>'; print_r($this->items);die;
+
+		parent::display('excel-template-' . AsinustimetrackingHelper::getParameter('report_template', 2));
 	}
 
 	/**
@@ -121,5 +123,19 @@ class AsinustimetrackingViewMonthlyreport extends JViewLegacy
 		}
 
 		return $content;
+	}
+
+	/**
+	 * @return PHPExcel
+	 */
+	protected function loadPHPExcelFromTemplate()
+	{
+		// FIXME - read value from settings for something ...
+		$f = JPATH_ROOT . '/media/com_asinustimetracking/report-templates/monthly-report-template-2.xlsx';
+
+		/** Load template to a PHPExcel Object  **/
+		$objPHPExcel = PHPExcel_IOFactory::load($f);
+
+		return $objPHPExcel;
 	}
 }

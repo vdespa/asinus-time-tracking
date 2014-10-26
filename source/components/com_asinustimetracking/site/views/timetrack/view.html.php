@@ -59,6 +59,7 @@ class AsinusTimeTrackingViewTimeTrack extends JViewLegacy
 				$this->editEntry->cs_id = 0;
 				$this->editEntry->cg_id = 0;
 				$this->editEntry->ct_id = 0;
+				$this->editEntry->cc_id = 0;
 				$this->editEntry->start_time = 0;
 				$this->editEntry->end_time = 0;
 				$this->editEntry->start_pause = 0;

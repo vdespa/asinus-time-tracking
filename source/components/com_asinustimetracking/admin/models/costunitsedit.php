@@ -19,7 +19,17 @@ class AsinusTimeTrackingModelCostUnitsedit extends JModel{
 		$query = "SELECT * FROM $this->_tablename WHERE cc_id=" . $id;
 		$_result = $this->_getList( $query );
 
-		return $_result[0];
+		if ($_result)
+		{
+			return $_result[0];
+		}
+		else
+		{
+			$empty = new stdClass();
+			$empty->description = '';
+			$empty->cc_id = 0;
+			return $empty;
+		}
 	}
 
 	function merge($ccid = null, $name = '', $description = ''){

@@ -38,6 +38,31 @@ abstract class AsinustimetrackingHelper
 		return $options;
 	}
 
+	public static function getCustomerOptions()
+	{
+		// Initialize variables.
+		$options = array();
+
+		$db		= JFactory::getDbo();
+		$query	= $db->getQuery(true);
+
+		$query->select('a.cc_id AS value, a.description AS text');
+		$query->from('#__asinustimetracking_costunit AS a');
+		$query->order('a.description ASC');
+
+		// Get the options.
+		$db->setQuery($query);
+
+		$options = $db->loadObjectList();
+
+		// Check for a database error.
+		if ($db->getErrorNum()) {
+			JError::raiseWarning(500, $db->getErrorMsg());
+		}
+
+		return $options;
+	}
+
 	public static function getMonthOptions()
 	{
 		// Initialize variables.

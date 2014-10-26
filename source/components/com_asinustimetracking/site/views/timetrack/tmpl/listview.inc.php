@@ -11,27 +11,47 @@
 ?>
 <!-- Filters -->
 <form action="<?php echo JRoute::_('index.php?option=com_asinustimetracking&view=timetrack'); ?>" method="post" name="filterForm" id="filterForm">
-	<fieldset id="filter-bar">
-		<select name="filter_month" class="inputbox" onchange='this.form.submit()'>
-			<?php echo JHtml::_('select.options', AsinustimetrackingHelper::getMonthOptions(), 'value', 'text', $this->state->get('filter.month'));?>
-		</select>
-		/
-		<input type="text"
-			   name="filter_year"
-			   id="filter_year"
-			   maxlength="4"
-			   size="6"
-			   value="<?php echo $this->escape($this->state->get('filter.year')); ?>"
-			   title="<?php echo JText::_('COM_ASINUSTIMETRACKING_YEAR'); ?>"
-			   onchange="this.form.submit()"
-		/>
+	<fieldset class="adminform">
+		<legend><?php echo JText::_('COM_ASINUSTIMETRACKING_MONTHLYREPORT_REPORT_FILTERS'); ?></legend>
+		<ul class="adminformlist">
+			<li>
+				<label for="filter_customer"><?php echo JText::_('COM_ASINUSTIMETRACKING_CUSTOMER'); ?></label>
+				<select name="filter_customer" class="inputbox" onchange='this.form.submit()'>
+					<option value="0">---</option>
+					<?php echo JHtml::_('select.options', AsinustimetrackingHelper::getCustomerOptions(), 'value', 'text', $this->state->get('filter.customer'));?>
+				</select>
+			</li>
+			<li>
+				<label for="filter_month"><?php echo JText::_('COM_ASINUSTIMETRACKING_MONTH'); ?></label>
+				<select name="filter_month" class="inputbox" onchange='this.form.submit()'>
+					<?php echo JHtml::_('select.options', AsinustimetrackingHelper::getMonthOptions(), 'value', 'text', $this->state->get('filter.month'));?>
+				</select>
+			</li>
+			<li>
+				<label for="filter_month"><?php echo JText::_('COM_ASINUSTIMETRACKING_YEAR'); ?></label>
+				<input type="text"
+					   name="filter_year"
+					   id="filter_year"
+					   maxlength="4"
+					   size="6"
+					   value="<?php echo $this->escape($this->state->get('filter.year')); ?>"
+					   title="<?php echo JText::_('COM_ASINUSTIMETRACKING_YEAR'); ?>"
+					   onchange="this.form.submit()"
+					/>
+			</li>
+		</ul>
 	</fieldset>
-	<a
-		href="<?php echo JRoute::_('index.php?option=com_asinustimetracking&task=monthlyreport.generate&format=excel&filter_month=' .
-			$this->state->get('filter.month') . '&filter_year=' . $this->state->get('filter.year')); ?>">
-		Generate monthly report (Excel)
-	</a>
 </form>
+
+<hr width="100%">
+<p>
+	<a class=""
+		href="<?php echo JRoute::_('index.php?option=com_asinustimetracking&task=monthlyreport.generate&format=excel&filter_month=' .
+			$this->state->get('filter.month') . '&filter_year=' . $this->state->get('filter.year') . '&filter_customer=' . $this->state->get('filter.customer')); ?>">
+		<?php echo JText::_('COM_ASINUSTIMETRACKING_MONTHLYREPORT_GENERATE_REPORT_LABEL'); ?>
+	</a>
+</p>
+<hr width="100%">
 
 <?php if (is_array($this->items) && ! empty($this->items)) : ?>
 	<table class="table table-condensed">
