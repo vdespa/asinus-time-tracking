@@ -1,30 +1,19 @@
 <?php
 /**
- * TimeTrack, Frontend Component
- *
- * PHP version 5
- *
- * @category  Component
- * @package   TimeTrack
- * @author    Ralf Nickel <info@itrn.de>
- * @copyright 2011 Ralf Nickel
- * @license   GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
- * @version   SVN: $Id$
- * @link      http://www.itrn.de
+ * @package		Joomla.Site
+ * @subpackage	com_asinustimetracking
+ * @copyright	Copyright (c) 2014, Valentin Despa. All rights reserved.
+ * @copyright	Copyright (C) 2011, Informationstechnik Ralf Nickel
+ * @author		Valentin Despa - info@vdespa.de
+ * @link		http://www.vdespa.de
+ * @license 	GNU General Public License version 3. See LICENSE.txt or http://www.gnu.org/licenses/gpl-3.0.html
  */
-
 defined('_JEXEC') or die('Restricted access');
 
 jimport('joomla.application.component.modellist');
 
 /**
- * Model of timetrack view
- *
- * @category Class
- * @package  TimeTrack
- * @author   Ralf Nickel <rn@itrn.de>
- * @license  GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
- * @link     http://www.itrn.de
+ * TimeTrack Model
  */
 class AsinusTimeTrackingModelTimeTrack extends JModelList
 {
@@ -335,7 +324,8 @@ class AsinusTimeTrackingModelTimeTrack extends JModelList
 
 		// Filter by user
 		$userId = $this->getState('filter.user');
-		$query->where('e.cu_id = ' . (int) $this->getCtUser($userId)->cuid);
+		$cuUserId = (int) $this->getCtUser($userId)->cuid;
+		$query->where('e.cu_id = ' . $cuUserId);
 
 		// Filter by customer
 		$customerId = $this->getState('filter.customer');
@@ -488,6 +478,9 @@ class AsinusTimeTrackingModelTimeTrack extends JModelList
 
 		$customer = $this->getUserStateFromRequest($this->context.'.filter.customer', 'filter_customer', 0);
 		$this->setState('filter.customer', $customer);
+
+		// Override "Configuration" - "Site" - "List limit" setting
+		JRequest::setVar('limit', 500);
 
 		// Load the parameters.
 		$params = JComponentHelper::getParams('com_asinustimetracking');

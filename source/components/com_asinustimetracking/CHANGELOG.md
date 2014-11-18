@@ -1,5 +1,9 @@
 # Asinus Time-Tracking Changelog
 
+### 1.1.13
+- Fixed issue with "Configuration" - "Site" - "List limit" setting
+- improved AsinusTimeTrackingModelTimeTrack::getListQuery()
+
 ### 1.1.0 to 1.1.12
 - Monthly report in Excel
 - Various bug fixes related to the report
