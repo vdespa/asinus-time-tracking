@@ -1,5 +1,9 @@
 # Asinus Time-Tracking Changelog
 
+### 1.1.14
+- Added configuration option for the number of days the editing is available
+- Hardcoded pause interval between 12:00 and 12:45 (later to be configurable as well).
+
 ### 1.1.13
 - Fixed issue with "Configuration" - "Site" - "List limit" setting
 - improved AsinusTimeTrackingModelTimeTrack::getListQuery()

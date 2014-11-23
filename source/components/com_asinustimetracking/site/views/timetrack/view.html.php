@@ -20,7 +20,7 @@ class AsinusTimeTrackingViewTimeTrack extends JViewLegacy
 {
 	protected $state;
 
-	protected $maxEditInDays = 2;
+	protected $maxEditInDays;
 
 	protected $settings;
 
@@ -29,6 +29,7 @@ class AsinusTimeTrackingViewTimeTrack extends JViewLegacy
 		// Settings
 		$this->settings = new stdClass();
 		$this->settings->show_quantity = AsinustimetrackingHelper::getParameter('show_quantity', 0);
+		$this->maxEditInDays = AsinustimetrackingHelper::getParameter('record_max_edit_days', 2);
 
 		$this->state = $this->get('State');
 		$this->items = $this->get('Items');
@@ -60,10 +61,10 @@ class AsinusTimeTrackingViewTimeTrack extends JViewLegacy
 				$this->editEntry->cg_id = 0;
 				$this->editEntry->ct_id = 0;
 				$this->editEntry->cc_id = 0;
-				$this->editEntry->start_time = 0;
-				$this->editEntry->end_time = 0;
-				$this->editEntry->start_pause = 0;
-				$this->editEntry->end_pause = 0;
+				$this->editEntry->start_time = strtotime('1970-01-01 00:00');
+				$this->editEntry->end_time = strtotime('1970-01-01 00:00');
+				$this->editEntry->start_pause = strtotime('1970-01-01 12:00');
+				$this->editEntry->end_pause = strtotime('1970-01-01 12:45');
 				$this->editEntry->qty = 0;
 				$this->editEntry->remark = '';
 			}

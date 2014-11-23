@@ -15,6 +15,21 @@
             <option
                     value="1">JYES</option>
         </field>
+        <field
+                name="record_max_edit_days"
+                type="text"
+                filter="INT"
+                label="COM_ASINUSTIMETRACKING_FIELD_RECORD_MAX_EDIT_DAYS"
+                description="COM_ASINUSTIMETRACKING_FIELD_RECORD_MAX_EDIT_DAYS_DESC"
+        />
+        <!--
+        <field
+                name="record_default_worktime_start"
+                type="hoursminutes"
+                label="XXX"
+                description="XXXX"
+        />
+        -->
     </fieldset>
 
     <fieldset name="ReportExcel"

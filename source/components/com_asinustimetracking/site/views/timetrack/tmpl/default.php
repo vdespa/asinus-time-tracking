@@ -120,7 +120,7 @@ if (! $tmp)
 				<td class="paramlist_value" valign="top" style="border: 1px solid #F0F0F0; height: 30px; background-color: #F0F0F0;">
 				<div id="tde">
 			 
-			        <?php echo JHtml::_('select.genericlist', AsinustimetrackingHelper::getHoursOptions(), 'ct_sh', 'style="width: 3.2em;"', 'id', 'value', $this->editEntry == null ? 8 : date('G',$this->editEntry->start_time)); ?> :
+			        <?php echo JHtml::_('select.genericlist', AsinustimetrackingHelper::getHoursOptions(), 'ct_sh', 'style="width: 3.2em;"', 'id', 'value', $this->editEntry == null ? 0 : date('G',$this->editEntry->start_time)); ?> :
                     <?php echo JHtml::_('select.genericlist', AsinustimetrackingHelper::getMinutesOptions(), 'ct_sm', 'style="width: 3.2em;"', 'id', 'value', $this->editEntry == null ? 0 : date('i',$this->editEntry->start_time)); ?> -
 
                     <?php echo JHtml::_('select.genericlist', AsinustimetrackingHelper::getHoursOptions(), 'ct_eh', 'style="width: 3.2em;"', 'id', 'value', $this->editEntry == null ? 8 : date('G',$this->editEntry->end_time)); ?> :
