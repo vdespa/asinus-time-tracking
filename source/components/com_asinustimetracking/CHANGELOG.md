@@ -1,5 +1,13 @@
 # Asinus Time-Tracking Changelog
 
+### 1.1.16
+- This release addresses issues with the previous release. Fixed issue introduced by new configuration parameter.
+
+### 1.1.15
+- Added the possibility of overriding Excel templates. The process is documented on github.
+- In montly report template 2, changed column K format to industrial minutes.
+- Added submenu in BE.
+
 ### 1.1.14
 - Added configuration option for the number of days the editing is available
 - Hardcoded pause interval between 12:00 and 12:45 (later to be configurable as well).

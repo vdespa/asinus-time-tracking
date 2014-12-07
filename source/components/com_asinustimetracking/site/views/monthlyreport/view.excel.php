@@ -16,6 +16,7 @@ jimport('joomla.environment.browser');
 
 // Load helper.
 require_once JPATH_SITE . '/components/com_asinustimetracking/helpers/AsinustimetrackingHelper.php';
+require_once JPATH_SITE . '/components/com_asinustimetracking/helpers/AsinustimetrackingUpdateHelper.php';
 
 class AsinustimetrackingViewMonthlyreport extends JViewLegacy
 {
@@ -59,7 +60,23 @@ class AsinustimetrackingViewMonthlyreport extends JViewLegacy
 
 		//echo '<pre>'; print_r($this->items);die;
 
-		parent::display('excel-template-' . AsinustimetrackingHelper::getParameter('report_template', 2));
+		$excelTemplate = AsinustimetrackingHelper::getParameter('report_excel_template', 'FILE_NOT_FOUND');
+
+		// Fix missing report
+		if ($excelTemplate === 'FILE_NOT_FOUND')
+		{
+			AsinustimetrackingUpdateHelper::fixMissingExcelReportSetting();
+		}
+
+		// TODO - Refactor this code, maybe with a regex.
+		// Remove prefix
+		$viewName = str_replace('monthly-report-', '', $excelTemplate);
+		// Remove OVERRIDE
+		$viewName = str_replace('-OVERRIDE', '', $viewName);
+		// Remove file extension
+		$viewName = str_replace('.xlsx', '', $viewName);
+
+		parent::display('excel-' . $viewName);
 	}
 
 	/**
@@ -130,11 +147,20 @@ class AsinustimetrackingViewMonthlyreport extends JViewLegacy
 	 */
 	protected function loadPHPExcelFromTemplate()
 	{
-		// FIXME - read value from settings for something ...
-		$f = JPATH_ROOT . '/media/com_asinustimetracking/report-templates/monthly-report-template-2.xlsx';
+		// Get value from configuration
+		$excelTemplate = AsinustimetrackingHelper::getParameter('report_excel_template', 'FILE_NOT_FOUND');
+		$excelTemplateFile = JPATH_ROOT . '/media/com_asinustimetracking/report-templates/' . $excelTemplate;
 
-		/** Load template to a PHPExcel Object  **/
-		$objPHPExcel = PHPExcel_IOFactory::load($f);
+		if (! JFile::exists($excelTemplateFile))
+		{
+			// Try to fix issues
+			AsinustimetrackingUpdateHelper::fixMissingExcelReportSetting();
+			// Retry
+			return $this->loadPHPExcelFromTemplate();
+		}
+
+		// Load template to a PHPExcel Object
+		$objPHPExcel = PHPExcel_IOFactory::load($excelTemplateFile);
 
 		return $objPHPExcel;
 	}

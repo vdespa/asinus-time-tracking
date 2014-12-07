@@ -22,6 +22,11 @@ class AsinusTimeTrackingController extends JControllerLegacy
 {
 	public function display($cachable = false, $urlparams = false)
 	{
+		require_once JPATH_COMPONENT.'/helpers/asinustimetracking.php';
+
+		// Load the submenu.
+		AsinustimetrackingBackendHelper::addSubmenu(JRequest::getCmd('view', 'timetrack'));
+
 		JRequest::setVar('view', JRequest::getVar('view', 'timetrack'));
 		parent::display();
 	}

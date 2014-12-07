@@ -1,4 +1,15 @@
 <?php
+/**
+ * @package		Joomla.Site
+ * @subpackage	com_asinustimetracking
+ * @copyright	Copyright (c) 2014, Valentin Despa. All rights reserved.
+ * @author		Valentin Despa - info@vdespa.de
+ * @link		http://www.vdespa.de
+ * @license 	GNU General Public License version 3. See LICENSE.txt or http://www.gnu.org/licenses/gpl-3.0.html
+ */
+
+defined('_JEXEC') or die;
+
 // Try to increase memory limit
 ini_set('memory_limit', '128M');
 
@@ -84,7 +95,7 @@ if (is_array($this->items) && ! empty($this->items))
 		$objPHPExcel->getActiveSheet()->setCellValue('J' . $currentRow, $item->pause_time->format('H:i'));
 
 		// Total work time (subtracting pause)
-		$objPHPExcel->getActiveSheet()->setCellValue('K' . $currentRow, $item->work_time->format('H:i'));
+		$objPHPExcel->getActiveSheet()->setCellValue('K' . $currentRow, (int) $item->work_time->format('H') + (($item->work_time->format('i') * 100) / 60) / 100);
 		$totalWorkTime += (int) $item->work_time->format('H') + (($item->work_time->format('i') * 100) / 60) / 100;
 
 		// Project
@@ -104,16 +115,35 @@ if (is_array($this->items) && ! empty($this->items))
 
 // Contractor
 $objPHPExcel->getActiveSheet()->setCellValue('B41', $this->user->name);
+
 // Print date
 $objPHPExcel->getActiveSheet()->setCellValue('B42', date_create()->format('d.m.Y'));
+
 // Client
 if (is_array($this->items) && ! empty($this->items))
 {
 	$objPHPExcel->getActiveSheet()->setCellValue('H43',reset($this->items)->customer_name);
 }
-// Monthly total work time
-$objPHPExcel->getActiveSheet()->setCellValue('N38', number_format($totalWorkTime, 2, ',', ''));
 
+// Monthly total work time
+$objPHPExcel->getActiveSheet()->setCellValue('N38', $totalWorkTime);
+
+
+/**
+ * Formatting
+ */
+
+// Daily total work time
+$objPHPExcel->getActiveSheet()
+	->getStyle("K6:K36")
+	->getNumberFormat()
+	->setFormatCode('#,##0.00');
+
+// Monthly total work time
+$objPHPExcel->getActiveSheet()
+	->getStyle("N38:N38")
+	->getNumberFormat()
+	->setFormatCode('#,##0.00');
 
 /**
  * Write document

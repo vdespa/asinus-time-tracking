@@ -80,20 +80,6 @@ class AsinusTimeTrackingViewTimeTrack extends JView
 			"index.php?option=com_asinustimetracking&view=monthlyreport");
 
 		JToolBarHelper::spacer();
-		JToolBarHelper::custom('overview', 'ctoverview.png', 'ctoverview.png',
-			JText::_('COM_ASINUSTIMETRACKING_OVERVIEW'), false);
-		JToolBarHelper::spacer();
-		JToolBarHelper::custom('users', 'ctuser.png', 'ctuser.png',
-			JText::_('COM_ASINUSTIMETRACKING_USER'), false);
-		JToolBarHelper::custom('services', 'ctservice.png', 'ctservice.png',
-			JText::_('COM_ASINUSTIMETRACKING_SERVICES'), false);
-		JToolBarHelper::custom('roles', 'ctroles.png', 'ctroles.png',
-			JText::_('COM_ASINUSTIMETRACKING_USERROLES'), false);
-		JToolBarHelper::custom('selections', 'ctselection.png', 'ctselection.png',
-			JText::_('COM_ASINUSTIMETRACKING_PROJECTS'), false);
-		JToolBarHelper::custom('costunits', 'costunit', 'costunit',
-			JText::_('COM_ASINUSTIMETRACKING_COSTUNITS'), false);
-		JToolBarHelper::spacer();
 		JToolBarHelper::custom('preferences', 'archive', 'archive',
 			JText::_('COM_ASINUSTIMETRACKING_PREFERENCES'), false);
 		JToolBarHelper::preferences('com_asinustimetracking');

@@ -8,6 +8,7 @@ Right now the extension works under Joomla! 2.5 but a Joomla 3 version is also p
 ## Features ##
 
 - User management
+- Excel export (montly report)
 - CSV export
 - PDF export (coming soon!)
 - Multilingual: English and German
@@ -21,4 +22,4 @@ Current version is 1.0.0 from 20.03.2014 and is available for download.
 
 ## History ##
 
-Asinus Time-Tracking 1.0.0 is a fork of TimeTrack Zeiterfassung (v. 1.5.4) created by Ralf Nickel).
+Asinus Time-Tracking is a fork of TimeTrack Zeiterfassung (v. 1.5.4) created by Ralf Nickel. Thanks for the initial work on this project.
