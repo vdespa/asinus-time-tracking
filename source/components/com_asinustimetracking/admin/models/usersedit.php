@@ -19,7 +19,10 @@ class AsinusTimeTrackingModelUsersedit extends JModel{
 		$query = "SELECT * FROM $this->_tablename as c, #__users as u, #__asinustimetracking_roles as r WHERE c.uid=u.id AND c.crid=r.crid AND cuid=" . $id;
 		$_result = $this->_getList( $query );
 
-		return $_result[0];
+		if ($_result)
+			return $_result[0];
+		else
+			return null;
 	}
 
 	function merge($cuid = null, $crid = null, $is_admin = 0, $employee_id, $preise = array(0)){

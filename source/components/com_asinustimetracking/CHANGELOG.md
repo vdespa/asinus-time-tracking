@@ -1,5 +1,8 @@
 # Asinus Time-Tracking Changelog
 
+### 1.1.17
+- Fixed code quality issues in relation to issue #10.
+
 ### 1.1.16
 - This release addresses issues with the previous release. Fixed issue introduced by new configuration parameter.
 

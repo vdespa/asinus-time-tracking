@@ -14,9 +14,9 @@ jimport( 'joomla.application.component.view' );
 
 class AsinusTimeTrackingViewRolesedit extends JView{
 	function display($tpl = null){
-		JToolBarHelper::title( JText::_('COM_TIMETRACK_EDIT_ROLE'), 'generic.png');
-		JToolBarHelper :: cancel('roles', JText::_('COM_TIMETRACK_CANCEL'));
-		JToolBarHelper :: save('saveroles', JText::_('COM_TIMETRACK_SAVE'));
+		JToolBarHelper::title( JText::_('COM_ASINUSTIMETRACKING_EDIT_ROLE'), 'generic.png');
+		JToolBarHelper :: cancel('roles', JText::_('COM_ASINUSTIMETRACKING_CANCEL'));
+		JToolBarHelper :: save('saveroles', JText::_('COM_ASINUSTIMETRACKING_SAVE'));
 
 		$model 		= $this->getModel();
 
@@ -27,4 +27,3 @@ class AsinusTimeTrackingViewRolesedit extends JView{
 		parent::display($tpl);
 	}
 }
-?>

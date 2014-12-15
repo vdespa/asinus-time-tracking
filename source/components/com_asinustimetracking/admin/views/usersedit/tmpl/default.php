@@ -26,7 +26,16 @@ $js_code = "
 
 $document->addScriptDeclaration($js_code);
 
-
+// HOTFIX
+if (! $this->item)
+{
+	$this->item = new stdClass();
+	$this->item->name = "";
+	$this->item->employee_id = 0;
+	$this->item->is_admin = 0;
+	$this->item->crid = 0;
+	$this->item->cuid = 0;
+}
 ?>
 
 <form action="index.php" method="post" name="adminForm" id="adminForm">

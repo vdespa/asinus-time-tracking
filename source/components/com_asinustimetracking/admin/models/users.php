@@ -48,7 +48,7 @@ class AsinusTimeTrackingModelUsers extends JModel
 		$query = "SELECT c.*, r.description as roledesc, j.name as name, j.username as username FROM #__asinustimetracking_user c, #__asinustimetracking_roles r, #__users j WHERE c.uid=$id AND c.crid=r.crid AND c.uid = j.id";
 		$result = $this->_getList($query);
 
-		if (is_array($result))
+		if (is_array($result) && array_key_exists(0, $result))
 			return $result[0];
 		else
 			return null;

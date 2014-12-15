@@ -26,6 +26,8 @@ class AsinusTimeTrackingViewUsers extends JView{
 		$items		= $this->get( 'Users' );
 		$model 		= $this->getModel();
 
+		// TODO: Add message explaining that to create new users you first need to create them in Joomla.
+
 		$this->assignRef('items', $items);
 		$this->assignRef('model', $model);
 

@@ -10,6 +10,13 @@
 
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
+// HOTFIX
+if (! $this->item)
+{
+	$this->item = new stdClass();
+	$this->item->description = '';
+	$this->item->crid = null;
+}
 ?>
 <form action="index.php" method="post" name="adminForm" id="adminForm">
 	<div class="col100">
