@@ -1,5 +1,8 @@
 # Asinus Time-Tracking Changelog
 
+### 1.1.18
+- Fixed generate monthly report does not work in FE after updating to Joomla 2.5.28 Issue: #11
+
 ### 1.1.17
 - Fixed code quality issues in relation to issue #10.
 

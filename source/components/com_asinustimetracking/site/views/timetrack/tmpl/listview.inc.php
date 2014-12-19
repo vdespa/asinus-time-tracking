@@ -45,9 +45,14 @@
 
 <hr width="100%">
 <p>
+	<?php
+	$generateLink = '/index.php?option=com_asinustimetracking&task=monthlyreport.generate&format=excel&filter_month=' .
+					$this->state->get('filter.month') .
+					'&filter_year=' . $this->state->get('filter.year') .
+					'&filter_customer=' . $this->state->get('filter.customer');
+	?>
 	<a class=""
-		href="<?php echo JRoute::_('index.php?option=com_asinustimetracking&task=monthlyreport.generate&format=excel&filter_month=' .
-			$this->state->get('filter.month') . '&filter_year=' . $this->state->get('filter.year') . '&filter_customer=' . $this->state->get('filter.customer')); ?>">
+		href="<?php echo JRoute::_($generateLink); ?>">
 		<?php echo JText::_('COM_ASINUSTIMETRACKING_MONTHLYREPORT_GENERATE_REPORT_LABEL'); ?>
 	</a>
 </p>

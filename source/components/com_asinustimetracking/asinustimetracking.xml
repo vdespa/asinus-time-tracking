@@ -2,7 +2,7 @@
 <extension type="component" version="2.5" method="upgrade">
     <name>com_asinustimetracking</name>
     <!--Original extension name: com_timetrack -->
-    <creationDate>15.12.2014</creationDate>
+    <creationDate>19.12.2014</creationDate>
     <author>Valentin Despa</author>
     <authorEmail>info@vdespa.de</authorEmail>
     <authorUrl>www.vdespa.de</authorUrl>
@@ -12,7 +12,7 @@
         Copyright (c) 2010, Informationstechnik Ralf Nickel
     </copyright>
     <license>GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html</license>
-    <version>1.1.17</version>
+    <version>1.1.18</version>
     <description>COM_ASINUSTIMETRACKING_XML_DESCRIPTION</description>
 
     <!-- Script -->
