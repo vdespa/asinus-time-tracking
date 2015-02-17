@@ -10,7 +10,7 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-require_once JPATH_COMPONENT . DS . 'views' . DS . 'timetracklist' . DS . 'tmpl' . DS . 'ui.php';
+require_once JPATH_COMPONENT . '/views/timetracklist/tmpl/ui.php';
 ?>
  
 <?php echo UI::getJavaScripts($this->entriesDays, $this->model, $this->ctUser); ?>
