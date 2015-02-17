@@ -15,7 +15,7 @@ jimport( 'joomla.application.component.view' );
 class AsinusTimeTrackingViewUsersedit extends JView{
 	function display($tpl = null){
 		// imports
-		require_once (JPATH_COMPONENT..'/models'..'/pricerange.php');
+		require_once (JPATH_COMPONENT . '/models/pricerange.php');
 
 		// ToolBar
 		JToolBarHelper::title( JText::_('COM_ASINUSTIMETRACKING_EDIT_USER'), 'generic.png');

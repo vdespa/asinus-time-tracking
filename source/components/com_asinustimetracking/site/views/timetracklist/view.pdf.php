@@ -14,7 +14,7 @@ jimport( 'joomla.application.component.view');
 jimport( 'joomla.utilities.date' );
 
 // TimeTrack Config
-require_once(JPATH_COMPONENT..'/models'..'/preferences.php');
+require_once(JPATH_COMPONENT . '/models/preferences.php');
 
 class AsinusTimeTrackingViewTimeTrackList extends JView
 {
