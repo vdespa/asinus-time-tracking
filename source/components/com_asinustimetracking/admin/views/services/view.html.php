@@ -21,7 +21,7 @@ class AsinusTimeTrackingViewServices extends JViewLegacy
 	{
 		JToolBarHelper::title(JText::_('COM_ASINUSTIMETRACKING_TOOLBAR_SERVICES'), 'generic.png');
 		JToolBarHelper:: addNew('servicesedit', JText::_("COM_ASINUSTIMETRACKING_NEW"));
-		JToolBarHelper:: deleteListx(JText::_('COM_ASINUSTIMETRACKING_Q_REMOVE'), 'removeservice', JText::_('COM_ASINUSTIMETRACKING_REMOVE'));
+		JToolBarHelper:: deleteList(JText::_('COM_ASINUSTIMETRACKING_Q_REMOVE'), 'removeservice', JText::_('COM_ASINUSTIMETRACKING_REMOVE'));
 		JToolBarHelper:: spacer();
 		JToolBarHelper:: custom('overview', 'ctoverview.png', 'ctoverview.png', JText::_('COM_ASINUSTIMETRACKING_OVERVIEW'), false);
 		JToolBarHelper:: spacer();

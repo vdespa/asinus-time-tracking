@@ -62,8 +62,6 @@ class AsinusTimeTrackingModelServicesedit extends JModelLegacy
 				JError::raiseError( 500, $db->getErrorMsg() );
 				return false;
 			}
-
-			JError::raiseNotice( 100, 'Leistung gelöscht' );	
 		}
 	}
 

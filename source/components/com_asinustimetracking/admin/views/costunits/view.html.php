@@ -22,7 +22,7 @@ class AsinusTimeTrackingViewCostunits extends JViewLegacy
 	{
 		JToolBarHelper::title(JText::_('COM_ASINUSTIMETRACKING_TOOLBAR_COSTUNIT'), 'generic.png');
 		JToolBarHelper:: addNew('costunitsedit', Jtext::_('COM_ASINUSTIMETRACKING_NEW'));
-		JToolBarHelper:: deleteListx(JText::_('COM_ASINUSTIMETRACKING_Q_REMOVE'), 'removecostunit', JText::_('COM_ASINUSTIMETRACKING_REMOVE'));
+		JToolBarHelper:: deleteList(JText::_('COM_ASINUSTIMETRACKING_Q_REMOVE'), 'removecostunit', JText::_('COM_ASINUSTIMETRACKING_REMOVE'));
 		JToolBarHelper:: spacer();
 		JToolBarHelper:: custom('overview', 'ctoverview.png', 'ctoverview.png', JText::_('COM_ASINUSTIMETRACKING_OVERVIEW'), false);
 		JToolBarHelper:: spacer();

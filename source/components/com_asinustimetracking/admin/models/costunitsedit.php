@@ -62,8 +62,9 @@ class AsinusTimeTrackingModelCostUnitsedit extends JModelLegacy
 
 		if ($test[0]->anz > 0)
 		{
-
-			JError::raiseWarning(100, JText::_('Abhängigkeit vorhanden, Kunde kann nicht gelöscht werden:') . $ccid);
+			// FIXME Translate the error message
+			//JError::raiseWarning(100, JText::_('Abhängigkeit vorhanden, Kunde kann nicht gelöscht werden:') . $ccid);
+			JError::raiseWarning(100, JText::_('JERROR_CORE_DELETE_NOT_PERMITTED'));
 		}
 		else
 		{
@@ -77,8 +78,6 @@ class AsinusTimeTrackingModelCostUnitsedit extends JModelLegacy
 
 				return false;
 			}
-
-			JError::raiseNotice(100, JText::_('Kunde gelöscht'));
 		}
 	}
 
