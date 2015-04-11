@@ -47,7 +47,7 @@ class AsinusTimeTrackingModelTimeTrack extends JModelList
 			. " UNIX_TIMESTAMP(end_time) as end_time, UNIX_TIMESTAMP(start_pause) as start_pause, UNIX_TIMESTAMP(end_pause) as end_pause,"
 			. " UNIX_TIMESTAMP(timestamp) as timestamp, e.qty,s.is_worktime, e.remark, u.* "
 			. " from #__asinustimetracking_entries e, #__asinustimetracking_services s, #__asinustimetracking_userservices u "
-			. " where e.cs_id = s.csid AND (u.cu_id = e.cu_id AND u.csid=e.cs_id) AND u.cu_id =" . $uid;
+			. " where e.cs_id = s.csid AND (u.cu_id = e.cu_id AND u.csid=e.cs_id) AND u.cu_id =" . (int) $uid;
 
 		if ($service >= 0) {
 			$query .= " AND s.csid=$service";
@@ -119,10 +119,19 @@ class AsinusTimeTrackingModelTimeTrack extends JModelList
 
 	function getCtUserById($id)
 	{
+		$id = (int) $id;
 		$query = "SELECT * FROM #__asinustimetracking_user c INNER JOIN #__users u ON u.id=c.uid WHERE c.cuid=$id";
 		$_result = $this->_getList($query);
 
-		return $_result[0];
+		if ($_result)
+		{
+			return $_result[0];
+		}
+		else {
+			$ctUser = new stdClass();
+			$ctUser->name = '';
+			return $ctUser;
+		}
 	}
 
 	/**
@@ -132,12 +141,19 @@ class AsinusTimeTrackingModelTimeTrack extends JModelList
 	{
 		$user = JFactory::getUser();
 
-		$query = "SELECT * FROM #__asinustimetracking_user WHERE uid=$user->id";
+		$query = "SELECT * FROM #__asinustimetracking_user WHERE uid=" . (int) $user->id;
 
 		$_result = $this->_getlist($query);
 
-		return $_result[0];
-
+		if ($_result)
+		{
+			return $_result[0];
+		}
+		else {
+			$ctUser = new stdClass();
+			$ctUser->cuid = 0;
+			return $ctUser;
+		}
 	}
 
 	function getSelectionById($id)
