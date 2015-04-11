@@ -1,0 +1,25 @@
+@CHARSET "UTF-8";
+
+.icon-32-ctoverview    { 
+        background-image: url(../images/icon-32-overview.png);
+}
+
+.icon-32-ctservice    { 
+        background-image: url(../images/icon-32-service.png);
+}
+
+.icon-32-ctroles    { 
+        background-image: url(../images/icon-32-roles.png);
+}
+
+.icon-32-ctselection    { 
+        background-image: url(../images/icon-32-selection.png);
+}
+
+.icon-32-ctuser    { 
+        background-image: url(../images/icon-32-user.png);
+}
+
+.icon-32-costunit {
+	        background-image: url(../images/icon-32-costunit.png);
+}

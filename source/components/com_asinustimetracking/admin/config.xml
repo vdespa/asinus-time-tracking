@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config>
+    <fieldset name="Display"
+              label="COM_ASINUSTIMETRACKING_FIELDSET_CONFIG_DISPLAY_OPTIONS_LABEL"
+              description="COM_ASINUSTIMETRACKING_FIELDSET_CONFIG_DISPLAY_OPTIONS_DESC">
+
+        <field
+                name="show_quantity"
+                type="radio"
+                default="0"
+                label="COM_ASINUSTIMETRACKING_FIELD_SHOW_QUANTITY_LABEL"
+                description="COM_ASINUSTIMETRACKING_FIELD_SHOW_QUANTITY_DESC">
+            <option
+                    value="0">JNO</option>
+            <option
+                    value="1">JYES</option>
+        </field>
+        <field
+                name="record_max_edit_days"
+                type="text"
+                filter="INT"
+                label="COM_ASINUSTIMETRACKING_FIELD_RECORD_MAX_EDIT_DAYS"
+                description="COM_ASINUSTIMETRACKING_FIELD_RECORD_MAX_EDIT_DAYS_DESC"
+        />
+        <!--
+        <field
+                name="record_default_worktime_start"
+                type="hoursminutes"
+                label="XXX"
+                description="XXXX"
+        />
+        -->
+    </fieldset>
+
+    <fieldset name="ReportExcel"
+              label="COM_ASINUSTIMETRACKING_FIELDSET_CONFIG_REPORT_EXCEL_OPTIONS_LABEL"
+              description="COM_ASINUSTIMETRACKING_FIELDSET_CONFIG_REPORT_EXCEL_OPTIONS_DESC">
+
+        <field
+                name="report_pdf_show_title"
+                type="radio"
+                default="0"
+                label="COM_ASINUSTIMETRACKING_FIELD_REPORT_PDF_SHOW_TITLE_LABEL"
+                description="COM_ASINUSTIMETRACKING_FIELD_REPORT_PDF_SHOW_TITLE_DESC">
+            <option
+                    value="1">COM_ASINUSTIMETRACKING_OPTION_REPORT_PDF_SHOW_TEXT_TITLE</option>
+            <option
+                    value="2">COM_ASINUSTIMETRACKING_OPTION_REPORT_PDF_SHOW_LOGO</option>
+        </field>
+
+        <field name="report_pdf_title"
+               type="text"
+               label="COM_ASINUSTIMETRACKING_FIELD_PDF_TITLE_LABEL"
+               description="COM_ASINUSTIMETRACKING_FIELD_PDF_TITLE_DESC"
+               class="inputbox"
+               size="30"
+                />
+
+        <field name="report_pdf_logo"
+               type="media"
+               hide_none="1"
+               label="COM_ASINUSTIMETRACKING_FIELD_REPORT_PDF_LOGO_LABEL"
+               description="COM_ASINUSTIMETRACKING_FIELD_REPORT_PDF_LOGO_DESC"
+                />
+
+        <field
+                name="report_save_to_temp"
+                type="radio"
+                default="0"
+                label="COM_ASINUSTIMETRACKING_FIELD_REPORT_PDF_SAVE_TO_TEMP_LABEL"
+                description="COM_ASINUSTIMETRACKING_FIELD_REPORT_PDF_SAVE_TO_TEMP_DESC">
+            <option value="0">JNO</option>
+            <option value="1">JYES</option>
+        </field>
+
+        <field
+                name="report_excel_template"
+                type="filelist"
+                default="monthly-report-template-2.xlsx"
+                label="Select a file"
+                description=""
+                directory="media/com_asinustimetracking/report-templates"
+                filter="\.xlsx"
+                exclude=""
+                stripext=""
+                hide_none="true"
+                hide_default="true"
+        />
+
+    </fieldset>
+
+    <fieldset
+            name="permissions"
+            label="JCONFIG_PERMISSIONS_LABEL"
+            description="JCONFIG_PERMISSIONS_DESC"
+            >
+
+        <field
+                name="rules"
+                type="rules"
+                label="JCONFIG_PERMISSIONS_LABEL"
+                class="inputbox"
+                filter="rules"
+                validate="rules"
+                component="com_asinustimetracking"
+                section="component" />
+    </fieldset>
+</config>
