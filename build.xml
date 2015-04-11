@@ -14,9 +14,9 @@
 	<property name="release.dir"	value="${workspace}/release" />
 
     <!-- Version -->
-    <property name="com.asinustimetracking.version" value="${version}" />
+    <property name="com.asinustimetracking.version" value="${completeVersion}" />
     <property name="com.asinustimetracking.creationdate" value="${creationDate}" />
-    <property name="pkg.asinustimetracking.version" value="${version}.${minorVersion}" />
+    <property name="pkg.asinustimetracking.version" value="${completeVersion}" />
     <property name="pkg.asinustimetracking.creationdate" value="${creationDate}" />
     <property name="update.latestversion" value="${completeVersion}" />
 
@@ -32,7 +32,7 @@
 	    <!-- Copy com_asinustimetracking root -->
 	    <copy todir="${build.dir}/${completeVersion}">
 		    <filterchain>
-			    <replacetokens begintoken="###" endtoken="###">
+			    <replacetokens begintoken="#" endtoken="#">
 				    <!-- TOKENS -->
 				    <token key="com_asinustimetracking_version" value="${com.asinustimetracking.version}" />
 				    <token key="com_asinustimetracking_creationdate" value="${com.asinustimetracking.creationdate}" />

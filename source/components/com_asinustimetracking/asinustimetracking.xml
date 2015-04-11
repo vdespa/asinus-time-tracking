@@ -12,7 +12,7 @@
         Copyright (c) 2010, Informationstechnik Ralf Nickel
     </copyright>
     <license>GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html</license>
-    <version>###com_asinustimetracking_version###</version>
+    <version>#com_asinustimetracking_version#</version>
     <description>COM_ASINUSTIMETRACKING_XML_DESCRIPTION</description>
 
     <!-- Script -->
