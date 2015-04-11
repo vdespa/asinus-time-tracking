@@ -5,7 +5,7 @@
     <property name="version" 		value="1.2" />
 	<property environment="env"/>
 	<property name="minorVersion" 	value="${env.BUILD_NUMBER}" />
-	<property name="completeVersion" value="${version}.${minorVersion}"
+	<property name="completeVersion" value="${version}.${minorVersion}" />
     <property name="creationDate" 	value="11.04.2015" />
 	<property environment="env"/>
     <property name="workspace" 		value="${env.WORKSPACE}" />
