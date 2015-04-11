@@ -1,32 +1,27 @@
 <?php
 /**
- * TimeTrack, Backend Component
+ * @package        Joomla.Administrator
+ * @subpackage     com_asinustimetracking
  *
- * PHP version 5
+ * @copyright      Copyright (c) 2014 - 2015, Valentin Despa. All rights reserved.
+ * @author         Valentin Despa - info@vdespa.de
+ * @link           http://www.vdespa.de
  *
- * @category  Component
- * @package   TimeTrack
- * @author    Ralf Nickel <info@itrn.de>
- * @copyright 2011 Ralf Nickel
- * @license   GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
- * @version   SVN: $Id$
- * @link      http://www.itrn.de
+ * @copyright      Copyright (C) 2010, Informationstechnik Ralf Nickel
+ * @author         Ralf Nickel - info@itrn.de
+ * @link           http://www.itrn.de
+ *
+ * @license        GNU General Public License version 3. See LICENSE.txt or http://www.gnu.org/licenses/gpl-3.0.html
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
+jimport('joomla.application.component.modellist');
 
 /**
  * Model of timetrack list view
- *
- * @category Class
- * @package  TimeTrack
- * @author   Ralf Nickel <rn@itrn.de>
- * @license  GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
- * @link     http://www.itrn.de
  */
-class AsinusTimeTrackingModelTimeTrack extends JModel
+class AsinusTimeTrackingModelTimeTrack extends JModelList
 {
 
 	/**

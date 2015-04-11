@@ -2,9 +2,10 @@
 /**
  * @package        Joomla.Site
  * @subpackage     com_asinustimetracking
- * @copyright      Copyright (c) 2014, Valentin Despa. All rights reserved.
+ * @copyright      Copyright (c) 2014 - 2015, Valentin Despa. All rights reserved.
  * @author         Valentin Despa - info@vdespa.de
  * @link           http://www.vdespa.de
+ *
  * @license        GNU General Public License version 3. See LICENSE.txt or http://www.gnu.org/licenses/gpl-3.0.html
  */
 
@@ -39,23 +40,23 @@ class AsinustimetrackingViewMonthlyreport extends JViewLegacy
 
 		// Get user
 		$this->model = $this->getModel();
-		$this->user = $this->model->getUser(JRequest::getInt('filter_user'));
+		$this->user  = $this->model->getUser(JRequest::getInt('filter_user'));
 
 		// Get items
 		$this->items = $this->get('ItemsGroupedByDate');
 
 		// Meta data
-		$this->meta = new stdClass();
-		$this->meta->report_year = JRequest::getInt('filter_year');
+		$this->meta               = new stdClass();
+		$this->meta->report_year  = JRequest::getInt('filter_year');
 		$this->meta->report_month = JRequest::getInt('filter_month');
-		$this->meta->filename = $this->meta->report_year . '-' . $this->meta->report_month . '-' . $this->user->name;
-		$this->meta->logo_path = JPATH_SITE . '/' . AsinustimetrackingHelper::getParameter('report_pdf_logo');
-		$this->meta->logo = AsinustimetrackingHelper::getParameter('report_pdf_logo');
-		$this->meta->title = AsinustimetrackingHelper::getParameter('report_pdf_title');
-		$this->meta->show_logo = AsinustimetrackingHelper::getParameter('report_pdf_show_title') == 2 ? true : false;
+		$this->meta->filename     = $this->meta->report_year . '-' . $this->meta->report_month . '-' . $this->user->name;
+		$this->meta->logo_path    = JPATH_SITE . '/' . AsinustimetrackingHelper::getParameter('report_pdf_logo');
+		$this->meta->logo         = AsinustimetrackingHelper::getParameter('report_pdf_logo');
+		$this->meta->title        = AsinustimetrackingHelper::getParameter('report_pdf_title');
+		$this->meta->show_logo    = AsinustimetrackingHelper::getParameter('report_pdf_show_title') == 2 ? true : false;
 
 		// Settings
-		$this->settings = new stdClass();
+		$this->settings               = new stdClass();
 		$this->settings->save_to_temp = AsinustimetrackingHelper::getParameter('report_save_to_temp') == 1 ? true : false;
 
 		//echo '<pre>'; print_r($this->items);die;
@@ -119,6 +120,7 @@ class AsinustimetrackingViewMonthlyreport extends JViewLegacy
 	 * Figure a cross browser compatible way to get a non-ASCII file name to display properly.
 	 *
 	 * @param $filename
+	 *
 	 * @return string
 	 */
 	protected static function getContentDisposition($filename)
@@ -148,13 +150,14 @@ class AsinustimetrackingViewMonthlyreport extends JViewLegacy
 	protected function loadPHPExcelFromTemplate()
 	{
 		// Get value from configuration
-		$excelTemplate = AsinustimetrackingHelper::getParameter('report_excel_template', 'FILE_NOT_FOUND');
+		$excelTemplate     = AsinustimetrackingHelper::getParameter('report_excel_template', 'FILE_NOT_FOUND');
 		$excelTemplateFile = JPATH_ROOT . '/media/com_asinustimetracking/report-templates/' . $excelTemplate;
 
-		if (! JFile::exists($excelTemplateFile))
+		if (!JFile::exists($excelTemplateFile))
 		{
 			// Try to fix issues
 			AsinustimetrackingUpdateHelper::fixMissingExcelReportSetting();
+
 			// Retry
 			return $this->loadPHPExcelFromTemplate();
 		}

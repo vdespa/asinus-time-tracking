@@ -1,155 +1,172 @@
 <?php
 /**
- * TimeTrack, Frontend Component
+ * @package        Joomla.Site
+ * @subpackage     com_asinustimetracking
  *
- * PHP version 5
+ * @copyright      Copyright (c) 2014 - 2015, Valentin Despa. All rights reserved.
+ * @author         Valentin Despa - info@vdespa.de
+ * @link           http://www.vdespa.de
  *
- * @category  Component
- * @package   TimeTrack
- * @author    Ralf Nickel <info@itrn.de>
- * @copyright 2011 Ralf Nickel
- * @license   GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
- * @version   SVN: $Id$
- * @link      http://www.itrn.de
+ * @copyright      Copyright (C) 2010 - 2011, Informationstechnik Ralf Nickel
+ * @author         Ralf Nickel - info@itrn.de
+ * @link           http://www.itrn.de
+ *
+ * @license        GNU General Public License version 3. See LICENSE.txt or http://www.gnu.org/licenses/gpl-3.0.html
  */
 
-defined('_JEXEC') or die('Restricted access');
-
-jimport('joomla.application.component.model');
+defined('_JEXEC') or die;
 
 /**
  * Model of timetrack report
- *
- * @category Class
- * @package  TimeTrack
- * @author   Ralf Nickel <rn@itrn.de>
- * @license  GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
- * @link     http://www.itrn.de
  */
-class AsinusTimeTrackingModelTimeTrackList extends JModel
+class AsinusTimeTrackingModelTimeTrackList extends JModelLegacy
 {
 
-    /**
-     *
-     *Gets list of user's entries
-     */
-    function getEntriesList($uid, $max = 0, $startdate, $enddate, $service = -1,
-        $selection = -1, $costunit = -1, $day = 1)
-    {
-        $database = &JFactory::getDBO();
+	/**
+	 *
+	 *Gets list of user's entries
+	 */
+	function getEntriesList($uid, $max = 0, $startdate, $enddate, $service = -1,
+		$selection = -1, $costunit = -1, $day = 1)
+	{
+		$database = &JFactory::getDBO();
 
-        $query = "SELECT ct_id, cs_id, cg_id,"
-            . " UNIX_TIMESTAMP(entry_date) as entry_date,"
-            . " UNIX_TIMESTAMP(start_time) as start_time,"
-            . " UNIX_TIMESTAMP(end_time) as end_time,"
-            . " UNIX_TIMESTAMP(start_pause) as start_pause,"
-            . " UNIX_TIMESTAMP(end_pause) as end_pause,"
-            . " UNIX_TIMESTAMP(timestamp) as timestamp, e.qty,s.is_worktime, e.remark, e.cc_id, u.* "
-            . " from #__asinustimetracking_entries e, #__asinustimetracking_services s, #__asinustimetracking_userservices u "
-            . " where e.cs_id = s.csid AND (u.cu_id = e.cu_id AND u.csid=e.cs_id) AND u.cu_id ="
-            . $uid;
+		$query = "SELECT ct_id, cs_id, cg_id,"
+			. " UNIX_TIMESTAMP(entry_date) as entry_date,"
+			. " UNIX_TIMESTAMP(start_time) as start_time,"
+			. " UNIX_TIMESTAMP(end_time) as end_time,"
+			. " UNIX_TIMESTAMP(start_pause) as start_pause,"
+			. " UNIX_TIMESTAMP(end_pause) as end_pause,"
+			. " UNIX_TIMESTAMP(timestamp) as timestamp, e.qty,s.is_worktime, e.remark, e.cc_id, u.* "
+			. " from #__asinustimetracking_entries e, #__asinustimetracking_services s, #__asinustimetracking_userservices u "
+			. " where e.cs_id = s.csid AND (u.cu_id = e.cu_id AND u.csid=e.cs_id) AND u.cu_id ="
+			. $uid;
 
-        if ($service >= 0) {
-            $query .= " AND s.csid=$service";
-        }
+		if ($service >= 0)
+		{
+			$query .= " AND s.csid=$service";
+		}
 
-        if ($costunit >= 0) {
-            $query .= " AND e.cc_id=$costunit";
-        }
+		if ($costunit >= 0)
+		{
+			$query .= " AND e.cc_id=$costunit";
+		}
 
-        if ($selection >= 0) {
-            $query .= " AND e.cg_id=$selection";
-        }
+		if ($selection >= 0)
+		{
+			$query .= " AND e.cg_id=$selection";
+		}
 
-        if ($startdate > 0) {
-            $query .= " AND UNIX_TIMESTAMP(entry_date) >= " . $startdate;
-        }
+		if ($startdate > 0)
+		{
+			$query .= " AND UNIX_TIMESTAMP(entry_date) >= " . $startdate;
+		}
 
-        if ($enddate > 0) {
-            $query .= " AND UNIX_TIMESTAMP(entry_date) <= " . $enddate;
-        }
+		if ($enddate > 0)
+		{
+			$query .= " AND UNIX_TIMESTAMP(entry_date) <= " . $enddate;
+		}
 
-        $query .= " ORDER BY entry_date DESC, s.is_worktime DESC, cs_id ASC";
+		$query .= " ORDER BY entry_date DESC, s.is_worktime DESC, cs_id ASC";
 
-        if ($max > 0) {
-            $query .= " LIMIT " . $max;
-        }
+		if ($max > 0)
+		{
+			$query .= " LIMIT " . $max;
+		}
 
-        $database->setQuery($query);
-        $result = $database->loadObjectList();
+		$database->setQuery($query);
+		$result = $database->loadObjectList();
 
-        // replace alternative prices if exist
-        for ($i = 0; $i < count($result); $i++) {
-            $prices = $this
-                ->_getPriceRangeValue($uid, $result[$i]->cs_id,
-                    $result[$i]->entry_date);
-            if ($prices != null) {
-                $result[$i]->price = $prices->price;
-            }
-        }
+		// replace alternative prices if exist
+		for ($i = 0; $i < count($result); $i++)
+		{
+			$prices = $this
+				->_getPriceRangeValue($uid, $result[$i]->cs_id,
+					$result[$i]->entry_date);
+			if ($prices != null)
+			{
+				$result[$i]->price = $prices->price;
+			}
+		}
 
-        return $result;
-    }
+		return $result;
+	}
 
-    /**
-     * Get timetrack user object
-     * 
-     * @return Ambigous <>
-     */
-    function getCtUser()
-    {
-        $user = &JFactory::getUser();
+	function _getPriceRangeValue($cuid = -1, $csid = -1, $aktdate)
+	{
+		$query = "SELECT * FROM #__asinustimetracking_pricerange" . " WHERE cu_id="
+			. (int) $cuid . " AND cs_id=" . (int) $csid
+			. " AND UNIX_TIMESTAMP(start_time) <= " . $aktdate
+			. " AND UNIX_TIMESTAMP(end_time) >= " . $aktdate;
 
-        $query = "SELECT * FROM #__asinustimetracking_user WHERE uid=$user->id";
+		$_result = $this->_getList($query);
 
-        $_result = $this->_getlist($query);
+		return $_result[0];
+	}
 
-        return $_result[0];
+	/**
+	 * Get timetrack user object
+	 *
+	 * @return Ambigous <>
+	 */
+	function getCtUser()
+	{
+		$user = &JFactory::getUser();
 
-    }
+		$query = "SELECT * FROM #__asinustimetracking_user WHERE uid=$user->id";
 
-    /**
-     * Get the list of days
-     */
-    function getEntriesDays($uid, $max, $startdate, $enddate, $costUnit = -1)
-    {
-        $database = &JFactory::getDBO();
+		$_result = $this->_getlist($query);
 
-        $query = "SELECT entry_date FROM #__asinustimetracking_entries WHERE cu_id=$uid";
+		return $_result[0];
 
-        if ($startdate > 0) {
-            $query .= " AND UNIX_TIMESTAMP(entry_date) >= " . $startdate;
-        }
+	}
 
-        if ($enddate > 0) {
-            $query .= " AND UNIX_TIMESTAMP(entry_date) <= " . $enddate;
-        }
+	/**
+	 * Get the list of days
+	 */
+	function getEntriesDays($uid, $max, $startdate, $enddate, $costUnit = -1)
+	{
+		$database = &JFactory::getDBO();
 
-        if ($costUnit >= 0) {
-            $query .= " AND cc_id=$costUnit";
-        }
+		$query = "SELECT entry_date FROM #__asinustimetracking_entries WHERE cu_id=$uid";
 
-        $query .= " GROUP BY entry_date ORDER BY entry_date DESC";
+		if ($startdate > 0)
+		{
+			$query .= " AND UNIX_TIMESTAMP(entry_date) >= " . $startdate;
+		}
 
-        if ($max > 0) {
-            $query .= " LIMIT " . $max;
-        }
+		if ($enddate > 0)
+		{
+			$query .= " AND UNIX_TIMESTAMP(entry_date) <= " . $enddate;
+		}
 
-        $database->setQuery($query);
-        $result = $database->loadObjectList();
+		if ($costUnit >= 0)
+		{
+			$query .= " AND cc_id=$costUnit";
+		}
 
-        return $result;
+		$query .= " GROUP BY entry_date ORDER BY entry_date DESC";
 
-    }
+		if ($max > 0)
+		{
+			$query .= " LIMIT " . $max;
+		}
 
-    /**
-     * get all times of a day
-     * 
-     * @return object of(description, price, start_time, end_time, timevalue, start_pause, end_pause, pausevalue
-     */
-    function getDayTimes($uid, $date, $costUnit = -1)
-    {
-        $database = &JFactory::getDBO();
+		$database->setQuery($query);
+		$result = $database->loadObjectList();
+
+		return $result;
+
+	}
+
+	/**
+	 * get all times of a day
+	 *
+	 * @return object of(description, price, start_time, end_time, timevalue, start_pause, end_pause, pausevalue
+	 */
+	function getDayTimes($uid, $date, $costUnit = -1)
+	{
+		$database = &JFactory::getDBO();
 
 //         $query = "SELECT s.description, s.csid, (SELECT u.price FROM #__asinustimetracking_userservices AS u WHERE u.csid = s.csid AND u.cu_id=e.cu_id ) as price,"
 //             . " start_time, end_time, sum(((MINUTE(end_time) / 60 + HOUR ( end_time)) - (MINUTE(start_time) / 60 + HOUR(start_time)))) AS timevalue,"
@@ -158,174 +175,168 @@ class AsinusTimeTrackingModelTimeTrackList extends JModel
 //             . " WHERE e.cs_id = s.csid AND e.cu_id =" . $uid . " AND entry_date = '"
 //             . $date . "' AND s.is_worktime=1 ";
 
-        $query = "SELECT s.description, s.csid, (SELECT u.price FROM #__asinustimetracking_userservices AS u WHERE u.csid = s.csid AND u.cu_id=e.cu_id ) as price,"
-            . " start_time, end_time, sum(((MINUTE(end_time) / 60 + HOUR ( end_time)) - (MINUTE(start_time) / 60 + HOUR(start_time)))) AS timevalue,"
-            . " start_pause, end_pause, sum(((MINUTE(end_pause) / 60 + HOUR (end_pause)) - (MINUTE(start_pause) / 60 + HOUR(start_pause)))) AS pausevalue"
-            . " FROM #__asinustimetracking_entries e, #__asinustimetracking_services s"
-            . " WHERE e.cs_id = s.csid AND e.cu_id =" . $uid . " AND entry_date = '"
-            . $date . "' AND s.is_worktime=1 ";
+		$query = "SELECT s.description, s.csid, (SELECT u.price FROM #__asinustimetracking_userservices AS u WHERE u.csid = s.csid AND u.cu_id=e.cu_id ) as price,"
+			. " start_time, end_time, sum(((MINUTE(end_time) / 60 + HOUR ( end_time)) - (MINUTE(start_time) / 60 + HOUR(start_time)))) AS timevalue,"
+			. " start_pause, end_pause, sum(((MINUTE(end_pause) / 60 + HOUR (end_pause)) - (MINUTE(start_pause) / 60 + HOUR(start_pause)))) AS pausevalue"
+			. " FROM #__asinustimetracking_entries e, #__asinustimetracking_services s"
+			. " WHERE e.cs_id = s.csid AND e.cu_id =" . $uid . " AND entry_date = '"
+			. $date . "' AND s.is_worktime=1 ";
 
-        if ($costUnit >= 0) {
-            $query .= " AND cc_id=$costUnit";
-        }
+		if ($costUnit >= 0)
+		{
+			$query .= " AND cc_id=$costUnit";
+		}
 
-        $query .= " GROUP BY e.entry_date, cs_id ORDER BY s.description ASC, cs_id ASC";
+		$query .= " GROUP BY e.entry_date, cs_id ORDER BY s.description ASC, cs_id ASC";
 
-        $database->setQuery($query);
-        $result = $database->loadObjectList();
+		$database->setQuery($query);
+		$result = $database->loadObjectList();
 
-        // replace alternative prices if exist
-        for ($i = 0; $i < count($result); $i++) {
-            $prices = $this
-                ->_getPriceRangeValue($uid, $result[$i]->csid, strtotime($date));
-            if ($prices != null) {
-                $result[$i]->price = $prices->price;
-            }
-        }
+		// replace alternative prices if exist
+		for ($i = 0; $i < count($result); $i++)
+		{
+			$prices = $this
+				->_getPriceRangeValue($uid, $result[$i]->csid, strtotime($date));
+			if ($prices != null)
+			{
+				$result[$i]->price = $prices->price;
+			}
+		}
 
-        return $result;
-    }
+		return $result;
+	}
 
-    function _getPriceRangeValue($cuid = -1, $csid = -1, $aktdate)
-    {
-        $query = "SELECT * FROM #__asinustimetracking_pricerange" . " WHERE cu_id="
-            . (int) $cuid . " AND cs_id=" . (int) $csid
-            . " AND UNIX_TIMESTAMP(start_time) <= " . $aktdate
-            . " AND UNIX_TIMESTAMP(end_time) >= " . $aktdate;
+	/**
+	 * Get Services of a day by user
+	 *
+	 * @return object description, price, qty, nsum
+	 */
+	function getDayServices($uid, $date, $costUnit = -1)
+	{
 
-        $_result = $this->_getList($query);
+		$database = &JFactory::getDBO();
 
-        return $_result[0];
-    }
+		$query = "SELECT ( SELECT u.price FROM #__asinustimetracking_userservices AS u"
+			. " WHERE u.csid = s.csid AND u.cu_id=e.cu_id ) AS price,"
+			. " s.description, s.csid, SUM(e.qty ) as qty "
+			. " FROM #__asinustimetracking_entries e, #__asinustimetracking_services s"
+			. " WHERE e.cs_id = s.csid AND e.cu_id=$uid AND"
+			. " entry_date = '$date' AND" . " s.is_worktime=0";
 
-    /**
-     * Get Services of a day by user
-     * 
-     * @return object description, price, qty, nsum
-     */
-    function getDayServices($uid, $date, $costUnit = -1)
-    {
+		if ($costUnit >= 0)
+		{
+			$query .= " AND cc_id=$costUnit";
+		}
+		$query .= " GROUP BY e.entry_date, cs_id"
+			. " ORDER BY s.description ASC, cs_id ASC";
 
-        $database = &JFactory::getDBO();
+		$database->setQuery($query);
+		$result = $database->loadObjectList();
 
-        $query = "SELECT ( SELECT u.price FROM #__asinustimetracking_userservices AS u"
-            . " WHERE u.csid = s.csid AND u.cu_id=e.cu_id ) AS price,"
-            . " s.description, s.csid, SUM(e.qty ) as qty "
-            . " FROM #__asinustimetracking_entries e, #__asinustimetracking_services s"
-            . " WHERE e.cs_id = s.csid AND e.cu_id=$uid AND"
-            . " entry_date = '$date' AND" . " s.is_worktime=0";
+		// replace alternative prices if exist
+		for ($i = 0; $i < count($result); $i++)
+		{
+			$prices = $this->_getPriceRangeValue($uid, $result[$i]->csid, $date);
+			if ($prices != null)
+			{
+				$result[$i]->price = $prices->price;
+			}
+		}
 
-        if ($costUnit >= 0) {
-            $query .= " AND cc_id=$costUnit";
-        }
-        $query .= " GROUP BY e.entry_date, cs_id"
-            . " ORDER BY s.description ASC, cs_id ASC";
+		return $result;
+	}
 
-        $database->setQuery($query);
-        $result = $database->loadObjectList();
+	/**
+	 * Get selection/project by id
+	 *
+	 * @param int $id
+	 *
+	 * @return object selection
+	 */
+	function getSelectionById($id)
+	{
+		$query = "SELECT * FROM #__asinustimetracking_selection WHERE cg_id=$id";
 
-        // replace alternative prices if exist
-        for ($i = 0; $i < count($result); $i++) {
-            $prices = $this->_getPriceRangeValue($uid, $result[$i]->csid, $date);
-            if ($prices != null) {
-                $result[$i]->price = $prices->price;
-            }
-        }
+		$_result = $this->_getList($query);
 
-        return $result;
-    }
+		return $_result[0];
+	}
 
-    /**
-     * Get selection/project by id
-     * 
-     * @param int $id
-     * 
-     * @return object selection
-     */
-    function getSelectionById($id)
-    {
-        $query = "SELECT * FROM #__asinustimetracking_selection WHERE cg_id=$id";
+	/**
+	 * Get service by id
+	 */
 
-        $_result = $this->_getList($query);
+	function getServiceById($sid)
+	{
+		$database = &JFactory::getDBO();
 
-        return $_result[0];
-    }
+		$query = "SELECT * from #__asinustimetracking_services where csid=" . $sid;
 
-    /**
-     * Get service by id
-     */
+		$database->setQuery($query);
+		$result = $database->loadObject();
 
-    function getServiceById($sid)
-    {
-        $database = &JFactory::getDBO();
+		return $result;
 
-        $query = "SELECT * from #__asinustimetracking_services where csid=" . $sid;
+	}
 
-        $database->setQuery($query);
-        $result = $database->loadObject();
+	/**
+	 *
+	 * Get list of services assigned to user
+	 */
+	function getServicesListByUser($uid)
+	{
+		$database = &JFactory::getDBO();
 
-        return $result;
+		$query = "SELECT * from #__asinustimetracking_userservices u, #__asinustimetracking_services s WHERE u.csid = s.csid AND u.cu_id="
+			. $uid;
 
-    }
+		$database->setQuery($query);
 
-    /**
-     *
-     * Get list of services assigned to user
-     */
-    function getServicesListByUser($uid)
-    {
-        $database = &JFactory::getDBO();
+		$result = $database->loadObjectList();
 
-        $query = "SELECT * from #__asinustimetracking_userservices u, #__asinustimetracking_services s WHERE u.csid = s.csid AND u.cu_id="
-            . $uid;
+		return $result;
 
-        $database->setQuery($query);
+	}
 
-        $result = $database->loadObjectList();
+	/**
+	 * Get list of selections
+	 */
+	function getSelectionsList()
+	{
+		$database = &JFactory::getDBO();
 
-        return $result;
+		$query = "SELECT * from #__asinustimetracking_selection";
 
-    }
+		$database->setQuery($query);
 
-    /**
-     * Get list of selections
-     */
-    function getSelectionsList()
-    {
-        $database = &JFactory::getDBO();
+		$result = $database->loadObjectList();
 
-        $query = "SELECT * from #__asinustimetracking_selection";
+		return $result;
+	}
 
-        $database->setQuery($query);
+	function getCostUnitsList()
+	{
+		$database = &JFactory::getDBO();
 
-        $result = $database->loadObjectList();
+		$query = "SELECT * from #__asinustimetracking_costunit ORDER BY cc_id";
 
-        return $result;
-    }
+		$database->setQuery($query);
 
-    function getCostUnitsList()
-    {
-        $database = &JFactory::getDBO();
+		$result = $database->loadObjectList();
 
-        $query = "SELECT * from #__asinustimetracking_costunit ORDER BY cc_id";
+		return $result;
 
-        $database->setQuery($query);
+	}
 
-        $result = $database->loadObjectList();
+	function getCostUnitById($id)
+	{
+		//         $database = &JFactory::getDBO();
 
-        return $result;
+		$query = "SELECT * from #__asinustimetracking_costunit where cc_id=$id";
 
-    }
+		$_result = $this->_getList($query);
 
-    function getCostUnitById($id)
-    {
-        //         $database = &JFactory::getDBO();
-
-        $query = "SELECT * from #__asinustimetracking_costunit where cc_id=$id";
-
-        $_result = $this->_getList($query);
-
-        return $_result[0];
-    }
+		return $_result[0];
+	}
 
 }

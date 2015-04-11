@@ -1,54 +1,62 @@
 <?php
 /**
- * @package		TimeTrack
- * @version 	$Id: view.html.php 1 2010-09-22 14:50:00Z ralf $
- * @copyright	Copyright (C) 2010, Informationstechnik Ralf Nickel
- * @author		Ralf Nickel - info@itrn.de
- * @link		http://www.itrn.de
- * @license 	GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
+ * @package        Joomla.Administrator
+ * @subpackage     com_asinustimetracking
+ *
+ * @copyright      Copyright (c) 2014 - 2015, Valentin Despa. All rights reserved.
+ * @author         Valentin Despa - info@vdespa.de
+ * @link           http://www.vdespa.de
+ *
+ * @copyright      Copyright (C) 2010, Informationstechnik Ralf Nickel
+ * @author         Ralf Nickel - info@itrn.de
+ * @link           http://www.itrn.de
+ *
+ * @license        GNU General Public License version 3. See LICENSE.txt or http://www.gnu.org/licenses/gpl-3.0.html
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
-
-class AsinusTimeTrackingViewTimeTrack extends JView
+class AsinusTimeTrackingViewTimeTrack extends JViewLegacy
 {
 	function display($tpl = null)
 	{
 		require_once(JPATH_COMPONENT . '/models/preferences.php');
 
 		$cfg_model = new AsinusTimeTrackingModelPreferences;
-		$cfg = $cfg_model->getPreferences();
+		$cfg       = $cfg_model->getPreferences();
 
-		$model = $this->getModel();
-		$ctUser = $model->getCtUser();
-		$ctUlist = JRequest::getInt('ct_ulist', $ctUser->cuid);
+		$model    = $this->getModel();
+		$ctUser   = $model->getCtUser();
+		$ctUlist  = JRequest::getInt('ct_ulist', $ctUser->cuid);
 		$ctSllist = JRequest::getInt('ct_sllist', -1);
 		$ctSvlist = JRequest::getInt('ct_svlist', -1);
-		$ctRlist = JRequest::getInt('ct_rlist', -1);
-		$ct_cc = JRequest::getInt('ct_costunit', -1);
+		$ctRlist  = JRequest::getInt('ct_rlist', -1);
+		$ct_cc    = JRequest::getInt('ct_costunit', -1);
 
 		$ct_startdate = JRequest::getVar('ct_startdate', null);
-		$ct_enddate = JRequest::getVar('ct_enddate', null);
+		$ct_enddate   = JRequest::getVar('ct_enddate', null);
 
 		// Set date selection
 		$ct_startdate = JRequest::getVar('ct_startdate', null);
-		if (!$ct_startdate) {
+		if (!$ct_startdate)
+		{
 			//$ct_startdate = strtotime("first day");
 			$ct_startdate = strtotime(date('Y-m') . '-' . $cfg['first_day']);
 		}
-		else {
+		else
+		{
 			$ct_startdate = strtotime($ct_startdate) ? strtotime($ct_startdate)
 				: $ct_startdate;
 		}
 		$this->assignref('ctStartDate', $ct_startdate);
 
 		$ct_enddate = JRequest::getVar('ct_enddate', null);
-		if (!$ct_enddate) {
+		if (!$ct_enddate)
+		{
 			$ct_enddate = time();
 		}
-		else {
+		else
+		{
 			$ct_enddate = strtotime($ct_enddate) ? strtotime($ct_enddate)
 				: $ct_enddate;
 		}
@@ -93,5 +101,3 @@ class AsinusTimeTrackingViewTimeTrack extends JView
 	}
 
 }
-
-?>
