@@ -13,8 +13,6 @@
 	<property name="build.dir"	    value="${workspace}/build" />
 	<property name="release.dir"	value="${workspace}/release" />
 
-
-
     <!-- Version -->
     <property name="com.asinustimetracking.version" value="${version}" />
     <property name="com.asinustimetracking.creationdate" value="${creationDate}" />
@@ -51,13 +49,10 @@
 
     <!-- Build the extension package from the folder -->
     <target name="dist" depends="build">
-
         <zip destfile="${release.dir}/${package}_${completeVersion}.zip">
-            <fileset dir="${build.dir}" >
+            <fileset dir="${build.dir}/${completeVersion}" >
                 <include name="**/*"/>
             </fileset>
         </zip>
-
-        <echo msg="DONE!" />
     </target>
 </project>
