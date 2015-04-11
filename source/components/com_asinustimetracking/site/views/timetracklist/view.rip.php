@@ -19,10 +19,10 @@ jimport( 'joomla.application.component.view');
 jimport( 'joomla.utilities.date' );
 
 // TimeTrack Config
-require_once(JPATH_COMPONENT.DS.'models'.DS.'preferences.php');
+require_once(JPATH_COMPONENT . '/models/preferences.php');
 
-// require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'lib'.DS.'tcpdf'.DS.'config'.DS.'lang'.DS.'ger.php');
-// require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'lib'.DS.'tcpdf'.DS.'tcpdf.php');
+// require_once(JPATH_COMPONENT_ADMINISTRATOR . '/lib/tcpdf/config/lang/ger.php');
+// require_once(JPATH_COMPONENT_ADMINISTRATOR . '/lib/tcpdf/tcpdf.php');
 
 jimport('jb.report.jbreport');
 

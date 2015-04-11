@@ -10,7 +10,7 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-require_once(JPATH_COMPONENT . DS . 'helper' . DS . 'uicomponents.php');
+require_once(JPATH_COMPONENT . '/helper/uicomponents.php');
 
 class UI extends UIComponents
 {

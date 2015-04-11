@@ -17,7 +17,7 @@ class AsinusTimeTrackingViewTimeTrack extends JView{
 	function display($tpl = null){
 		$model 		=& $this->getModel();
 
-		require_once(JPATH_COMPONENT.DS.'models'.DS.'preferences.php');
+		require_once(JPATH_COMPONENT . '/models/preferences.php');
 
 		$cfg_model = new TimeTrackModelPreferences;
 		$cfg = $cfg_model->getPreferences();
