@@ -4,9 +4,9 @@
 	<!-- run the ant timestamp task -->
 	<tstamp/>
 	<tstamp>
-		<format property="TODAY_UK"
-		        pattern="d-MMMM-yyyy"
-		        locale="en,UK"/>
+		<format property="datetime"
+		        pattern="dd.MM.yyyy"
+		        locale="en"/>
 	</tstamp>
 
     <property name="package" 		value="pkg_asinus-time-tracking" />
@@ -50,7 +50,14 @@
 			    </replacetokens>
 		    </filterchain>
 		    <fileset dir="${source.dir}">
+			    <exclude name="libraries/*" />
 			    <include name="**/*"/>
+		    </fileset>
+	    </copy>
+
+	    <copy todir="${build.dir}/${completeVersion}">
+		    <fileset dir="${source.dir}">
+			    <include name="libraries/*" />
 		    </fileset>
 	    </copy>
     </target>
