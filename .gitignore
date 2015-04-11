@@ -48,7 +48,6 @@ components/com_patchtester/
 .travis.yml
 LICENSE.txt
 README.txt
-build.xml
 htaccess.txt
 index.php
 robots.txt.dist
