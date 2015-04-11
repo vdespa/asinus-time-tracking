@@ -2,9 +2,9 @@
 <extension type="package" version="2.5" method="upgrade">
     <name>Asinus Time-Tracking for Joomla Intranets</name>
     <packagename>asinustimetracking</packagename>
-    <version>%%pkg_asinustimetracking_version%%</version>
+    <version>#pkg_asinustimetracking_version#</version>
     <url>http://www.vdespa.de</url>
-    <creationDate>%%pkg_asinustimetracking_creationdate%%</creationDate>
+    <creationDate>#pkg_asinustimetracking_creationDate#</creationDate>
     <copyright>Copyright (c) 2014 Valentin Despa. All rights reserved.</copyright>
     <license>GNU General Public License version 3; see LICENSE.txt</license>
     <authorEmail>info@vdespa.de</authorEmail>

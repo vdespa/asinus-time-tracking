@@ -2,7 +2,7 @@
 <extension type="component" version="2.5" method="upgrade">
     <name>com_asinustimetracking</name>
     <!--Original extension name: com_timetrack -->
-    <creationDate>%%com_asinustimetracking_creationdate%%</creationDate>
+    <creationDate>#com_asinustimetracking_creationDate#</creationDate>
     <author>Valentin Despa</author>
     <authorEmail>info@vdespa.de</authorEmail>
     <authorUrl>www.vdespa.de</authorUrl>

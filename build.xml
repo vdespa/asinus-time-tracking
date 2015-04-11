@@ -35,9 +35,9 @@
 			    <replacetokens begintoken="#" endtoken="#">
 				    <!-- TOKENS -->
 				    <token key="com_asinustimetracking_version" value="${com.asinustimetracking.version}" />
-				    <token key="com_asinustimetracking_creationdate" value="${com.asinustimetracking.creationdate}" />
+				    <token key="com_asinustimetracking_creationDate" value="${com.asinustimetracking.creationdate}" />
 				    <token key="pkg_asinustimetracking_version" value="${pkg.asinustimetracking.version}" />
-				    <token key="pkg_asinustimetracking_creationdate" value="${pkg.asinustimetracking.creationdate}" />
+				    <token key="pkg_asinustimetracking_creationDate" value="${pkg.asinustimetracking.creationdate}" />
 				    <token key="update_latestversion" value="${update.latestversion}" />
 			    </replacetokens>
 		    </filterchain>
