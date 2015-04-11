@@ -32,7 +32,7 @@
 	    <!-- Copy com_asinustimetracking root -->
 	    <copy todir="${build.dir}/${completeVersion}">
 		    <filterchain>
-			    <replacetokens begintoken="%%" endtoken="%%">
+			    <replacetokens begintoken="###" endtoken="###">
 				    <!-- TOKENS -->
 				    <token key="com_asinustimetracking_version" value="${com.asinustimetracking.version}" />
 				    <token key="com_asinustimetracking_creationdate" value="${com.asinustimetracking.creationdate}" />
