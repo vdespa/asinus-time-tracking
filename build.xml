@@ -5,6 +5,7 @@
     <property name="version" 		value="1.2" />
 	<property environment="env"/>
 	<property name="minorVersion" 	value="${env.BUILD_NUMBER}" />
+	<property name="completeVersion" value="${version}.${minorVersion}"
     <property name="creationDate" 	value="11.04.2015" />
 	<property environment="env"/>
     <property name="workspace" 		value="${env.WORKSPACE}" />
@@ -13,12 +14,13 @@
 	<property name="release.dir"	value="${workspace}/release" />
 
 
+
     <!-- Version -->
     <property name="com.asinustimetracking.version" value="${version}" />
     <property name="com.asinustimetracking.creationdate" value="${creationDate}" />
     <property name="pkg.asinustimetracking.version" value="${version}.${minorVersion}" />
     <property name="pkg.asinustimetracking.creationdate" value="${creationDate}" />
-    <property name="update.latestversion" value="${version}.${minorVersion}" />
+    <property name="update.latestversion" value="${completeVersion}" />
 
     <!-- Do initialization stuff -->
     <target name="prepare">
@@ -30,7 +32,7 @@
     <!-- This is a generic entry point for the build target -->
     <target name="build" depends="prepare">
 	    <!-- Copy com_asinustimetracking root -->
-	    <copy todir="${build.dir}">
+	    <copy todir="${build.dir}/${completeVersion}">
 		    <filterchain>
 			    <replacetokens begintoken="%%" endtoken="%%">
 				    <!-- TOKENS -->
@@ -42,10 +44,7 @@
 			    </replacetokens>
 		    </filterchain>
 		    <fileset dir="${source.dir}">
-			    <include name="asinustimetracking.xml" />
-			    <include name="CHANGELOG.md" />
-			    <include name="LICENSE.txt" />
-			    <include name="script.php" />
+			    <include name="**/*"/>
 		    </fileset>
 	    </copy>
     </target>
@@ -53,7 +52,7 @@
     <!-- Build the extension package from the folder -->
     <target name="dist" depends="build">
 
-        <zip destfile="${release.dir}/${package}_${version}.${minorVersion}.zip">
+        <zip destfile="${release.dir}/${package}_${completeVersion}.zip">
             <fileset dir="${build.dir}" >
                 <include name="**/*"/>
             </fileset>
