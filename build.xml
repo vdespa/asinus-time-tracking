@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <project name="Asinus Time Tracking" default="dist">
+	<property environment="env"/>
     <property name="package" 		value="pkg_asinus-time-tracking" />
     <property name="version" 		value="1.2" />
 	<property name="minorVersion" 	value="${env.BUILD_NUMBER}" />
