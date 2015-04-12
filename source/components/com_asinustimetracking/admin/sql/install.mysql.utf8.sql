@@ -30,7 +30,8 @@ CREATE TABLE #__asinustimetracking_user (
 	cuid    	int(11) AUTO_INCREMENT NOT NULL PRIMARY KEY,
 	uid     	int(11) NOT NULL,
 	crid    	int(11) NOT NULL DEFAULT '1',
-	is_admin	tinyint(1) NOT NULL DEFAULT '0'
+	is_admin	tinyint(1) NOT NULL DEFAULT '0',
+	employee_id INT( 11 ) NOT NULL DEFAULT '0'
 	);
 CREATE TABLE #__asinustimetracking_userservices (
 	cus_id	int(11) AUTO_INCREMENT NOT NULL PRIMARY KEY,
