@@ -31,7 +31,7 @@ class pkg_asinustimetrackingInstallerScript
 	 *
 	 * @var string
 	 */
-	protected $maxSupportedVersion = '4.0.0';
+	protected $maxSupportedVersion = '2.5.99';
 
 	/**
 	 * Called before any type of action
