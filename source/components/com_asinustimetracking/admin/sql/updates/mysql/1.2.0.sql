@@ -1,0 +1,1 @@
+ALTER TABLE  `#__asinustimetracking_selection` ADD  `state` TINYINT(3) NOT NULL DEFAULT '1' AFTER `cg_id`;
