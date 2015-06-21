@@ -36,6 +36,12 @@ if (! $this->item)
 	$this->item->crid = 0;
 	$this->item->cuid = 0;
 }
+
+// HOTFIX
+if (property_exists($this->item, 'employee_id') === false)
+{
+	$this->item->employee_id = null;
+}
 ?>
 
 <form action="index.php" method="post" name="adminForm" id="adminForm">

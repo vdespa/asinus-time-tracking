@@ -208,13 +208,14 @@ class AsinusTimeTrackingController extends JControllerLegacy
 	{
 		$cgid = JRequest::getInt('cgid');
 		$description = JRequest::getString('description');
+		$state = JRequest::getInt('state');
 
 		if ($cgid) {
 			$model = $this->getmodel('selectionsedit');
-			$model->merge($cgid, $description);
+			$model->merge($cgid, $description, $state);
 		} else {
 			$model = $this->getmodel('selectionsedit');
-			$model->create($description);
+			$model->create($description, $state);
 		}
 		JRequest::setVar('view', 'selections');
 		$this->display();

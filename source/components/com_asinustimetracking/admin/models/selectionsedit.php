@@ -34,17 +34,18 @@ class AsinusTimeTrackingModelSelectionsedit extends JModelLegacy
 			$empty              = new stdClass();
 			$empty->description = '';
 			$empty->cg_id       = 0;
+			$empty->state      = 1;
 
 			return $empty;
 		}
 
 	}
 
-	function merge($id = null, $description = '')
+	function merge($id = null, $description = '', $state = 1)
 	{
 		$db = JFactory::getDBO();
 
-		$query = "UPDATE $this->_tablename SET description='$description' WHERE cg_id=$id";
+		$query = "UPDATE $this->_tablename SET description='$description', state=$state WHERE cg_id=$id";
 
 		$db->setQuery($query);
 		if (!$db->query())
@@ -84,11 +85,11 @@ class AsinusTimeTrackingModelSelectionsedit extends JModelLegacy
 		}
 	}
 
-	function create($description = '')
+	function create($description = '', $state = 1)
 	{
 		$db = JFactory::getDBO();
 
-		$query = "INSERT INTO $this->_tablename (description) VALUES ('$description')";
+		$query = "INSERT INTO $this->_tablename (description, state) VALUES ('$description', $state)";
 
 		$db->setQuery($query);
 		if (!$db->query())

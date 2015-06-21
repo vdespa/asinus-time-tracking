@@ -16,6 +16,8 @@
 
 defined('_JEXEC') or die;
 
+jimport('joomla.application.component.modellist');
+
 /**
  * TimeTrack Model
  */
@@ -248,7 +250,16 @@ class AsinusTimeTrackingModelTimeTrack extends JModelList
 	{
 		$database = JFactory::getDBO();
 
-		$query = "SELECT * from #__asinustimetracking_selection ORDER BY cg_id";
+		if (JRequest::getCmd('task') == 'edit')
+		{
+			$query = "SELECT * from #__asinustimetracking_selection ORDER BY cg_id";
+		}
+		else
+		{
+			$query = "SELECT * from #__asinustimetracking_selection WHERE state = 1 ORDER BY cg_id";
+		}
+
+
 
 		$database->setQuery($query);
 

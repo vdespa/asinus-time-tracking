@@ -18,7 +18,48 @@ defined('_JEXEC') or die;
 
 class AsinusTimeTrackingViewUsers extends JViewLegacy
 {
+	protected $items;
+
+	/**
+	 * @inheritdoc
+	 */
 	function display($tpl = null)
+	{
+		if (AsinustimetrackingBackendHelper::isJoomla2_5() === true)
+		{
+			$this->displayLegacy();
+			return;
+		}
+
+		$this->items = $this->get('Users');
+		$this->model = $this->getModel();
+
+		// Check for errors.
+		if (count($errors = $this->get('Errors')))
+		{
+			JError::raiseError(500, implode("\n", $errors));
+			return false;
+		}
+
+		$this->addToolbar();
+		parent::display($tpl);
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	protected function addToolbar()
+	{
+		JToolbarHelper::title(JText::_('COM_ASINUSTIMETRACKING_TOOLBAR_USER'), 'users user');
+	}
+
+	/**
+	 * Old display method
+	 *
+	 * @deprecated
+	 * @param null|string $tpl
+	 */
+	function displayLegacy($tpl = 'legacy')
 	{
 		JToolBarHelper::title(JText::_('COM_ASINUSTIMETRACKING_TOOLBAR_USER'), 'generic.png');
 		JToolBarHelper:: custom('overview', 'ctoverview.png', 'ctoverview.png', JText::_('COM_ASINUSTIMETRACKING_OVERVIEW'), false);
@@ -38,6 +79,5 @@ class AsinusTimeTrackingViewUsers extends JViewLegacy
 		$this->assignRef('model', $model);
 
 		parent::display($tpl);
-
 	}
 }

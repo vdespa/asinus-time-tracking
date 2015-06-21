@@ -20,6 +20,17 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 		<td><input class="text_area" type="text" name="description" size="32"
 			maxlength="30" value="<?php echo $this->item->description; ?>"></input></td>
 	</tr>
+	<tr>
+		<td width="100" align="right" class="key"><label for="state"><?php echo JText::_('JSTATUS'); ?></label></td>
+		<td>
+			<select name="state">
+				<option value="1"<?php if ($this->item->state == 1) echo 'selected="selected"'; ?>><?php echo JText::_('JPUBLISHED'); ?></option>
+				<option value="0"<?php if ($this->item->state == 0) echo 'selected="selected"'; ?>><?php echo JText::_('JUNPUBLISHED'); ?></option>
+				<option value="2"<?php if ($this->item->state == 2) echo 'selected="selected"'; ?>><?php echo JText::_('JARCHIVED'); ?></option>
+				<option value="-2"<?php if ($this->item->state == -2) echo 'selected="selected"'; ?>><?php echo JText::_('JTRASHED'); ?></option>
+			</select>
+		</td>
+	</tr>
 
 </table>
 </fieldset>

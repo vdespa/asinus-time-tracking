@@ -51,4 +51,9 @@ class AsinustimetrackingBackendHelper
 			$vName == 'costunits'
 		);
 	}
+
+	public static function isJoomla2_5()
+	{
+		return version_compare(JVERSION, '3.0.0', '<');
+	}
 }
