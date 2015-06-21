@@ -1,5 +1,10 @@
 # Asinus Time-Tracking Changelog
 
+### 1.2.0
+- Preparations for Joomla 3.x
+- Added the posibility to set a status on project (like archive, trash...) and to hide archived projects.
+- Fixed various bugs
+
 ### 1.1.18
 - Fixed generate monthly report does not work in FE after updating to Joomla 2.5.28 Issue: #11
 
