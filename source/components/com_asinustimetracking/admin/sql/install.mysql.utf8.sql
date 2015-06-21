@@ -19,6 +19,7 @@ CREATE TABLE #__asinustimetracking_roles (
 	);
 CREATE TABLE #__asinustimetracking_selection (
 	cg_id      	int(11) AUTO_INCREMENT NOT NULL PRIMARY KEY,
+	state      	TINYINT(3) NOT NULL DEFAULT '1',
 	description	varchar(155) NOT NULL
 	);
 CREATE TABLE #__asinustimetracking_services (

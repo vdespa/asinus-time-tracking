@@ -98,8 +98,8 @@
 					$canEdit = $item->timestamp > date_create()->modify("- $this->maxEditInDays days") ? true : false;
 					?>
 					<?php if ($canEdit === true) : ?>
-						<input type="image" src="components/com_asinustimetracking/assets/images/edit.gif" value="ed" class="ttbutton" style="text-decoration: none;" onclick="javascript:editEntry('<?php echo $item->ct_id; ?>')"/>
-						<input type="image" src="components/com_asinustimetracking/assets/images/delete.gif" value="del" class="ttbutton" onclick="javascript:deleteEntry('<?php echo $item->ct_id; ?>')" />
+						<input type="image" src="<?php echo $this->imagesLocation . 'edit.gif'; ?>" value="ed" class="ttbutton" style="text-decoration: none;" onclick="javascript:editEntry('<?php echo $item->ct_id; ?>')"/>
+						<input type="image" src="<?php echo $this->imagesLocation . 'delete.gif'; ?>" value="del" class="ttbutton" onclick="javascript:deleteEntry('<?php echo $item->ct_id; ?>')" />
 					<?php endif ?>
 				</td>
 			</tr>

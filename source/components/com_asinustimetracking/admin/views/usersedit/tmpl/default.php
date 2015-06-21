@@ -14,6 +14,9 @@ JHTML::_('behavior.modal');
 //JHTML::_('script', 'pricerange.js', 'administrator/components/com_asinustimetracking/js/')
 JHTML::_('stylesheet', 'asinustimetracking.css', 'components/com_asinustimetracking/assets/css/');
 
+// Images
+$imagesLocation = JURI::base() . 'components/com_asinustimetracking/assets/images/';
+
 $document = JFactory::getDocument();
 
 $js_code = "
@@ -59,7 +62,7 @@ if (property_exists($this->item, 'employee_id') === false)
 				<tr>
 					<td width="100" align="right" class="key"><?php echo JText::_('COM_ASINUSTIMETRACKING_ADMIN'); ?><br><i>(deprecated, use ACL.)</i></td>
 					<td><input type="checkbox" id="is_admin" name="is_admin" value="1"
-							<?php if($this->item->is_admin == 1){ echo "checked=checked"; }?>></input></td>
+							<?php if($this->item->is_admin == 1){ echo "checked=checked"; }?>/></td>
 				</tr>
 				<tr>
 					<td width="100" align="right" class="key"><?php echo JText::_('COM_ASINUSTIMETRACKING_ROLE'); ?></td>
@@ -112,7 +115,7 @@ if (property_exists($this->item, 'employee_id') === false)
 						</td>
 						<td><input type="text" size="10"
 								   name="cpreis[<?php echo $row->csid; ?>]" id="cpreis<?php echo $i; ?>"
-								   value="<?php echo number_format($this->model->getUserPrice($this->item->cuid, $row->csid), 2, ",", ""); ?>"></input><small>(<?php echo JText::_("COM_ASINUSTIMETRACKING_FORMAT"); ?>:
+								   value="<?php echo number_format($this->model->getUserPrice($this->item->cuid, $row->csid), 2, ",", ""); ?>"/><small>(<?php echo JText::_("COM_ASINUSTIMETRACKING_FORMAT"); ?>:
 								#0,00)</small></small></td>
 						<td><?php if(count($priceRange) > 0){
 								?>
@@ -131,7 +134,7 @@ if (property_exists($this->item, 'employee_id') === false)
 												<td align="right"><a
 														href="index.php?option=com_asinustimetracking&task=pricerange&ct_cpid=<?php echo $priceValue->cp_id; ?>&ct_cuid=<?php echo $this->item->cuid; ?>&ct_csid=<?php echo $row->csid; ?>"><?php echo number_format($priceValue->price,2); ?></a>
 												</td>
-												<td align="center"><img src="../components/com_asinustimetracking/icons/delete.gif" class="ttbutton"
+												<td align="center"><img src="<?php echo $imagesLocation . 'delete.gif'; ?>" class="ttbutton"
 																		onclick="deleteEntry(<?php echo $priceValue->cp_id; ?>, <?php echo $this->item->cuid; ?>)" /></td>
 											</tr>
 										<?php
@@ -142,7 +145,7 @@ if (property_exists($this->item, 'employee_id') === false)
 							}  ?></td>
 						<td><a
 								href="index.php?option=com_asinustimetracking&task=pricerange&ct_cuid=<?php echo $this->item->cuid; ?>&ct_csid=<?php echo $row->csid; ?>"
-								class="button"><img src="../components/com_asinustimetracking/assets/images/edit.gif"
+								class="button"><img src="<?php echo $imagesLocation . 'edit.gif'; ?>"
 													alt="<?php echo JText::_('COM_ASINUSTIMETRACKING_CREATE'); ?>" /></a></td>
 						<td></td>
 					</tr>
@@ -152,8 +155,6 @@ if (property_exists($this->item, 'employee_id') === false)
 				}
 				?>
 			</table>
-
-
 		</fieldset>
 	</div>
 	<input type="hidden" name="task" value="services" /> <input

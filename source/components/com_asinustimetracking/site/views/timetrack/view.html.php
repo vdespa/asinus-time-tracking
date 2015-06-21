@@ -29,12 +29,17 @@ class AsinusTimeTrackingViewTimeTrack extends JViewLegacy
 
 	protected $settings;
 
+	protected $imagesLocation;
+
 	function display($tpl = null)
 	{
 		// Settings
 		$this->settings                = new stdClass();
 		$this->settings->show_quantity = AsinustimetrackingHelper::getParameter('show_quantity', 0);
 		$this->maxEditInDays           = AsinustimetrackingHelper::getParameter('record_max_edit_days', 2);
+
+		// Images
+		$this->imagesLocation = JURI::base() . 'components/com_asinustimetracking/assets/images/';
 
 		$this->state = $this->get('State');
 		$this->items = $this->get('Items');
