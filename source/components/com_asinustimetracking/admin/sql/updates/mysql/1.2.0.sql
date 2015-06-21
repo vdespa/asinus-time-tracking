@@ -7,8 +7,8 @@ SET @s = (SELECT IF(
         AND table_schema = DATABASE()
         AND column_name = 'employee_id'
     ) > 0,
-    SELECT 1,
-    ALTER IGNORE TABLE `#__asinustimetracking_user` ADD `employee_id` INT( 11 ) NOT NULL
+    "SELECT 1",
+    "ALTER IGNORE TABLE `#__asinustimetracking_user` ADD `employee_id` INT( 11 ) NOT NULL"
 ));
 
 PREPARE stmt FROM @s;
