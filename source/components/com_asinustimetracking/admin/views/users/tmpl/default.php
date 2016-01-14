@@ -3,7 +3,7 @@
  * @package        Joomla.Administrator
  * @subpackage     com_asinustimetracking
  *
- * @copyright      Copyright (c) 2014 - 2015, Valentin Despa. All rights reserved.
+ * @copyright      Copyright (c) 2014 - 2016, Valentin Despa. All rights reserved.
  * @author         Valentin Despa - info@vdespa.de
  * @link           http://www.vdespa.de
  *
@@ -17,47 +17,50 @@
 defined('_JEXEC') or die;
 ?>
 
-<form action="index.php" method="post" name="adminForm" id="adminForm">
-<div id="editcell">
-<table class="adminlist">
-	<thead>
+<div id="j-main-container" class="span10">
+	<?php if (empty($this->items)) : ?>
+		<div class="alert alert-no-items">
+			<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
+		</div>
+	<?php else : ?>
+	<table class="table table-striped" id="articleList">
+		<thead>
 		<tr>
-			<th width="5"><?php echo JText::_( 'COM_ASINUSTIMETRACKING_ID' ); ?></th>
-<th width="150"><?php echo JText::_( 'COM_ASINUSTIMETRACKING_NAME' ); ?></th>
-<th width="150"><?php echo JText::_( 'COM_ASINUSTIMETRACKING_USERNAME' ); ?></th>
-<th width="50"><?php echo JText::_( 'COM_ASINUSTIMETRACKING_ADMIN' ); ?></th>
-<th width="100"><?php echo JText::_( 'COM_ASINUSTIMETRACKING_ROLE' )?></th>
-<th width="*"></th>
-</tr>
-</thead>
-<?php
-$k = 0;
-for($i=0, $n=count($this->items); $i < $n; $i++){
-	$row =& $this->items[$i];
-	$ctUser = $this->model->getOrCreateCtUserByUid($row->id);
-	$link 		= JRoute::_( 'index.php?option=com_asinustimetracking&task=useredit&cid[]='. $ctUser->cuid );
-	?>
-	<tr class='<?php echo "row$k"; ?> '>
-		<td><?php echo $row->id; ?></td>
-		<td><a href='<?php echo $link; ?>'><?php echo $row->name; ?></a></td>
-		<td><?php echo $row->username; ?></td>
-		<td align="center"><input type="checkbox" id="is_worktime"
-				name="is_worktime" value="1" readonly="readonly"
-				<?php if($ctUser->is_admin == 1){ echo "checked=checked"; }?>></input></td>
-		<td><?php echo $ctUser->roledesc; ?></td>
-		<td></td>
-
-	</tr>
-	<?php
-
-	$k = 1 - $k;
-}
-?>
-
-</table>
-
-<input type="hidden" name="task" value="users" /> <input type="hidden"
-	name="option" value="com_asinustimetracking" /> <input type="hidden"
-	name="boxchecked" value="0" />
-
-</form>
+			<th><?php echo JText::_('COM_ASINUSTIMETRACKING_ID'); ?></th>
+			<th><?php echo JText::_('COM_ASINUSTIMETRACKING_NAME'); ?></th>
+			<th><?php echo JText::_('COM_ASINUSTIMETRACKING_USERNAME'); ?></th>
+			<th><?php echo JText::_('COM_ASINUSTIMETRACKING_ADMIN'); ?></th>
+			<th><?php echo JText::_('COM_ASINUSTIMETRACKING_ROLE'); ?></th>
+		</tr>
+		</thead>
+		<tbody>
+		<?php foreach ($this->items as $i => $item) : ?>
+			<?php
+			// FIXME: The model should not be called here!
+			$ctUser = $this->model->getOrCreateCtUserByUid($item->id);
+			$editLink = JRoute::_('index.php?option=com_asinustimetracking&task=useredit&cid[]='. $ctUser->cuid);
+			?>
+			<tr class="row<?php echo $i % 2; ?>">
+				<td>
+					<?php echo $item->id; ?>
+				</td>
+				<td>
+					<a href='<?php echo $editLink; ?>'><?php echo $item->name; ?></a>
+				</td>
+				<td>
+					<?php echo $item->name; ?>
+				</td>
+				<td>
+					<input type="checkbox" id="is_worktime"
+						name="is_worktime" value="1" readonly="readonly"
+						<?php echo ($ctUser->is_admin == 1) ? 'checked="checked"' : ''; ?>
+				</td>
+				<td>
+					<?php echo $ctUser->roledesc; ?>
+				</td>
+			</tr>
+		<?php endforeach; ?>
+		</tbody>
+	</table>
+	<?php endif; ?>
+</div>

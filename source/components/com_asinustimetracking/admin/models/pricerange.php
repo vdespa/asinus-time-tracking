@@ -3,7 +3,7 @@
  * @package        Joomla.Administrator
  * @subpackage     com_asinustimetracking
  *
- * @copyright      Copyright (c) 2014 - 2015, Valentin Despa. All rights reserved.
+ * @copyright      Copyright (c) 2014 - 2016, Valentin Despa. All rights reserved.
  * @author         Valentin Despa - info@vdespa.de
  * @link           http://www.vdespa.de
  *
@@ -44,7 +44,7 @@ class AsinusTimeTrackingModelPriceRange extends JModelLegacy
 		$sdate = JFactory::getDate($start_date);
 		$edate = JFactory::getDate($end_date);
 
-		$query = "INSERT INTO " . $this->_tablename . " (start_time, end_time, price, cu_id, cs_id) VALUES (" . $db->quote($sdate->toMySQL()) . "," . $db->quote($edate->toMySQL()) . "," . (float) $price . ", " . (int) $cuid . ", " . (int) $csid . " )";
+		$query = "INSERT INTO " . $this->_tablename . " (start_time, end_time, price, cu_id, cs_id) VALUES (" . $db->quote($sdate->toSQL()) . "," . $db->quote($edate->toSQL()) . "," . (float) $price . ", " . (int) $cuid . ", " . (int) $csid . " )";
 
 		$db->setQuery($query);
 
@@ -93,8 +93,8 @@ class AsinusTimeTrackingModelPriceRange extends JModelLegacy
 		$edate = JFactory::getDate($end_date);
 
 		$query = "UPDATE " . $this->_tablename . " SET "
-			. " start_time=" . $db->quote($sdate->toMySQL(), false)
-			. ", end_time=" . $db->quote($edate->toMySQL(), false)
+			. " start_time=" . $db->quote($sdate->toSQL(), false)
+			. ", end_time=" . $db->quote($edate->toSQL(), false)
 			. ", price=" . (float) $price
 			. " WHERE cp_id=" . (int) $cpid;
 

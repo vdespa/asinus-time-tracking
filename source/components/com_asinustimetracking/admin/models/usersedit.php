@@ -3,7 +3,7 @@
  * @package        Joomla.Administrator
  * @subpackage     com_asinustimetracking
  *
- * @copyright      Copyright (c) 2014 - 2015, Valentin Despa. All rights reserved.
+ * @copyright      Copyright (c) 2014 - 2016, Valentin Despa. All rights reserved.
  * @author         Valentin Despa - info@vdespa.de
  * @link           http://www.vdespa.de
  *
@@ -27,12 +27,30 @@ class AsinusTimeTrackingModelUsersedit extends JModelLegacy
 
 		if ($_result)
 		{
+			if (property_exists($_result[0], 'employee_id') === false)
+			{
+				$_result[0]->employee_id = null;
+			}
 			return $_result[0];
 		}
 		else
 		{
-			return null;
+			return $this->createEmptyUser();
 		}
+	}
+
+	/**
+	 * @return stdClass
+	 */
+	public function createEmptyUser()
+	{
+		$item = new stdClass();
+		$item->name = "";
+		$item->employee_id = 0;
+		$item->is_admin = 0;
+		$item->crid = 0;
+		$item->cuid = 0;
+		return $item;
 	}
 
 	function merge($cuid = null, $crid = null, $is_admin = 0, $employee_id, $preise = array(0))

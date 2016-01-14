@@ -2,7 +2,7 @@
 /**
  * @package		Joomla.Administrator
  * @subpackage	com_asinustimetracking
- * @copyright	Copyright (c) 2014, Valentin Despa. All rights reserved.
+ * @copyright	Copyright (c) 2014 - 2016, Valentin Despa. All rights reserved.
  * @copyright	Copyright (C) 2010, Informationstechnik Ralf Nickel
  * @author		Valentin Despa - info@vdespa.de
  * @author		Ralf Nickel - info@itrn.de
@@ -287,7 +287,7 @@ class AsinusTimeTrackingController extends JControllerLegacy
 	{
 		$cuid = JRequest::getInt('cuid');
 		$is_admin = JRequest::getVar('is_admin');
-		$preise = JRequest::getVar('cpreis');
+		$preise = JRequest::getVar('cpreis', array('0'));
 		$role = JRequest::getInt('crid');
 		$employee_id = JRequest::getInt('employee_id');
 

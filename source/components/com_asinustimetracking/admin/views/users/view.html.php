@@ -3,7 +3,7 @@
  * @package        Joomla.Administrator
  * @subpackage     com_asinustimetracking
  *
- * @copyright      Copyright (c) 2014 - 2015, Valentin Despa. All rights reserved.
+ * @copyright      Copyright (c) 2014 - 2016, Valentin Despa. All rights reserved.
  * @author         Valentin Despa - info@vdespa.de
  * @link           http://www.vdespa.de
  *
@@ -18,18 +18,31 @@ defined('_JEXEC') or die;
 
 class AsinusTimeTrackingViewUsers extends JViewLegacy
 {
-	protected $items;
+	/**
+	 * @var array
+	 */
+	protected $items = array();
+
+	/**
+	 * @var AsinusTimeTrackingModelUsers
+	 */
+	protected $model;
 
 	/**
 	 * @inheritdoc
 	 */
 	function display($tpl = null)
 	{
-		if (AsinustimetrackingBackendHelper::isJoomla2_5() === true)
+		if (AsinustimetrackingBackendHelper::isLegacyVersion() === true)
 		{
 			$this->displayLegacy();
 			return;
 		}
+
+		// Add message explaining that to create new users you first need to create them in Joomla.
+		JFactory::getApplication()->enqueueMessage(
+			JText::_('COM_ASINUSTIMETRACKING_USERS_HOW_TO_ADD_NEW_USER'), 'notice'
+		);
 
 		$this->items = $this->get('Users');
 		$this->model = $this->getModel();
@@ -54,7 +67,7 @@ class AsinusTimeTrackingViewUsers extends JViewLegacy
 	}
 
 	/**
-	 * Old display method
+	 * Deprecated display method
 	 *
 	 * @deprecated
 	 * @param null|string $tpl
@@ -72,8 +85,6 @@ class AsinusTimeTrackingViewUsers extends JViewLegacy
 
 		$items = $this->get('Users');
 		$model = $this->getModel();
-
-		// TODO: Add message explaining that to create new users you first need to create them in Joomla.
 
 		$this->assignRef('items', $items);
 		$this->assignRef('model', $model);
