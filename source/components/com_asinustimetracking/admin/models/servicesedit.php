@@ -18,14 +18,24 @@ defined( '_JEXEC' ) or die;
 
 class AsinusTimeTrackingModelServicesedit extends JModelLegacy
 {
+	/**
+	 * @param int $id
+	 *
+	 * @return stdClass
+	 */
 	function getById($id = 0){
-		$query = "SELECT * FROM #__asinustimetracking_services WHERE csid=" . $id;
+		$query = "SELECT * FROM #__asinustimetracking_services WHERE csid=" . (int) $id;
 		$_result = $this->_getList( $query );
 
-		if ($_result)
+		if ($_result) {
 			return $_result[0];
-		else
-			return null;
+		} else {
+			$service = new stdClass();
+			$service->description = '';
+			$service->is_worktime = 0;
+			$service->csid = 0;
+			return $service;
+		}
 	}
 
 	function merge($csid = null, $description = '', $is_worktime=false){
@@ -49,9 +59,14 @@ class AsinusTimeTrackingModelServicesedit extends JModelLegacy
 		$query = "SELECT count(*) as anz FROM #__asinustimetracking_userservices WHERE csid=$csid";
 		$test2 = $this->_getList($query);
 
-		if(( $test[0]->anz > 0 ) || ( $test2[0]->anz > 0 )){
-			JError::raiseWarning( 100, 'Abhängigkeiten vorhanden. Leistung kann nicht gelöscht werden.' );		
-		} else {
+		if(( $test[0]->anz > 0 ) || ( $test2[0]->anz > 0 ))
+		{
+			JFactory::getApplication()->enqueueMessage(
+				JText::_('COM_ASINUSTIMETRACKING_SERVICES_DELETING_ERROR_MSG'), 'error'
+			);
+		}
+		else
+		{
 			$db = JFactory::getDBO();
 			$query = "DELETE FROM #__asinustimetracking_services WHERE csid=$csid";
 
@@ -61,6 +76,10 @@ class AsinusTimeTrackingModelServicesedit extends JModelLegacy
 			{
 				JError::raiseError( 500, $db->getErrorMsg() );
 				return false;
+			} else {
+				JFactory::getApplication()->enqueueMessage(
+					JText::_('COM_ASINUSTIMETRACKING_SERVICES_DELETED_SUCCESS_MSG'), 'message'
+				);
 			}
 		}
 	}
