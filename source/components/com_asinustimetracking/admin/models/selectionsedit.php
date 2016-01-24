@@ -65,7 +65,9 @@ class AsinusTimeTrackingModelSelectionsedit extends JModelLegacy
 
 		if (($test[0]->anz > 0))
 		{
-			JError::raiseWarning(100, 'Abhängigkeiten vorhanden. Selektion kann nicht gelöscht werden.');
+			JFactory::getApplication()->enqueueMessage(
+				JText::_('COM_ASINUSTIMETRACKING_PROJECTS_DELETING_ERROR_MSG'), 'warning'
+			);
 		}
 		else
 		{
@@ -76,12 +78,13 @@ class AsinusTimeTrackingModelSelectionsedit extends JModelLegacy
 
 			if (!$db->query())
 			{
-				JError::raiseError(500, $db->getErrorMsg());
-
+				JFactory::getApplication()->enqueueMessage(JText::_($db->getErrorMsg(), 'error'));
 				return false;
 			}
 
-			JError::raiseNotice(100, 'Selektion gelöscht');
+			JFactory::getApplication()->enqueueMessage(
+				JText::_('COM_ASINUSTIMETRACKING_PROJECTS_DELETED_SUCCESS_MSG'), 'message'
+			);
 		}
 	}
 

@@ -3,7 +3,7 @@
  * @package        Joomla.Administrator
  * @subpackage     com_asinustimetracking
  *
- * @copyright      Copyright (c) 2014 - 2015, Valentin Despa. All rights reserved.
+ * @copyright      Copyright (c) 2014 - 2016, Valentin Despa. All rights reserved.
  * @author         Valentin Despa - info@vdespa.de
  * @link           http://www.vdespa.de
  *
@@ -20,7 +20,53 @@ jimport('joomla.application.component.view');
 
 class AsinusTimeTrackingViewSelections extends JViewLegacy
 {
+	/**
+	 * @var
+	 */
+	protected $projects;
+
+	/**
+	 * @inheritdoc
+	 */
 	function display($tpl = null)
+	{
+		if (AsinustimetrackingBackendHelper::isLegacyVersion() === true)
+		{
+			$this->displayLegacy();
+			return true;
+		}
+
+		$this->projects = $this->get('Selections');
+
+		// Check for errors.
+		if (count($errors = $this->get('Errors')))
+		{
+			JError::raiseError(500, implode("\n", $errors));
+			return false;
+		}
+
+		$this->addToolbar();
+
+		parent::display($tpl);
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	protected function addToolbar()
+	{
+		JToolbarHelper::title(JText::_('COM_ASINUSTIMETRACKING_TOOLBAR_PROJECTS'), 'cube module');
+		JToolBarHelper::addNew('selectionsedit', JText::_("COM_ASINUSTIMETRACKING_NEW"));
+		JToolBarHelper::deleteList(JText::_('COM_ASINUSTIMETRACKING_Q_REMOVE'), 'removeselection', JText::_('COM_ASINUSTIMETRACKING_REMOVE'));
+	}
+
+	/**
+	 * Deprecated display method
+	 *
+	 * @deprecated
+	 * @param null|string $tpl
+	 */
+	function displayLegacy($tpl = 'legacy')
 	{
 		JToolBarHelper::title(JText::_('COM_ASINUSTIMETRACKING_TOOLBAR_PROJECTS'), 'generic.png');
 		JToolBarHelper:: addNew('selectionsedit', JText::_("COM_ASINUSTIMETRACKING_NEW"));
