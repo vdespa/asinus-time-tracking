@@ -35,7 +35,19 @@ class AsinusTimeTrackingModelPriceRange extends JModelLegacy
 		$query .= " AND p.cu_id=u.cuid AND p.cs_id = s.csid AND j.id=u.uid";
 		$_result = $this->_getList($query);
 
-		return $_result[0];
+		if (array_key_exists(0, $_result))
+		{
+			return $_result[0];
+		}
+		else
+		{
+			$priceRange = new stdClass();
+			$priceRange->name = '';
+			$priceRange->description = '';
+			$priceRange->start_time = '';
+			$priceRange->price = 0;
+			return $priceRange;
+		}
 	}
 
 	function create($start_date = '', $end_date = '', $price = '', $cuid = -1, $csid = -1)
