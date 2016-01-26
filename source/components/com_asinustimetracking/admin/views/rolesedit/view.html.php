@@ -18,7 +18,52 @@ defined('_JEXEC') or die;
 
 class AsinusTimeTrackingViewRolesedit extends JViewLegacy
 {
+	protected $role;
+
+	/**
+	 * @inheritdoc
+	 */
 	function display($tpl = null)
+	{
+		if (AsinustimetrackingBackendHelper::isLegacyVersion() === true)
+		{
+			$this->displayLegacy();
+			return true;
+		}
+
+		$crid = JRequest::getVar('cid', array(0), 'get');
+		$model = $this->getModel();
+		$this->role = $model->getById((int) $crid[0]);
+
+		// Check for errors.
+		if (count($errors = $this->get('Errors')))
+		{
+			JError::raiseError(500, implode("\n", $errors));
+			return false;
+		}
+
+		$this->addToolbar();
+		parent::display($tpl);
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	protected function addToolbar()
+	{
+		JFactory::getApplication()->input->set('hidemainmenu', true);
+		JToolbarHelper::title(JText::_('COM_ASINUSTIMETRACKING_EDIT_ROLE'), 'users');
+		JToolBarHelper::cancel('roles', JText::_('COM_ASINUSTIMETRACKING_CANCEL'));
+		JToolBarHelper::save('saveroles', JText::_('COM_ASINUSTIMETRACKING_SAVE'));
+	}
+
+	/**
+	 * Deprecated display method
+	 *
+	 * @deprecated
+	 * @param null|string $tpl
+	 */
+	function displayLegacy($tpl = 'legacy')
 	{
 		JToolBarHelper::title(JText::_('COM_ASINUSTIMETRACKING_EDIT_ROLE'), 'generic.png');
 		JToolBarHelper:: cancel('roles', JText::_('COM_ASINUSTIMETRACKING_CANCEL'));

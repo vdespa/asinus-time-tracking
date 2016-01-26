@@ -3,7 +3,7 @@
  * @package        Joomla.Administrator
  * @subpackage     com_asinustimetracking
  *
- * @copyright      Copyright (c) 2014 - 2015, Valentin Despa. All rights reserved.
+ * @copyright      Copyright (c) 2014 - 2016, Valentin Despa. All rights reserved.
  * @author         Valentin Despa - info@vdespa.de
  * @link           http://www.vdespa.de
  *
@@ -24,9 +24,16 @@ class AsinusTimeTrackingModelRolesedit extends JModelLegacy
 		$query   = "SELECT * FROM $this->_tablename WHERE crid=" . $id;
 		$_result = $this->_getList($query);
 
-		if ($_result)
+		if (array_key_exists(0, $_result))
 		{
 			return $_result[0];
+		}
+		else
+		{
+			$role = new stdClass();
+			$role->description = '';
+			$role->crid = null;
+			return $role;
 		}
 	}
 
@@ -54,7 +61,7 @@ class AsinusTimeTrackingModelRolesedit extends JModelLegacy
 
 		if ($test[0]->anz > 0)
 		{
-			JError::raiseWarning(100, JText::_('Abhängigkeiten vorhanden. Rolle kann nicht gelöscht werden.'));
+			JError::raiseWarning(100, JText::_('COM_ASINUSTIMETRACKING_ROLES_DELETING_ERROR_MSG'));
 		}
 		else
 		{
@@ -70,7 +77,7 @@ class AsinusTimeTrackingModelRolesedit extends JModelLegacy
 				return false;
 			}
 
-			JError::raiseNotice(100, JText::_('Rolle gelöscht'));
+			JError::raiseNotice(100, JText::_('COM_ASINUSTIMETRACKING_ROLES_DELETED_SUCCESS_MSG'));
 		}
 	}
 
