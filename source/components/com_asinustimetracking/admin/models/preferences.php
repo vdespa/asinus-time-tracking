@@ -3,7 +3,7 @@
  * @package        Joomla.Administrator
  * @subpackage     com_asinustimetracking
  *
- * @copyright      Copyright (c) 2014 - 2015, Valentin Despa. All rights reserved.
+ * @copyright      Copyright (c) 2014 - 2016, Valentin Despa. All rights reserved.
  * @author         Valentin Despa - info@vdespa.de
  * @link           http://www.vdespa.de
  *
@@ -30,6 +30,11 @@ class AsinusTimeTrackingModelPreferences extends JModelLegacy
 		// Mock values
 		$_values['first_day'] = '01';
 		$_values['currency']  = 'CURRENTY NOT DEFINED';
+		$_values['tax']  = 19;
+		$_values['print_tax']  = false;
+		$_values['print_page_title']  = false;
+		$_values['print_pause']  = false;
+		$_values['print_notice']  = false;
 
 		$query = "SELECT * FROM $this->_tablename";
 
@@ -84,7 +89,7 @@ class AsinusTimeTrackingModelPreferences extends JModelLegacy
 			}
 		}
 
-		JError::raiseNotice(100, JText::_('Konfiguration gespeichert'));
+		JError::raiseNotice(100, JText::_('COM_ASINUSTIMETRACKING_PREFERENCED_SAVED_SUCCESS_MSG'));
 	}
 
 }

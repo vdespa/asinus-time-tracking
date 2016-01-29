@@ -410,7 +410,7 @@ class AsinusTimeTrackingController extends JControllerLegacy
 
 	function savepreferences()
 	{
-		$model = &$this->getModel('preferences');
+		$model = $this->getModel('preferences');
 
 		$_data['currency'] = JRequest::getString('ct_currency', '');
 		$_data['print_pause'] = JRequest::getString('ct_print_pause', '') == TRUE
@@ -425,7 +425,7 @@ class AsinusTimeTrackingController extends JControllerLegacy
 
 		$model->save($_data);
 
-		JRequest::setVar('view', '');
+		JRequest::setVar('view', 'preferences');
 		$this->display();
 	}
 }

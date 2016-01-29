@@ -61,6 +61,12 @@ class AsinustimetrackingBackendHelper
 			'index.php?option=com_asinustimetracking&view=costunits',
 			$vName == 'costunits'
 		);
+
+		JSubMenuHelper::addEntry(
+			JText::_('COM_ASINUSTIMETRACKING_PREFERENCES'),
+			'index.php?option=com_asinustimetracking&view=preferences',
+			$vName == 'preferences'
+		);
 	}
 
 	/**

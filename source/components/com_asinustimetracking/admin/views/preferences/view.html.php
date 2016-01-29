@@ -24,7 +24,7 @@ class AsinusTimeTrackingViewPreferences extends JViewLegacy
 		JToolBarHelper:: cancel('default', JText::_('COM_ASINUSTIMETRACKING_CANCEL'));
 		JToolBarHelper:: save('savepreferences', JText::_('COM_ASINUSTIMETRACKING_SAVE'));
 
-		$model =& $this->getModel();
+		$model = $this->getModel();
 
 		$pr = $model->getPreferences();
 		$this->assignRef('pr', $pr);

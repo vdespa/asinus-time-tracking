@@ -13,12 +13,12 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 <div id="editcell">
 <table class="admintable">
 	<tr>
-		<th width="150"><?php echo JText::_('Einstellung'); ?></th>
-		<th width="150"><?php echo JText::_('Wert'); ?></th>
+		<th width="150"><?php echo JText::_('COM_ASINUSTIMETRACKING_PREFERENCES_SETTING_LABEL'); ?></th>
+		<th width="150"><?php echo JText::_('COM_ASINUSTIMETRACKING_PREFERENCES_VALUE_LABEL'); ?></th>
 		<th width="*"></th>
 	</tr>
 	<tr>
-		<td class="key"><?php echo JText::_("Währungssymbol"); ?></td>
+		<td class="key"><?php echo JText::_('COM_ASINUSTIMETRACKING_PREFERENCES_CURRENCY_SYMBOL_LABEL'); ?></td>
 		<td><input class="text_area" type="text" name="ct_currency" size="12"
 			maxlength="3" value="<?php echo $this->pr['currency']; ?>" /></td>
 	</tr>
@@ -42,19 +42,19 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 	</tr>
 
 	<tr>
-		<td class="key"><?php echo JText::_("1. Abrechnungstag"); ?></td>
+		<td class="key"><?php echo JText::_("COM_ASINUSTIMETRACKING_PREFERENCES_FIRST_BILLING_DAY_LABEL"); ?></td>
 		<td><input class="text_area" type="text" name="ct_first_day" size="12"
 			maxlength="3" value="<?php echo $this->pr['first_day']; ?>" /></td>
 	</tr>
  
 	<tr>
-		<td class="key"><?php echo JText::_("Pausen im Ausdruck anzeigen"); ?></td>
+		<td class="key"><?php echo JText::_("COM_ASINUSTIMETRACKING_PREFERENCES_SHOW_PAUSE_IN_PRINT_LABEL"); ?></td>
 		<td><input type="checkbox" name="ct_print_pause"
 		<?php if( $this->pr['print_pause'] ) { echo 'checked="checked"';} ?>
 			value="1" /></td>
 	</tr>
 	<tr>
-		<td class="key"><?php echo JText::_("Bemerkungen im Ausdruck anzeigen"); ?></td>
+		<td class="key"><?php echo JText::_("COM_ASINUSTIMETRACKING_PREFERENCES_SHOW_COMMENTS_IN_PRINT_LABEL"); ?></td>
 		<td><input type="checkbox" name="ct_print_notice"
 		<?php if( $this->pr['print_notice'] ) { echo 'checked="checked"'; } ?>
 			value="1" /></td>
