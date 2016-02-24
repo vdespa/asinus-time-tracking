@@ -3,7 +3,7 @@
  * @package        Joomla.Site
  * @subpackage     com_asinustimetracking
  *
- * @copyright      Copyright (c) 2014 - 2015, Valentin Despa. All rights reserved.
+ * @copyright      Copyright (c) 2014 - 2016, Valentin Despa. All rights reserved.
  * @author         Valentin Despa - info@vdespa.de
  * @link           http://www.vdespa.de
  *
@@ -49,7 +49,9 @@ class AsinusTimeTrackingModelTimeTrackedit extends JModelLegacy
 			return false;
 		}
 
-		JError::raiseNotice(100, 'Eintrag gelöscht');
+		JFactory::getApplication()->enqueueMessage(
+			JText::_('COM_ASINUSTIMETRACKING_TIMETRACK_DELETED_SUCCESS_MSG'), 'message'
+		);
 
 	}
 

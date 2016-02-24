@@ -3,7 +3,7 @@
  * @package        Joomla.Administrator
  * @subpackage     com_asinustimetracking
  *
- * @copyright      Copyright (c) 2014 - 2015, Valentin Despa. All rights reserved.
+ * @copyright      Copyright (c) 2014 - 2016, Valentin Despa. All rights reserved.
  * @author         Valentin Despa - info@vdespa.de
  * @link           http://www.vdespa.de
  *
@@ -16,12 +16,99 @@
 
 defined('_JEXEC') or die;
 
+require_once(JPATH_COMPONENT . '/models/preferences.php');
+
 class AsinusTimeTrackingViewTimeTrack extends JViewLegacy
 {
+	protected $model;
+	protected $cfg;
+	protected $ctUser;
+	protected $ctUlist;
+	protected $ctSllist;
+	protected $ctSvlist;
+	protected $ctRlist;
+	protected $ctCostUnit;
+	protected $ctStartDate;
+	protected $ctEndDate;
+
+	/**
+	 * @inheritdoc
+	 */
 	function display($tpl = null)
 	{
-		require_once(JPATH_COMPONENT . '/models/preferences.php');
+		if (AsinustimetrackingBackendHelper::isLegacyVersion() === true)
+		{
+			$this->displayLegacy();
+			return true;
+		}
 
+		// Initialize variables
+		$cfg_model = new AsinusTimeTrackingModelPreferences;
+		$this->cfg       = $cfg_model->getPreferences();
+
+		$this->model    = $this->getModel();
+		$this->ctUser   = $this->model->getCtUser();
+		$this->ctUlist  = JRequest::getInt('ct_ulist', $this->ctUser->cuid);
+		$this->ctSllist = JRequest::getInt('ct_sllist', -1);
+		$this->ctSvlist = JRequest::getInt('ct_svlist', -1);
+		$this->ctRlist  = JRequest::getInt('ct_rlist', -1);
+		$this->ctCostUnit    = JRequest::getInt('ct_costunit', -1);
+
+		$this->ctStartDate = JRequest::getVar('ct_startdate', null);
+		$this->ctEndDate   = JRequest::getVar('ct_enddate', null);
+
+		// Set date selection
+		$this->ctStartDate = JRequest::getVar('ct_startdate', null);
+		if (!$this->ctStartDate)
+		{
+			$this->ctStartDate = strtotime(date('Y-m') . '-' . $this->cfg['first_day']);
+		}
+		else
+		{
+			$this->ctStartDate = strtotime($this->ctStartDate) ? strtotime($this->ctStartDate)
+				: $this->ctStartDate;
+		}
+
+		$this->ctEndDate = JRequest::getVar('ct_enddate', null);
+		if (!$this->ctEndDate)
+		{
+			$this->ctEndDate = time();
+		}
+		else
+		{
+			$this->ctEndDate = strtotime($this->ctEndDate) ? strtotime($this->ctEndDate)
+				: $this->ctEndDate;
+		}
+
+		// Check for errors.
+		if (count($errors = $this->get('Errors')))
+		{
+			JError::raiseError(500, implode("\n", $errors));
+			return false;
+		}
+
+		$this->addToolbar();
+
+		parent::display($tpl);
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	protected function addToolbar()
+	{
+		JToolbarHelper::title(JText::_('COM_ASINUSTIMETRACKING_TOOLBAR_TIMETRACK'), 'users');
+		JToolBarHelper::deleteList(JText::_('COM_ASINUSTIMETRACKING_Q_REMOVE'), 'removeentry', JText::_('COM_ASINUSTIMETRACKING_REMOVE'));
+	}
+
+	/**
+	 * Deprecated display method
+	 *
+	 * @deprecated
+	 * @param null|string $tpl
+	 */
+	function displayLegacy($tpl = 'legacy')
+	{
 		$cfg_model = new AsinusTimeTrackingModelPreferences;
 		$cfg       = $cfg_model->getPreferences();
 

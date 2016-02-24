@@ -3,7 +3,7 @@
  * @package        Joomla.Administrator
  * @subpackage     com_asinustimetracking
  *
- * @copyright      Copyright (c) 2014 - 2015, Valentin Despa. All rights reserved.
+ * @copyright      Copyright (c) 2014 - 2016, Valentin Despa. All rights reserved.
  * @author         Valentin Despa - info@vdespa.de
  * @link           http://www.vdespa.de
  *
@@ -158,11 +158,18 @@ class AsinusTimeTrackingModelTimeTrack extends JModelList
 
 	function getSelectionById($id)
 	{
-		$query = "SELECT * FROM #__asinustimetracking_selection WHERE cg_id=$id";
+		$query = 'SELECT * FROM #__asinustimetracking_selection WHERE cg_id=' . (int) $id;
 
 		$_result = $this->_getList($query);
 
-		return $_result[0];
+		if (array_key_exists(0, $_result))
+		{
+			return $_result[0];
+		} else {
+			$selection = new stdClass();
+			$selection->description = '';
+			return $selection;
+		}
 	}
 
 	/**

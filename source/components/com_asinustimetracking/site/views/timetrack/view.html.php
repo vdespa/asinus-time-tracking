@@ -3,7 +3,7 @@
  * @package        Joomla.Site
  * @subpackage     com_asinustimetracking
  *
- * @copyright      Copyright (c) 2014 - 2015, Valentin Despa. All rights reserved.
+ * @copyright      Copyright (c) 2014 - 2016, Valentin Despa. All rights reserved.
  * @author         Valentin Despa - info@vdespa.de
  * @link           http://www.vdespa.de
  *
@@ -44,7 +44,7 @@ class AsinusTimeTrackingViewTimeTrack extends JViewLegacy
 		$this->state = $this->get('State');
 		$this->items = $this->get('Items');
 
-		JHTML::_('script', 'asinustimetracking.js', 'components/com_asinustimetracking/assets/js/');
+		JHtml::script(JUri::base() . 'components/com_asinustimetracking/assets/js/asinustimetracking.js', true);
 
 		// Max Age
 		$str_age = '-1 day';

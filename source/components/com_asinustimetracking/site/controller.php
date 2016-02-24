@@ -3,7 +3,7 @@
  * @package        Joomla.Site
  * @subpackage     com_asinustimetracking
  *
- * @copyright      Copyright (c) 2014 - 2015, Valentin Despa. All rights reserved.
+ * @copyright      Copyright (c) 2014 - 2016, Valentin Despa. All rights reserved.
  * @author         Valentin Despa - info@vdespa.de
  * @link           http://www.vdespa.de
  *
@@ -178,7 +178,7 @@ class AsinusTimeTrackingController extends JControllerLegacy
 		{
 			$query = "INSERT INTO #__asinustimetracking_entries
 		(entry_date, cu_id, cs_id, cg_id, start_time, end_time, start_pause, end_pause, qty, remark, cc_id)"
-				. " VALUES('" . $fentrydate->toMySQL() . "',"
+				. " VALUES('" . $fentrydate->toSQL() . "',"
 				. (int) $user->cuid . "," . $db->quote($service) . ","
 				. (int) $cg . ", '1970-1-1 " . (int) $sh . ":" . (int) $sm
 				. ":00'" . ", '1970-1-1 " . (int) $eh . ":" . (int) $em
@@ -192,7 +192,7 @@ class AsinusTimeTrackingController extends JControllerLegacy
 			if ($this->_isMyEntry())
 			{
 				$query = "UPDATE #__asinustimetracking_entries SET
-				entry_date='" . $fentrydate->toMySQL()
+				entry_date='" . $fentrydate->toSQL()
 					. "',
 				cs_id=$service,
 				cg_id=$cg,

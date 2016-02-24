@@ -76,4 +76,77 @@ class AsinustimetrackingBackendHelper
 	{
 		return (boolean) version_compare(JVERSION, '3.0.0', '<');
 	}
+
+	/**
+	 * @param $c_name
+	 * @param $selectid
+	 *
+	 * @return string
+	 */
+	public static function createMonthSelect($c_name, $selectid)
+	{
+		$months = array(
+			JText::_("COM_ASINUSTIMETRACKING_JANUARY"),
+			JText::_("COM_ASINUSTIMETRACKING_FEBRUARY"),
+			JText::_("COM_ASINUSTIMETRACKING_MARCH"),
+			JText::_("COM_ASINUSTIMETRACKING_APRIL"),
+			JText::_("COM_ASINUSTIMETRACKING_MAY"),
+			JText::_("COM_ASINUSTIMETRACKING_JUNE"),
+			JText::_("COM_ASINUSTIMETRACKING_JULY"),
+			JText::_("COM_ASINUSTIMETRACKING_AUGUST"),
+			JText::_("COM_ASINUSTIMETRACKING_SEPTEMBER"),
+			JText::_("COM_ASINUSTIMETRACKING_OCTOBER"),
+			JText::_("COM_ASINUSTIMETRACKING_NOVEMBER"),
+			JText::_("COM_ASINUSTIMETRACKING_DECEMBER")
+		);
+		$selected = '';
+		$result = "<select class='inputbox' name='$c_name'>";
+
+		for ($midx = 0; $midx < count($months); $midx++)
+		{
+			if($midx == $selectid-1) {
+				$selected = "selected";
+			}
+			$result .= "<option value='" . ($midx + 1) ."' $selected>$months[$midx]</option> ";
+			$selected = '';
+		}
+
+		$result .= "</select>";
+
+		return $result;
+	}
+
+	/**
+	 * @param $c_name
+	 * @param $selectid
+	 *
+	 * @return string
+	 */
+	function createYearSelect($c_name, $selectid){
+		$selected = "";
+		$years = array();
+
+		$maxy = date('Y', time());
+
+		for($idx = $maxy - 3; $idx <= $maxy; $idx++){
+			$years[] = $idx;
+		}
+
+		arsort($years);
+
+		$result = "<select class='inputbox' name='$c_name'>";
+
+		foreach ($years as $year) {
+			if($year == $selectid){
+				$selected = "selected";
+			}
+			$result .= "<option value='$year' $selected>$year</option>";
+			$selected = "";
+
+		}
+		$result .= "</select>";
+
+		return $result;
+	}
+
 }
