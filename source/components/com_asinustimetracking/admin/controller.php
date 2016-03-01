@@ -76,7 +76,7 @@ class AsinusTimeTrackingController extends JControllerLegacy
 		$cpid = JRequest::getInt('ct_cpid', -1);
 		$cuid = JRequest::getInt('ct_cuid', -1);
 
-		$model = &$this->getModel('pricerange');
+		$model = $this->getModel('pricerange');
 
 		$model->remove($cpid);
 
@@ -115,7 +115,7 @@ class AsinusTimeTrackingController extends JControllerLegacy
 		jimport('joomla.utilities.date');
 		$usermodel = $this->getModel();
 
-		$db = &JFactory::getDBO();
+		$db = JFactory::getDBO();
 
 		$ctid = JRequest::getInt('ct_id', 0);
 		$entrydate = JRequest::getString('ct_entrydate', '');
@@ -138,8 +138,8 @@ class AsinusTimeTrackingController extends JControllerLegacy
 		if ($ctid == 0 or $ctid == 'undefined') {
 			JError::raiseError(500, 'No id found');
 		} else {
-			$query = "UPDATE #__timetrack_entries SET
-				entry_date='" . $fentrydate->toMySQL()
+			$query = "UPDATE #__asinustimetracking_entries SET
+				entry_date='" . $fentrydate->toSQL()
 				. "',
 				cs_id=$service,
 				cg_id=$cg,

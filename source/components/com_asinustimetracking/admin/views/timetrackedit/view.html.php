@@ -3,7 +3,7 @@
  * @package        Joomla.Administrator
  * @subpackage     com_asinustimetracking
  *
- * @copyright      Copyright (c) 2014 - 2015, Valentin Despa. All rights reserved.
+ * @copyright      Copyright (c) 2014 - 2016, Valentin Despa. All rights reserved.
  * @author         Valentin Despa - info@vdespa.de
  * @link           http://www.vdespa.de
  *
@@ -24,7 +24,7 @@ class AsinusTimeTrackingViewTimeTrackedit extends JViewLegacy
 		JToolBarHelper:: custom('overview', 'archive.png', 'archive.png', JText::_('COM_ASINUSTIMETRACKING_CANCEL'), false);
 		JToolBarHelper:: save('submit', JText::_('COM_ASINUSTIMETRACKING_SAVE'));
 
-		$model        =& $this->getModel();
+		$model        = $this->getModel();
 		$ctSllist     = JRequest::getInt('ct_sllist', -1);
 		$ctSvlist     = JRequest::getInt('ct_svlist', -1);
 		$ct_startdate = JRequest::getVar('ct_startdate', 0);

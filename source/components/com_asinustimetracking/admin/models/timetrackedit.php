@@ -31,7 +31,9 @@ class AsinusTimeTrackingModelTimeTrackedit extends JModelLegacy
 			. " UNIX_TIMESTAMP(end_time) as end_time,"
 			. " UNIX_TIMESTAMP(start_pause) as start_pause,"
 			. " UNIX_TIMESTAMP(end_pause) as end_pause,"
-			. " remark FROM $this->_tablename" . " WHERE ct_id=" . $id;
+			. " EXTRACT(HOUR FROM end_pause) as h_pause,"
+			. " EXTRACT(MINUTE FROM end_pause) as m_pause,"
+			. " remark FROM $this->_tablename" . " WHERE ct_id=" . (int) $id;
 		$_result = $this->_getList($query);
 
 		return $_result[0];
@@ -60,7 +62,7 @@ class AsinusTimeTrackingModelTimeTrackedit extends JModelLegacy
 	 */
 	function getCtUser()
 	{
-		$user = &JFactory::getUser();
+		$user = JFactory::getUser();
 
 		$query = "SELECT * FROM #__asinustimetracking_user WHERE uid=$user->id";
 
@@ -75,7 +77,7 @@ class AsinusTimeTrackingModelTimeTrackedit extends JModelLegacy
 	 */
 	function getSelectionsList()
 	{
-		$db = &JFactory::getDBO();
+		$db = JFactory::getDBO();
 
 		$query = "SELECT * from #__asinustimetracking_selection ORDER BY cg_id";
 
@@ -92,7 +94,7 @@ class AsinusTimeTrackingModelTimeTrackedit extends JModelLegacy
 	 */
 	function getServicesListByUser($uid)
 	{
-		$db = &JFactory::getDBO();
+		$db = JFactory::getDBO();
 
 		$query = "SELECT * from #__asinustimetracking_userservices u, #__asinustimetracking_services s WHERE u.csid = s.csid AND u.cu_id="
 			. $uid . " ORDER BY s.csid";
@@ -107,7 +109,7 @@ class AsinusTimeTrackingModelTimeTrackedit extends JModelLegacy
 
 	function getServiceById($sid)
 	{
-		$db = &JFactory::getDBO();
+		$db = JFactory::getDBO();
 
 		$query = "SELECT * from #__asinustimetracking_services where csid=" . $sid;
 
@@ -120,7 +122,7 @@ class AsinusTimeTrackingModelTimeTrackedit extends JModelLegacy
 
 	function getCostUnitsList()
 	{
-		$db = &JFactory::getDBO();
+		$db = JFactory::getDBO();
 
 		$query = "SELECT * from #__asinustimetracking_costunit ORDER BY cc_id";
 
@@ -134,7 +136,7 @@ class AsinusTimeTrackingModelTimeTrackedit extends JModelLegacy
 
 	function getCostUnitById($id)
 	{
-		$db = &JFactory::getDBO();
+		$db = JFactory::getDBO();
 
 		$query = "SELECT * from #__asinustimetracking_costunit where cc_id=$id";
 

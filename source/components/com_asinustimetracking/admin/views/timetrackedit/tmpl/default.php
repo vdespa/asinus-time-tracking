@@ -15,6 +15,7 @@ function createMinuteSelect($c_name, $selectid=0){
 	$minutes = null;
 
 	for ($i = 0; $i < 60; $i++) {
+		$minutes[$i] = new stdClass();
 		$minutes[$i]->id = $i;
 
 		if($i < 10){
@@ -37,6 +38,7 @@ function createHourSelect($c_name, $selectid=8){
 	$hours = array();
 
 	for($i = 0; $i <= 23; $i++){
+		$hours[$i] = new stdClass();
 		$hours[$i]->id = $i;
 
 		if($i < 10){
