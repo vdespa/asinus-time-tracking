@@ -99,6 +99,7 @@ class AsinusTimeTrackingViewTimeTrack extends JViewLegacy
 	{
 		JToolbarHelper::title(JText::_('COM_ASINUSTIMETRACKING_TOOLBAR_TIMETRACK'), 'users');
 		JToolBarHelper::deleteList(JText::_('COM_ASINUSTIMETRACKING_Q_REMOVE'), 'removeentry', JText::_('COM_ASINUSTIMETRACKING_REMOVE'));
+		JToolBarHelper::preferences('com_asinustimetracking');
 	}
 
 	/**
