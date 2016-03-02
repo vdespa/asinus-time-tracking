@@ -333,8 +333,16 @@ class AsinusTimeTrackingModelTimeTrack extends JModelList
 
 			$groups[$groupKey]->work_time_with_pause->add($item->work_time_interval)->add($item->pause_time_interval);
 
+			if (property_exists($groups[$groupKey], 'remark') === false)
+			{
+				$groups[$groupKey]->remark = '';
+			}
 			$groups[$groupKey]->remark .= $item->remark;
 
+			if (property_exists($groups[$groupKey], 'project_name') === false)
+			{
+				$groups[$groupKey]->project_name = '';
+			}
 			// Make sure you are not adding the same string over again.
 			if (property_exists($groups[$groupKey], 'project_name') === false || strpos($groups[$groupKey]->project_name, $item->project_name) === false)
 			{
