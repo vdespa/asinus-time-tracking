@@ -66,7 +66,7 @@ class AsinustimetrackingViewMonthlyreport extends JViewLegacy
 		// Fix missing report
 		if ($excelTemplate === 'FILE_NOT_FOUND')
 		{
-			AsinustimetrackingUpdateHelper::fixMissingExcelReportSetting();
+			$excelTemplate = AsinustimetrackingUpdateHelper::fixMissingExcelReportSetting();
 		}
 
 		// TODO - Refactor this code, maybe with a regex.

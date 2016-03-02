@@ -19,14 +19,18 @@ abstract class AsinustimetrackingUpdateHelper
 	 *
 	 * This was introduced as a b/c fix when updating from version 1.1.14
 	 *
-	 * @return array|mixed
+	 * @return string
 	 */
 	public static function fixMissingExcelReportSetting()
 	{
+		$reportName = 'monthly-report-template-2.xlsx';
+
 		// Add a new parameter (as per configuration)
-		self::setParam('report_excel_template', 'monthly-report-template-2.xlsx');
+		self::setParam('report_excel_template', $reportName);
 		// Remove old parameter (which is no longer used)
 		self::unsetParam('report_template');
+
+		return $reportName;
 	}
 
 	public static function unsetParam($paramName)
