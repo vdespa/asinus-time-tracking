@@ -20,4 +20,24 @@
         <client>site</client>
         <folder></folder>
     </update>
+    <update>
+        <name>Asinus Time-Tracking Update</name>
+        <description>Asinus Time-Tracking Update</description>
+        <element>pkg_asinustimetracking</element>
+        <type>package</type>
+        <version>#update_latestversion#</version>
+        <infourl title="Asinus Time-Tracking">https://github.com/vdespa/asinus-time-tracking</infourl>
+        <downloads>
+            <downloadurl type="full" format="zip">http://www.vdespa.de/.public/updateserver/pkg_asinustimetracking/downloads/pkg_asinus-time-tracking_#update_latestversion#.zip</downloadurl>
+        </downloads>
+        <tags>
+            <tag>stable</tag>
+        </tags>
+        <maintainer>Valentin Despa</maintainer>
+        <maintainerurl>http://www.vdespa.de/</maintainerurl>
+        <section>Updates</section>
+        <targetplatform name="joomla" version="3.5" />
+        <client>site</client>
+        <folder></folder>
+    </update>
 </updates>
