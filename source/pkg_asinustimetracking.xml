@@ -21,6 +21,6 @@
         <file type="library" id="phpexcel">libraries/PHPExcel-Joomla-Library-1.8.0.zip</file>
     </files>
     <updateservers>
-        <server type="extension" priority="1" name="Asinus Time-Tracking Update"><![CDATA[http://www.vdespa.de/.public/updateserver/pkg_asinustimetracking/update.xml]]></server>
+        <server type="extension" priority="1" name="Asinus Time-Tracking Update"><![CDATA[http://s3.eu-central-1.amazonaws.com/asinus-timetracking/update.xml]]></server>
     </updateservers>
 </extension>
