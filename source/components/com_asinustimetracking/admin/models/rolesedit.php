@@ -21,7 +21,7 @@ class AsinusTimeTrackingModelRolesedit extends JModelLegacy
 
 	function getById($id = 0)
 	{
-		$query   = "SELECT * FROM $this->_tablename WHERE crid=" . $id;
+		$query   = "SELECT * FROM $this->_tablename WHERE crid=" . (int) $id;
 		$_result = $this->_getList($query);
 
 		if (array_key_exists(0, $_result))
@@ -41,7 +41,7 @@ class AsinusTimeTrackingModelRolesedit extends JModelLegacy
 	{
 		$db = JFactory::getDBO();
 
-		$query = "UPDATE $this->_tablename SET description='$description' WHERE crid=$crid";
+		$query = "UPDATE $this->_tablename SET description=" . $db->quote($description) . " WHERE crid=" . (int) $crid;
 
 		$db->setQuery($query);
 		if (!$db->query())
@@ -55,7 +55,7 @@ class AsinusTimeTrackingModelRolesedit extends JModelLegacy
 	function remove($crid = null)
 	{
 
-		$query = "SELECT count(*) as anz FROM #__asinustimetracking_user WHERE crid=$crid";
+		$query = "SELECT count(*) as anz FROM #__asinustimetracking_user WHERE crid=" . (int) $crid;
 
 		$test = $this->_getList($query);
 
@@ -66,7 +66,7 @@ class AsinusTimeTrackingModelRolesedit extends JModelLegacy
 		else
 		{
 			$db    = JFactory::getDBO();
-			$query = "DELETE FROM $this->_tablename WHERE crid=$crid";
+			$query = "DELETE FROM $this->_tablename WHERE crid=" . (int) $crid;
 
 			$db->setQuery($query);
 
@@ -85,7 +85,7 @@ class AsinusTimeTrackingModelRolesedit extends JModelLegacy
 	{
 		$db = JFactory::getDBO();
 
-		$query = "INSERT INTO $this->_tablename (description) VALUES ('$description')";
+		$query = "INSERT INTO $this->_tablename (description) VALUES (" . $db->quote($description) . ")";
 
 		$db->setQuery($query);
 		if (!$db->query())

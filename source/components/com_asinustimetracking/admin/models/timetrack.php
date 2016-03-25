@@ -41,8 +41,6 @@ class AsinusTimeTrackingModelTimeTrack extends JModelList
 	{
 		$db = JFactory::getDBO();
 
-		//"select * from jos_timetrack_entries e, jos_timetrack_user u, jos_timetrack_userservices s where e.cu_id=91 AND e.cu_id = u.cuid AND (e.cu_id = s.cu_id AND e.cs_id = s.csid)"
-
 		$query = "SELECT ct_id, cs_id, cg_id, e.cc_id, UNIX_TIMESTAMP(entry_date) as entry_date," . " UNIX_TIMESTAMP(start_time) as start_time,"
 			. " UNIX_TIMESTAMP(end_time) as end_time, UNIX_TIMESTAMP(start_pause) as start_pause, UNIX_TIMESTAMP(end_pause) as end_pause,"
 			. " UNIX_TIMESTAMP(timestamp) as timestamp, e.qty,s.is_worktime, e.remark, u.* "
@@ -50,29 +48,29 @@ class AsinusTimeTrackingModelTimeTrack extends JModelList
 			. " where e.cs_id = s.csid AND (u.cu_id = e.cu_id AND u.csid=e.cs_id) AND u.cu_id =" . (int) $uid;
 
 		if ($service >= 0) {
-			$query .= " AND s.csid=$service";
+			$query .= " AND s.csid=" . (int) $service;
 		}
 
 		if ($selection >= 0) {
-			$query .= " AND e.cg_id=$selection";
+			$query .= " AND e.cg_id=" . (int) $selection;
 		}
 
 		if ($costUnit >= 0) {
-			$query .= " AND e.cc_id=$costUnit";
+			$query .= " AND e.cc_id=" . (int) $costUnit;
 		}
 
 		if ($startdate > 0) {
-			$query .= " AND UNIX_TIMESTAMP(entry_date) >= " . $startdate;
+			$query .= " AND UNIX_TIMESTAMP(entry_date) >= " . (int) $startdate;
 		}
 
 		if ($enddate > 0) {
-			$query .= " AND UNIX_TIMESTAMP(entry_date) <= " . $enddate;
+			$query .= " AND UNIX_TIMESTAMP(entry_date) <= " . (int) $enddate;
 		}
 
 		$query .= " ORDER BY entry_date DESC, s.is_worktime DESC, cs_id ASC";
 
 		if ($max > 0) {
-			$query .= " LIMIT " . $max;
+			$query .= " LIMIT " . (int) $max;
 		}
 
 		$db->setQuery($query);
@@ -92,7 +90,7 @@ class AsinusTimeTrackingModelTimeTrack extends JModelList
 	function _getPriceRangeValue($cuid = -1, $csid = -1, $aktdate)
 	{
 		$query = "SELECT * FROM #__asinustimetracking_pricerange" . " WHERE cu_id=" . (int) $cuid . " AND cs_id=" . (int) $csid
-			. " AND UNIX_TIMESTAMP(start_time) <= " . $aktdate . " AND UNIX_TIMESTAMP(end_time) >= " . $aktdate;
+			. " AND UNIX_TIMESTAMP(start_time) <= " . (int) $aktdate . " AND UNIX_TIMESTAMP(end_time) >= " . (int) $aktdate;
 
 		$_result = $this->_getList($query);
 
@@ -119,8 +117,7 @@ class AsinusTimeTrackingModelTimeTrack extends JModelList
 
 	function getCtUserById($id)
 	{
-		$id = (int) $id;
-		$query = "SELECT * FROM #__asinustimetracking_user c INNER JOIN #__users u ON u.id=c.uid WHERE c.cuid=$id";
+		$query = "SELECT * FROM #__asinustimetracking_user c INNER JOIN #__users u ON u.id=c.uid WHERE c.cuid=" . (int) $id;
 		$_result = $this->_getList($query);
 
 		if ($_result)
@@ -226,7 +223,7 @@ class AsinusTimeTrackingModelTimeTrack extends JModelList
 	{
 		$db = JFactory::getDBO();
 
-		$query = "SELECT * from #__asinustimetracking_services where csid=" . $sid;
+		$query = "SELECT * from #__asinustimetracking_services where csid=" . (int) $sid;
 
 		$db->setQuery($query);
 		$result = $db->loadObject();
@@ -253,7 +250,7 @@ class AsinusTimeTrackingModelTimeTrack extends JModelList
 	{
 		$db = JFactory::getDBO();
 
-		$query = "SELECT * from #__asinustimetracking_costunit where cc_id=$id";
+		$query = "SELECT * from #__asinustimetracking_costunit where cc_id=" . (int) $id;
 
 		$_result = $this->_getList($query);
 

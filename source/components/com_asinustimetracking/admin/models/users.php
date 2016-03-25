@@ -3,7 +3,7 @@
  * @package        Joomla.Administrator
  * @subpackage     com_asinustimetracking
  *
- * @copyright      Copyright (c) 2014 - 2015, Valentin Despa. All rights reserved.
+ * @copyright      Copyright (c) 2014 - 2016, Valentin Despa. All rights reserved.
  * @author         Valentin Despa - info@vdespa.de
  * @link           http://www.vdespa.de
  *
@@ -21,20 +21,20 @@ class AsinusTimeTrackingModelUsers extends JModelLegacy
 	var $_users;
 
 	function getUsers(){
-		//$query = "SELECT * FROM #__users as u, #__asinustimetracking_user as c WHERE u.id=c.uid";
 		$query = "SELECT * FROM #__users";
 		$this->_users = $this->_getList($query);
 
 		return $this->_users;
 	}
 
+	// FIXME This method seems wrong or needs some refactoring
 	function createctUserByJUser($id){
-		$query = "SELECT * FROM #__users WHERE id=$id";
+		$query = "SELECT * FROM #__users WHERE id=" . (int) $id;
 		$juser = $this->_getList($query);
 
 		$db = JFactory::getDBO();
 
-		$query2 = "INSERT INTO #__asinustimetracking_user (crid, uid, is_admin) VALUES (2, $id, 0)";
+		$query2 = "INSERT INTO #__asinustimetracking_user (crid, uid, is_admin) VALUES (2, " . (int) $id .", 0)";
 		$db->setQuery($query2);
 
 		if (!$db->query())
@@ -49,7 +49,9 @@ class AsinusTimeTrackingModelUsers extends JModelLegacy
 	}
 	
 	function getctUserByJId($id = null){
-		$query = "SELECT c.*, r.description as roledesc, j.name as name, j.username as username FROM #__asinustimetracking_user c, #__asinustimetracking_roles r, #__users j WHERE c.uid=$id AND c.crid=r.crid AND c.uid = j.id";
+		$query = 'SELECT c.*, r.description as roledesc, j.name as name, j.username as username ' .
+				 'FROM #__asinustimetracking_user c, #__asinustimetracking_roles r, #__users j ' .
+				 'WHERE c.uid=' . (int) $id .' AND c.crid=r.crid AND c.uid = j.id';
 		$result = $this->_getList($query);
 
 		if (is_array($result) && array_key_exists(0, $result))
@@ -59,7 +61,6 @@ class AsinusTimeTrackingModelUsers extends JModelLegacy
 	}
 
 	function getOrCreateCtUserByUid($id = null){
-		//$query = "SELECT * FROM #__asinustimetracking_user WHERE uid=$id";
 		$ctUser = $this->getctUserByJId($id);
 
 		if ($ctUser){

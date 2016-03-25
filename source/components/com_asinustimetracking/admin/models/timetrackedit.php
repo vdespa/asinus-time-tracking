@@ -42,7 +42,7 @@ class AsinusTimeTrackingModelTimeTrackedit extends JModelLegacy
 	function remove($id)
 	{
 		$db = JFactory::getDBO();
-		$query = "DELETE FROM $this->_tablename WHERE ct_id=$id";
+		$query = "DELETE FROM $this->_tablename WHERE ct_id=" . (int) $id;
 
 		$db->setQuery($query);
 
@@ -64,7 +64,7 @@ class AsinusTimeTrackingModelTimeTrackedit extends JModelLegacy
 	{
 		$user = JFactory::getUser();
 
-		$query = "SELECT * FROM #__asinustimetracking_user WHERE uid=$user->id";
+		$query = "SELECT * FROM #__asinustimetracking_user WHERE uid=" . (int) $user->id;
 
 		$_result = $this->_getlist($query);
 
@@ -96,8 +96,9 @@ class AsinusTimeTrackingModelTimeTrackedit extends JModelLegacy
 	{
 		$db = JFactory::getDBO();
 
-		$query = "SELECT * from #__asinustimetracking_userservices u, #__asinustimetracking_services s WHERE u.csid = s.csid AND u.cu_id="
-			. $uid . " ORDER BY s.csid";
+		$query = 'SELECT * from #__asinustimetracking_userservices u, #__asinustimetracking_services s ' .
+				 'WHERE u.csid = s.csid AND u.cu_id='. (int) $uid . ' ' .
+				 'ORDER BY s.csid';
 
 		$db->setQuery($query);
 
@@ -111,7 +112,7 @@ class AsinusTimeTrackingModelTimeTrackedit extends JModelLegacy
 	{
 		$db = JFactory::getDBO();
 
-		$query = "SELECT * from #__asinustimetracking_services where csid=" . $sid;
+		$query = 'SELECT * from #__asinustimetracking_services where csid=' . (int) $sid;
 
 		$db->setQuery($query);
 		$result = $db->loadObject();
@@ -138,7 +139,7 @@ class AsinusTimeTrackingModelTimeTrackedit extends JModelLegacy
 	{
 		$db = JFactory::getDBO();
 
-		$query = "SELECT * from #__asinustimetracking_costunit where cc_id=$id";
+		$query = "SELECT * from #__asinustimetracking_costunit where cc_id=" . (int) $id;
 
 		$_result = $this->_getList($query);
 

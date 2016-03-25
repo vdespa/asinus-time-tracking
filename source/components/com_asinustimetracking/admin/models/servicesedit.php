@@ -3,7 +3,7 @@
  * @package        Joomla.Administrator
  * @subpackage     com_asinustimetracking
  *
- * @copyright      Copyright (c) 2014 - 2015, Valentin Despa. All rights reserved.
+ * @copyright      Copyright (c) 2014 - 2016, Valentin Despa. All rights reserved.
  * @author         Valentin Despa - info@vdespa.de
  * @link           http://www.vdespa.de
  *
@@ -41,7 +41,9 @@ class AsinusTimeTrackingModelServicesedit extends JModelLegacy
 	function merge($csid = null, $description = '', $is_worktime=false){
 		$db = JFactory::getDBO();
 			
-		$query = "UPDATE #__asinustimetracking_services SET description='$description', is_worktime='$is_worktime' WHERE csid=$csid";
+		$query = 'UPDATE #__asinustimetracking_services ' .
+				 'SET description=' . $db->quote($description) . ', is_worktime="' . (int) $is_worktime . '" ' .
+				 'WHERE csid=' . (int) $csid;
 
 		$db->setQuery($query);
 		if (!$db->query())
@@ -53,10 +55,10 @@ class AsinusTimeTrackingModelServicesedit extends JModelLegacy
 
 	function remove($csid = null){
 
-		$query = "SELECT count(*) as anz FROM #__asinustimetracking_entries WHERE cs_id=$csid";
+		$query = "SELECT count(*) as anz FROM #__asinustimetracking_entries WHERE cs_id=" . (int) $csid;
 
 		$test = $this->_getList($query);
-		$query = "SELECT count(*) as anz FROM #__asinustimetracking_userservices WHERE csid=$csid";
+		$query = "SELECT count(*) as anz FROM #__asinustimetracking_userservices WHERE csid=" . (int) $csid;
 		$test2 = $this->_getList($query);
 
 		if(( $test[0]->anz > 0 ) || ( $test2[0]->anz > 0 ))
@@ -68,7 +70,7 @@ class AsinusTimeTrackingModelServicesedit extends JModelLegacy
 		else
 		{
 			$db = JFactory::getDBO();
-			$query = "DELETE FROM #__asinustimetracking_services WHERE csid=$csid";
+			$query = "DELETE FROM #__asinustimetracking_services WHERE csid=" . (int) $csid;
 
 			$db->setQuery($query);
 
@@ -86,9 +88,9 @@ class AsinusTimeTrackingModelServicesedit extends JModelLegacy
 
 	function create($description = '', $is_worktime='0'){
 		$db = JFactory::getDBO();
-		//$is_worktime = $is_worktime ? 'true' : 'false';
 
-		$query = "INSERT INTO #__asinustimetracking_services (description, is_worktime) VALUES ('$description', '$is_worktime')";
+		$query = 'INSERT INTO #__asinustimetracking_services (description, is_worktime) ' .
+				 'VALUES (' . $db->quote($description) . ', "' . (int) $is_worktime . '")';
 
 		$db->setQuery($query);
 		if (!$db->query())

@@ -78,7 +78,7 @@ class AsinusTimeTrackingModelPreferences extends JModelLegacy
 
 		foreach ($data as $name => $value)
 		{
-			$query = "INSERT INTO $this->_tablename (name, value) VALUES ('$name', '$value')";
+			$query = "INSERT INTO $this->_tablename (name, value) VALUES (" . $db->quoteName($name) . ", " . $db->quote($value) . ")";
 
 			$db->setQuery($query);
 			if (!$db->query())

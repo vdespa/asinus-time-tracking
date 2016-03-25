@@ -3,7 +3,7 @@
  * @package        Joomla.Site
  * @subpackage     com_asinustimetracking
  *
- * @copyright      Copyright (c) 2014 - 2015, Valentin Despa. All rights reserved.
+ * @copyright      Copyright (c) 2014 - 2016, Valentin Despa. All rights reserved.
  * @author         Valentin Despa - info@vdespa.de
  * @link           http://www.vdespa.de
  *
@@ -28,7 +28,7 @@ class AsinusTimeTrackingModelTimeTrack extends JModelList
 	 * Gets list of user's entries
 	 *
 	 * @param int       $userId only entries for selected userId
-	 * @param timestamp $maxage timestamp of max timedifference
+	 * @param timestamp $maxage timestamp of max time difference
 	 *
 	 * @return void
 	 */
@@ -190,8 +190,7 @@ class AsinusTimeTrackingModelTimeTrack extends JModelList
 	{
 		$database = JFactory::getDBO();
 
-		$query = "SELECT * from #__asinustimetracking_services where csid="
-			. (int) $serviceId;
+		$query = "SELECT * from #__asinustimetracking_services where csid=" . (int) $serviceId;
 
 		$database->setQuery($query);
 		$result = $database->loadObject();
@@ -210,8 +209,7 @@ class AsinusTimeTrackingModelTimeTrack extends JModelList
 	 */
 	function getSelectionById($selectionId)
 	{
-		$query = "SELECT * FROM #__asinustimetracking_selection WHERE cg_id="
-			. (int) $selectionId;
+		$query = "SELECT * FROM #__asinustimetracking_selection WHERE cg_id=" . (int) $selectionId;
 
 		$_result = $this->_getList($query);
 
@@ -259,8 +257,6 @@ class AsinusTimeTrackingModelTimeTrack extends JModelList
 			$query = "SELECT * from #__asinustimetracking_selection WHERE state = 1 ORDER BY cg_id";
 		}
 
-
-
 		$database->setQuery($query);
 
 		$result = $database->loadObjectList();
@@ -296,8 +292,7 @@ class AsinusTimeTrackingModelTimeTrack extends JModelList
 	 */
 	function getCostUnitById($costunitId)
 	{
-		$query = "SELECT * from #__asinustimetracking_costunit where cc_id="
-			. (int) $costunitId;
+		$query = "SELECT * from #__asinustimetracking_costunit where cc_id=" . (int) $costunitId;
 
 		$_result = $this->_getList($query);
 
@@ -477,13 +472,16 @@ class AsinusTimeTrackingModelTimeTrack extends JModelList
 
 		$query->order($this->getState('filter.order'));
 
-		//echo $query->dump(); die;
-
 		return $query;
 	}
 
 	/**
-	 * Method to auto-populate the model state.
+	 * Auto-populate the model state
+	 *
+	 * @param null $ordering
+	 * @param null $direction
+	 *
+	 * @throws Exception
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{

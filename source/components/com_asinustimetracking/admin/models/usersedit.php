@@ -22,7 +22,8 @@ class AsinusTimeTrackingModelUsersedit extends JModelLegacy
 
 	function getById($id = 0)
 	{
-		$query   = "SELECT * FROM $this->_tablename as c, #__users as u, #__asinustimetracking_roles as r WHERE c.uid=u.id AND c.crid=r.crid AND cuid=" . $id;
+		$query   = 'SELECT * FROM ' . $this->_tablename. ' as c, #__users as u, #__asinustimetracking_roles as r ' .
+				   'WHERE c.uid=u.id AND c.crid=r.crid AND cuid=' . (int) $id;
 		$_result = $this->_getList($query);
 
 		if ($_result)
@@ -57,7 +58,9 @@ class AsinusTimeTrackingModelUsersedit extends JModelLegacy
 	{
 		$db = JFactory::getDBO();
 
-		$query = "UPDATE $this->_tablename SET crid=$crid, is_admin='$is_admin', employee_id=$employee_id WHERE cuid=$cuid";
+		$query = 'UPDATE ' .$this->_tablename. ' ' .
+				 'SET crid=' . $crid . ', is_admin=' . $is_admin. ', employee_id=' . $employee_id . ' ' .
+				 'WHERE cuid=' . (int) $cuid;
 
 		$db->setQuery($query);
 
@@ -76,7 +79,7 @@ class AsinusTimeTrackingModelUsersedit extends JModelLegacy
 	{
 		$db = JFactory::getDBO();
 
-		$query = "DELETE FROM #__asinustimetracking_userservices WHERE cu_id=$cuid";
+		$query = "DELETE FROM #__asinustimetracking_userservices WHERE cu_id=" . (int) $cuid;
 		$db->setQuery($query);
 		if (!$db->query())
 		{
@@ -90,8 +93,8 @@ class AsinusTimeTrackingModelUsersedit extends JModelLegacy
 			if ($preis && $preis > 0)
 			{
 				$preis = str_replace(",", ".", $preis);
-				//$preis = number_format((double)$preis, 2, ".", ",");
-				$query = "INSERT INTO #__asinustimetracking_userservices (cu_id, csid, price) VALUES($cuid, $key, $preis)";
+				$query = 'INSERT INTO #__asinustimetracking_userservices (cu_id, csid, price) ' .
+						 'VALUES(' . (int) $cuid . ', ' . (int) $key . ', ' . (float) $preis . ')';
 
 				$db->setQuery($query);
 				if (!$db->query())
@@ -114,7 +117,8 @@ class AsinusTimeTrackingModelUsersedit extends JModelLegacy
 
 	function getUserPrice($cuid = null, $csid = null)
 	{
-		$query   = "SELECT * FROM #__asinustimetracking_userservices WHERE cu_id=$cuid AND csid=$csid";
+		$query = 'SELECT * FROM #__asinustimetracking_userservices ' .
+				 'WHERE cu_id=' . (int) $cuid .' AND csid='. (int) $csid;
 		$_result = $this->_getlist($query);
 
 		if ($_result)

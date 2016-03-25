@@ -37,8 +37,7 @@ class AsinusTimeTrackingController extends JControllerLegacy
 		$db    = JFactory::getDBO();
 		$juser = JFactory::getUser();
 
-		$query = "SELECT * FROM #__asinustimetracking_user WHERE uid ="
-			. (int) $juser->id;
+		$query = "SELECT * FROM #__asinustimetracking_user WHERE uid =" . (int) $juser->id;
 
 		$db->setQuery($query);
 
@@ -84,11 +83,6 @@ class AsinusTimeTrackingController extends JControllerLegacy
 		{
 			return false;
 		}
-
-		/*
-		JRequest::setVar(JRequest::setVar('view', 'timetrack'));
-		parent::display(true);
-		*/
 
 		// Set the default view name and format from the Request.
 		$vName = JRequest::getCmd('view', 'timetrack');
@@ -138,7 +132,6 @@ class AsinusTimeTrackingController extends JControllerLegacy
 			return false;
 		}
 
-		//parent::display();
 		$this
 			->setRedirect(
 				JRoute::_(
@@ -189,6 +182,7 @@ class AsinusTimeTrackingController extends JControllerLegacy
 		}
 		else
 		{
+			// TODO THIS NEEDS FIXING!!!
 			if ($this->_isMyEntry())
 			{
 				$query = "UPDATE #__asinustimetracking_entries SET
@@ -226,7 +220,6 @@ class AsinusTimeTrackingController extends JControllerLegacy
 			->setRedirect(
 				JRoute::_(
 					"index.php?option=com_asinustimetracking&view=timetrack"));
-		//	parent::display(true);
 	}
 
 }

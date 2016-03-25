@@ -3,7 +3,7 @@
  * @package        Joomla.Administrator
  * @subpackage     com_asinustimetracking
  *
- * @copyright      Copyright (c) 2014 - 2015, Valentin Despa. All rights reserved.
+ * @copyright      Copyright (c) 2014 - 2016, Valentin Despa. All rights reserved.
  * @author         Valentin Despa - info@vdespa.de
  * @link           http://www.vdespa.de
  *
@@ -22,7 +22,7 @@ class AsinusTimeTrackingModelCostUnitsedit extends JModelLegacy
 
 	function getById($id = 0)
 	{
-		$query   = "SELECT * FROM $this->_tablename WHERE cc_id=" . $id;
+		$query   = "SELECT * FROM $this->_tablename WHERE cc_id=" . (int) $id;
 		$_result = $this->_getList($query);
 
 		if ($_result)
@@ -43,7 +43,9 @@ class AsinusTimeTrackingModelCostUnitsedit extends JModelLegacy
 	{
 		$db = JFactory::getDBO();
 
-		$query = "UPDATE $this->_tablename SET description='$description', name='$name' WHERE cc_id=$ccid";
+		$query = 'UPDATE ' . $this->_tablename . ' ' .
+				 'SET description=' . $db->quote($description) . ', name=' . $db->quote($name) . ' '.
+				 'WHERE cc_id= ' . (int) $ccid;
 
 		$db->setQuery($query);
 		if (!$db->query())
@@ -56,7 +58,7 @@ class AsinusTimeTrackingModelCostUnitsedit extends JModelLegacy
 
 	function remove($ccid = null)
 	{
-		$query = "SELECT count(*) as anz from #__asinustimetracking_entries WHERE cc_id=$ccid";
+		$query = 'SELECT count(*) as anz from #__asinustimetracking_entries WHERE cc_id=' . (int) $ccid;
 
 		$test = $this->_getList($query);
 
@@ -69,7 +71,7 @@ class AsinusTimeTrackingModelCostUnitsedit extends JModelLegacy
 		else
 		{
 			$db    = JFactory::getDBO();
-			$query = "DELETE FROM $this->_tablename WHERE cc_id=$ccid";
+			$query = "DELETE FROM $this->_tablename WHERE cc_id=" . (int) $ccid;
 
 			$db->setQuery($query);
 			if (!$db->query())
@@ -85,7 +87,7 @@ class AsinusTimeTrackingModelCostUnitsedit extends JModelLegacy
 	{
 		$db = JFactory::getDBO();
 
-		$query = "INSERT INTO $this->_tablename (description) VALUES ('$description')";
+		$query = "INSERT INTO $this->_tablename (description) VALUES (" . $db->quote($description) . ")";
 
 		$db->setQuery($query);
 		if (!$db->query())

@@ -3,7 +3,7 @@
  * @package        Joomla.Administrator
  * @subpackage     com_asinustimetracking
  *
- * @copyright      Copyright (c) 2014 - 2015, Valentin Despa. All rights reserved.
+ * @copyright      Copyright (c) 2014 - 2016, Valentin Despa. All rights reserved.
  * @author         Valentin Despa - info@vdespa.de
  * @link           http://www.vdespa.de
  *
@@ -22,7 +22,7 @@ class AsinusTimeTrackingModelSelectionsedit extends JModelLegacy
 
 	function getById($id = 0)
 	{
-		$query   = "SELECT * FROM $this->_tablename WHERE cg_id=" . $id;
+		$query   = "SELECT * FROM $this->_tablename WHERE cg_id=" . (int) $id;
 		$_result = $this->_getList($query);
 
 		if ($_result)
@@ -45,7 +45,7 @@ class AsinusTimeTrackingModelSelectionsedit extends JModelLegacy
 	{
 		$db = JFactory::getDBO();
 
-		$query = "UPDATE $this->_tablename SET description='$description', state=$state WHERE cg_id=$id";
+		$query = "UPDATE $this->_tablename SET description=" . $db->quote($description) . ", state=" . (int) $state . " WHERE cg_id=" . (int) $id;
 
 		$db->setQuery($query);
 		if (!$db->query())
@@ -59,7 +59,7 @@ class AsinusTimeTrackingModelSelectionsedit extends JModelLegacy
 	function remove($id = null)
 	{
 
-		$query = "SELECT count(*) as anz FROM #__asinustimetracking_entries WHERE cg_id=$id";
+		$query = "SELECT count(*) as anz FROM #__asinustimetracking_entries WHERE cg_id=" . (int) $id;
 
 		$test = $this->_getList($query);
 
@@ -72,7 +72,7 @@ class AsinusTimeTrackingModelSelectionsedit extends JModelLegacy
 		else
 		{
 			$db    = JFactory::getDBO();
-			$query = "DELETE FROM $this->_tablename WHERE cg_id=$id";
+			$query = "DELETE FROM $this->_tablename WHERE cg_id=" . (int) $id;
 
 			$db->setQuery($query);
 
@@ -92,7 +92,7 @@ class AsinusTimeTrackingModelSelectionsedit extends JModelLegacy
 	{
 		$db = JFactory::getDBO();
 
-		$query = "INSERT INTO $this->_tablename (description, state) VALUES ('$description', $state)";
+		$query = "INSERT INTO $this->_tablename (description, state) VALUES (" . $db->quote($description) . ", " . (int) $state . ")";
 
 		$db->setQuery($query);
 		if (!$db->query())

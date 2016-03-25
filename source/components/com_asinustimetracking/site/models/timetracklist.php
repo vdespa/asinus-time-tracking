@@ -3,7 +3,7 @@
  * @package        Joomla.Site
  * @subpackage     com_asinustimetracking
  *
- * @copyright      Copyright (c) 2014 - 2015, Valentin Despa. All rights reserved.
+ * @copyright      Copyright (c) 2014 - 2016, Valentin Despa. All rights reserved.
  * @author         Valentin Despa - info@vdespa.de
  * @link           http://www.vdespa.de
  *
@@ -39,39 +39,38 @@ class AsinusTimeTrackingModelTimeTrackList extends JModelLegacy
 			. " UNIX_TIMESTAMP(end_pause) as end_pause,"
 			. " UNIX_TIMESTAMP(timestamp) as timestamp, e.qty,s.is_worktime, e.remark, e.cc_id, u.* "
 			. " from #__asinustimetracking_entries e, #__asinustimetracking_services s, #__asinustimetracking_userservices u "
-			. " where e.cs_id = s.csid AND (u.cu_id = e.cu_id AND u.csid=e.cs_id) AND u.cu_id ="
-			. $uid;
+			. " where e.cs_id = s.csid AND (u.cu_id = e.cu_id AND u.csid=e.cs_id) AND u.cu_id =" . (int) $uid;
 
 		if ($service >= 0)
 		{
-			$query .= " AND s.csid=$service";
+			$query .= ' AND s.csid=' . (int) $service;
 		}
 
 		if ($costunit >= 0)
 		{
-			$query .= " AND e.cc_id=$costunit";
+			$query .= ' AND e.cc_id=' . (int) $costunit;
 		}
 
 		if ($selection >= 0)
 		{
-			$query .= " AND e.cg_id=$selection";
+			$query .= ' AND e.cg_id=' . (int) $selection;
 		}
 
 		if ($startdate > 0)
 		{
-			$query .= " AND UNIX_TIMESTAMP(entry_date) >= " . $startdate;
+			$query .= " AND UNIX_TIMESTAMP(entry_date) >= " . (int) $startdate;
 		}
 
 		if ($enddate > 0)
 		{
-			$query .= " AND UNIX_TIMESTAMP(entry_date) <= " . $enddate;
+			$query .= " AND UNIX_TIMESTAMP(entry_date) <= " . (int) $enddate;
 		}
 
 		$query .= " ORDER BY entry_date DESC, s.is_worktime DESC, cs_id ASC";
 
 		if ($max > 0)
 		{
-			$query .= " LIMIT " . $max;
+			$query .= " LIMIT " . (int) $max;
 		}
 
 		$database->setQuery($query);
@@ -96,8 +95,8 @@ class AsinusTimeTrackingModelTimeTrackList extends JModelLegacy
 	{
 		$query = "SELECT * FROM #__asinustimetracking_pricerange" . " WHERE cu_id="
 			. (int) $cuid . " AND cs_id=" . (int) $csid
-			. " AND UNIX_TIMESTAMP(start_time) <= " . $aktdate
-			. " AND UNIX_TIMESTAMP(end_time) >= " . $aktdate;
+			. " AND UNIX_TIMESTAMP(start_time) <= " . (int) $aktdate
+			. " AND UNIX_TIMESTAMP(end_time) >= " . (int) $aktdate;
 
 		$_result = $this->_getList($query);
 
@@ -107,13 +106,13 @@ class AsinusTimeTrackingModelTimeTrackList extends JModelLegacy
 	/**
 	 * Get timetrack user object
 	 *
-	 * @return Ambigous <>
+	 * @return mixed
 	 */
 	function getCtUser()
 	{
-		$user = &JFactory::getUser();
+		$user = JFactory::getUser();
 
-		$query = "SELECT * FROM #__asinustimetracking_user WHERE uid=$user->id";
+		$query = 'SELECT * FROM #__asinustimetracking_user WHERE uid=' . (int) $user->id;
 
 		$_result = $this->_getlist($query);
 
@@ -126,30 +125,30 @@ class AsinusTimeTrackingModelTimeTrackList extends JModelLegacy
 	 */
 	function getEntriesDays($uid, $max, $startdate, $enddate, $costUnit = -1)
 	{
-		$database = &JFactory::getDBO();
+		$database = JFactory::getDBO();
 
-		$query = "SELECT entry_date FROM #__asinustimetracking_entries WHERE cu_id=$uid";
+		$query = "SELECT entry_date FROM #__asinustimetracking_entries WHERE cu_id=" . (int) $uid;
 
 		if ($startdate > 0)
 		{
-			$query .= " AND UNIX_TIMESTAMP(entry_date) >= " . $startdate;
+			$query .= " AND UNIX_TIMESTAMP(entry_date) >= " . (int) $startdate;
 		}
 
 		if ($enddate > 0)
 		{
-			$query .= " AND UNIX_TIMESTAMP(entry_date) <= " . $enddate;
+			$query .= " AND UNIX_TIMESTAMP(entry_date) <= " . (int) $enddate;
 		}
 
 		if ($costUnit >= 0)
 		{
-			$query .= " AND cc_id=$costUnit";
+			$query .= " AND cc_id=" . (int) $costUnit;
 		}
 
 		$query .= " GROUP BY entry_date ORDER BY entry_date DESC";
 
 		if ($max > 0)
 		{
-			$query .= " LIMIT " . $max;
+			$query .= " LIMIT " . (int) $max;
 		}
 
 		$database->setQuery($query);
@@ -166,25 +165,18 @@ class AsinusTimeTrackingModelTimeTrackList extends JModelLegacy
 	 */
 	function getDayTimes($uid, $date, $costUnit = -1)
 	{
-		$database = &JFactory::getDBO();
-
-//         $query = "SELECT s.description, s.csid, (SELECT u.price FROM #__asinustimetracking_userservices AS u WHERE u.csid = s.csid AND u.cu_id=e.cu_id ) as price,"
-//             . " start_time, end_time, sum(((MINUTE(end_time) / 60 + HOUR ( end_time)) - (MINUTE(start_time) / 60 + HOUR(start_time)))) AS timevalue,"
-//             . " sum(start_pause) as start_pause, sum(end_pause) as end_pause"
-//             . " FROM #__asinustimetracking_entries e, #__asinustimetracking_services s"
-//             . " WHERE e.cs_id = s.csid AND e.cu_id =" . $uid . " AND entry_date = '"
-//             . $date . "' AND s.is_worktime=1 ";
+		$database = JFactory::getDBO();
 
 		$query = "SELECT s.description, s.csid, (SELECT u.price FROM #__asinustimetracking_userservices AS u WHERE u.csid = s.csid AND u.cu_id=e.cu_id ) as price,"
 			. " start_time, end_time, sum(((MINUTE(end_time) / 60 + HOUR ( end_time)) - (MINUTE(start_time) / 60 + HOUR(start_time)))) AS timevalue,"
 			. " start_pause, end_pause, sum(((MINUTE(end_pause) / 60 + HOUR (end_pause)) - (MINUTE(start_pause) / 60 + HOUR(start_pause)))) AS pausevalue"
 			. " FROM #__asinustimetracking_entries e, #__asinustimetracking_services s"
-			. " WHERE e.cs_id = s.csid AND e.cu_id =" . $uid . " AND entry_date = '"
-			. $date . "' AND s.is_worktime=1 ";
+			. " WHERE e.cs_id = s.csid AND e.cu_id =" . (int) $uid . " AND entry_date = '"
+			. (int) $date . "' AND s.is_worktime=1 ";
 
 		if ($costUnit >= 0)
 		{
-			$query .= " AND cc_id=$costUnit";
+			$query .= " AND cc_id=" . (int) $costUnit;
 		}
 
 		$query .= " GROUP BY e.entry_date, cs_id ORDER BY s.description ASC, cs_id ASC";
@@ -214,21 +206,21 @@ class AsinusTimeTrackingModelTimeTrackList extends JModelLegacy
 	function getDayServices($uid, $date, $costUnit = -1)
 	{
 
-		$database = &JFactory::getDBO();
+		$database = JFactory::getDBO();
 
 		$query = "SELECT ( SELECT u.price FROM #__asinustimetracking_userservices AS u"
 			. " WHERE u.csid = s.csid AND u.cu_id=e.cu_id ) AS price,"
 			. " s.description, s.csid, SUM(e.qty ) as qty "
 			. " FROM #__asinustimetracking_entries e, #__asinustimetracking_services s"
-			. " WHERE e.cs_id = s.csid AND e.cu_id=$uid AND"
-			. " entry_date = '$date' AND" . " s.is_worktime=0";
+			. " WHERE e.cs_id = s.csid AND e.cu_id=". (int) $uid. " AND"
+			. " entry_date = '" . (int) $date . "' AND" . " s.is_worktime=0";
 
-		if ($costUnit >= 0)
+		if ((int) $costUnit >= 0)
 		{
-			$query .= " AND cc_id=$costUnit";
+			$query .= " AND cc_id=" . (int) $costUnit;
 		}
 		$query .= " GROUP BY e.entry_date, cs_id"
-			. " ORDER BY s.description ASC, cs_id ASC";
+				. " ORDER BY s.description ASC, cs_id ASC";
 
 		$database->setQuery($query);
 		$result = $database->loadObjectList();
@@ -255,7 +247,7 @@ class AsinusTimeTrackingModelTimeTrackList extends JModelLegacy
 	 */
 	function getSelectionById($id)
 	{
-		$query = "SELECT * FROM #__asinustimetracking_selection WHERE cg_id=$id";
+		$query = "SELECT * FROM #__asinustimetracking_selection WHERE cg_id=" . (int) $id;
 
 		$_result = $this->_getList($query);
 
@@ -268,9 +260,9 @@ class AsinusTimeTrackingModelTimeTrackList extends JModelLegacy
 
 	function getServiceById($sid)
 	{
-		$database = &JFactory::getDBO();
+		$database = JFactory::getDBO();
 
-		$query = "SELECT * from #__asinustimetracking_services where csid=" . $sid;
+		$query = "SELECT * from #__asinustimetracking_services where csid=" . (int) $sid;
 
 		$database->setQuery($query);
 		$result = $database->loadObject();
@@ -280,15 +272,14 @@ class AsinusTimeTrackingModelTimeTrackList extends JModelLegacy
 	}
 
 	/**
-	 *
 	 * Get list of services assigned to user
 	 */
 	function getServicesListByUser($uid)
 	{
-		$database = &JFactory::getDBO();
+		$database = JFactory::getDBO();
 
-		$query = "SELECT * from #__asinustimetracking_userservices u, #__asinustimetracking_services s WHERE u.csid = s.csid AND u.cu_id="
-			. $uid;
+		$query = "SELECT * from #__asinustimetracking_userservices u, #__asinustimetracking_services s " .
+				 "WHERE u.csid = s.csid AND u.cu_id=" . (int) $uid;
 
 		$database->setQuery($query);
 
@@ -303,7 +294,7 @@ class AsinusTimeTrackingModelTimeTrackList extends JModelLegacy
 	 */
 	function getSelectionsList()
 	{
-		$database = &JFactory::getDBO();
+		$database = JFactory::getDBO();
 
 		$query = "SELECT * from #__asinustimetracking_selection";
 
@@ -316,7 +307,7 @@ class AsinusTimeTrackingModelTimeTrackList extends JModelLegacy
 
 	function getCostUnitsList()
 	{
-		$database = &JFactory::getDBO();
+		$database = JFactory::getDBO();
 
 		$query = "SELECT * from #__asinustimetracking_costunit ORDER BY cc_id";
 
@@ -330,13 +321,10 @@ class AsinusTimeTrackingModelTimeTrackList extends JModelLegacy
 
 	function getCostUnitById($id)
 	{
-		//         $database = &JFactory::getDBO();
-
-		$query = "SELECT * from #__asinustimetracking_costunit where cc_id=$id";
+		$query = "SELECT * from #__asinustimetracking_costunit where cc_id=" . (int) $id;
 
 		$_result = $this->_getList($query);
 
 		return $_result[0];
 	}
-
 }

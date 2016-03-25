@@ -139,8 +139,7 @@ class AsinusTimeTrackingController extends JControllerLegacy
 			JError::raiseError(500, 'No id found');
 		} else {
 			$query = "UPDATE #__asinustimetracking_entries SET
-				entry_date='" . $fentrydate->toSQL()
-				. "',
+				entry_date='" . $fentrydate->toSQL() . "',
 				cs_id=$service,
 				cg_id=$cg,
 				start_time='1970-1-1 $sh:$sm:00',
@@ -149,7 +148,7 @@ class AsinusTimeTrackingController extends JControllerLegacy
 				end_pause='1970-1-1 $peh:$pem:00',
 				qty=$qty,
 				cc_id=$cc,
-				remark='$remark'
+				remark=" . $db->quote($remark) . "
 				WHERE ct_id=" . $ctid;
 
 			JRequest::setVar('ct_id');
@@ -378,8 +377,6 @@ class AsinusTimeTrackingController extends JControllerLegacy
 			$model->create($startdate, $enddate, $price, $cuid, $csid);
 		}
 
-		//		JRequest::setVar('view', 'usersedit');
-		//		$this->display(
 		$this
 			->setRedirect(
 				'index.php?option=com_asinustimetracking&task=useredit&cid[0]=' . $cuid);
