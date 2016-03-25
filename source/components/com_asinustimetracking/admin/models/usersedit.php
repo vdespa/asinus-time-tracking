@@ -59,7 +59,7 @@ class AsinusTimeTrackingModelUsersedit extends JModelLegacy
 		$db = JFactory::getDBO();
 
 		$query = 'UPDATE ' .$this->_tablename. ' ' .
-				 'SET crid=' . $crid . ', is_admin=' . $is_admin. ', employee_id=' . $employee_id . ' ' .
+				 'SET crid=' . (int) $crid . ', is_admin=' . (int) $is_admin. ', employee_id=' . (int) $employee_id . ' ' .
 				 'WHERE cuid=' . (int) $cuid;
 
 		$db->setQuery($query);
