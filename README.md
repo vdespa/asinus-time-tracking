@@ -1,4 +1,4 @@
-# Asinus Time-Tracking for Joomla! Intranets #
+# Asinus Time-Tracking for Joomla! Intranets # ![](https://img.shields.io/badge/maintained%3F-no!-red.svg?style=flat)
 
 ## Description ##
 Asinus Time-Tracking is a Joomla! extension for time tracking work hours. It supports multiple projects and clients.
